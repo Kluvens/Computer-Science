@@ -234,6 +234,113 @@ Auxiliary Space: O(V), for creating an additional array and recursive stack spac
 ## Shortest path
 
 ### Dijkstra's Shortest Paths Algorithm
+Dijkstra's Algorithm works on the basis that any subpath B -> D of the shortest path A -> D between vertices A and D is also the shortest path between vertices B and D.
+
+Example of Dijkstra's algorithm:
+1. Start with a weighted graph
+
+![image](https://user-images.githubusercontent.com/95273765/195222603-fc98d022-a97f-4080-82ca-807eed5570a7.png)
+
+2. Choose a starting vertex and assign infinity path values to all other devices
+
+![image](https://user-images.githubusercontent.com/95273765/195222656-4cb77f09-72d5-4297-a9e8-bf0a9ab1b842.png)
+
+3. Go to each vertex and update its path length
+
+![image](https://user-images.githubusercontent.com/95273765/195222710-706c5c16-5eee-4e6e-a97a-298be0116ba6.png)
+
+4. If the path length of the adjacent vertex is lesser than new path length, don't update it
+
+![image](https://user-images.githubusercontent.com/95273765/195222801-b1b64ba4-9d10-4baa-b5b6-5e9df93c218e.png)
+
+5. Avoid updating path lengths of already visited vertices
+
+![image](https://user-images.githubusercontent.com/95273765/195222832-04a86198-d274-4e0e-8b1b-f87aca3568df.png)
+
+6. After each iteration, we pick the unvisited vertex with the least path length. So we choose 5 before 7
+
+![image](https://user-images.githubusercontent.com/95273765/195222872-3f148b14-27ad-4ab0-861b-a176c6c39209.png)
+
+7. Notice how the rightmost vertex has its path length updated twice
+
+![image](https://user-images.githubusercontent.com/95273765/195222910-f90151c9-178c-4a6e-bcfa-9772a76d8fb2.png)
+
+8. Repeat until all the vertices have been visited
+
+![image](https://user-images.githubusercontent.com/95273765/195222941-1af949a1-241e-42b2-b1c2-a4ef1e007cc2.png)
+
+``` python
+# Dijkstra's Algorithm in Python
+
+
+import sys
+
+# Providing the graph
+vertices = [[0, 0, 1, 1, 0, 0, 0],
+            [0, 0, 1, 0, 0, 1, 0],
+            [1, 1, 0, 1, 1, 0, 0],
+            [1, 0, 1, 0, 0, 0, 1],
+            [0, 0, 1, 0, 0, 1, 0],
+            [0, 1, 0, 0, 1, 0, 1],
+            [0, 0, 0, 1, 0, 1, 0]]
+
+edges = [[0, 0, 1, 2, 0, 0, 0],
+         [0, 0, 2, 0, 0, 3, 0],
+         [1, 2, 0, 1, 3, 0, 0],
+         [2, 0, 1, 0, 0, 0, 1],
+         [0, 0, 3, 0, 0, 2, 0],
+         [0, 3, 0, 0, 2, 0, 1],
+         [0, 0, 0, 1, 0, 1, 0]]
+
+# Find which vertex is to be visited next
+def to_be_visited():
+    global visited_and_distance
+    v = -10
+    for index in range(num_of_vertices):
+        if visited_and_distance[index][0] == 0 \
+            and (v < 0 or visited_and_distance[index][1] <=
+                 visited_and_distance[v][1]):
+            v = index
+    return v
+
+
+num_of_vertices = len(vertices[0])
+
+visited_and_distance = [[0, 0]]
+for i in range(num_of_vertices-1):
+    visited_and_distance.append([0, sys.maxsize])
+
+for vertex in range(num_of_vertices):
+
+    # Find next vertex to be visited
+    to_visit = to_be_visited()
+    for neighbor_index in range(num_of_vertices):
+
+        # Updating new distances
+        if vertices[to_visit][neighbor_index] == 1 and \
+                visited_and_distance[neighbor_index][0] == 0:
+            new_distance = visited_and_distance[to_visit][1] \
+                + edges[to_visit][neighbor_index]
+            if visited_and_distance[neighbor_index][1] > new_distance:
+                visited_and_distance[neighbor_index][1] = new_distance
+        
+        visited_and_distance[to_visit][0] = 1
+
+i = 0
+
+# Printing the distance
+for distance in visited_and_distance:
+    print("Distance of ", chr(ord('a') + i),
+          " from source vertex: ", distance[1])
+    i = i + 1
+```
+
+Time Complexity: O(E Log V)
+where, E is the number of edges and V is the number of vertices.
+This is done by using heap.
+A common method may require O(V^2).
+
+Space Complexity: O(V)
 
 ## Minimum Spanning Tree
 
