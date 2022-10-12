@@ -11,6 +11,12 @@ Every edge can be labeled/unlabelled.
 
 ## Different Types of Graphs
 
+### Weighted Graph
+A weighted graph is a graph in which each edge is given a numerical weight. 
+A weighted graph is therefore a special type of labeled graph in which the labels are numbers (which are usually taken to be positive).
+
+![image](https://user-images.githubusercontent.com/95273765/195226177-c8327c17-9730-41af-a445-a20b57e01209.png)
+
 ### Complete Graph
 A complete graph is a graph in which each pair of graph vertices is connected by an edge.
 
@@ -21,6 +27,13 @@ A graph in which an edge (u,v) doesn't necessarily mean that there is an edge (v
 The edges in such a graph are represented by arrows to show the direction of the edge.
 
 ![image](https://user-images.githubusercontent.com/95273765/195224553-e77b6372-150b-45d9-b2de-65bbe31b286c.png)
+
+### Acyclic Graph
+An acyclic graph is a graph having no graph cycles. 
+Acyclic graphs are bipartite. 
+A connected acyclic graph is known as a tree, and a possibly disconnected acyclic graph is known as a forest.
+
+![image](https://user-images.githubusercontent.com/95273765/195228399-13d6068a-9ca8-4f60-b727-5f935415af5e.png)
 
 ## Important Concepts
 
