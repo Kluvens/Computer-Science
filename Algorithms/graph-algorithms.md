@@ -1,4 +1,22 @@
 ## BFS and DFS
+A standard BFS implementation puts each vertex of the graph into one of two categories:
+1. visited
+2. not visited
+
+The purpose of the algorithm is to mark each vertex as visited while avoiding cycles.
+
+The algorithm works as follows:
+1. start by putting any one of the graph's vertices at the back of a queue.
+2. take the front item of the queue and add it to the visited list.
+3. create a list of that vertex's adjacent nodes. Add the ones which aren't in the visited list to the back of the queue.
+4. keep repeating steps 2 and 3 until the queue is empty.
+
+BFS illustration:
+1. undirected graph with 5 vertices
+
+![image](https://user-images.githubusercontent.com/95273765/195517463-2e5e3720-b1c6-4904-af18-f46d7d92dd2c.png)
+
+2. visit st
 
 ## Cycle in a graph
 
