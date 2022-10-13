@@ -70,3 +70,5 @@
 - -x, --line-regexp: prints lines where regex matches the whole line(same as adding ^ and $ to the start and end of regex respectively)
 39. `tar`: to create an archive file
 - `tar –cvf Lab1.tar lab1` here the Lab1.tar is the archive file you want to create and lab1 is the directory with files. 
+40. `traceroute`: The traceroute utility traces the route that an IP packet follows from your host to another Internet host. It shows how a host is physically connected to the Internet. Along the way it gives an understanding of how networks inter-connect. This network utility can also measure the round trip time between your host and the intermediate routers along the path.
+41. `nslookup`: The nslookup utility is used to find out the corresponding IP address of a host name (e.g., "whatis.com") by contacting Internet Domain Name Servers.
