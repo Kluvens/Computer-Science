@@ -563,6 +563,181 @@ The space complexity is O(V).
 
 ## Minimum Spanning Tree
 
+### Kruskal's Algorithm
+kruskal's algorithm is a minimum spanning tree algorithm that takes a graph as input and finds the subset of the edges of that graph which
+- form a tree that includes every vertex
+- has the minimum sum of weights among all the trees that can be formed from the graph
+
+Example of Kruskal's algorithm:
+1. start with a weighted graph
+
+![image](https://user-images.githubusercontent.com/95273765/195533298-5cf06058-4585-4f0c-9dad-70a0605c0b2e.png)
+
+2. choose the edge with the least weight, if there are more than 1, choose anyone
+
+![image](https://user-images.githubusercontent.com/95273765/195533443-bbf654e2-4f59-47f4-b638-f1400d13a516.png)
+
+3. choose the next shortest edge and add it
+
+![image](https://user-images.githubusercontent.com/95273765/195533519-7c37e14d-77ce-4203-a4ff-c48047c51465.png)
+
+4. choose the next shortest edge that doesn't create a cycle and add it
+
+![image](https://user-images.githubusercontent.com/95273765/195533632-53126c8b-0201-45e6-bc80-e8cc0887afaf.png)
+
+![image](https://user-images.githubusercontent.com/95273765/195533689-44a55e81-d927-419b-afd5-4fe1bada15a3.png)
+
+![image](https://user-images.githubusercontent.com/95273765/195533717-c42e225d-7183-41db-93e7-eb2abfcfd97f.png)
+
+``` python
+# Kruskal's algorithm in Python
+
+class Graph:
+    def __init__(self, vertices):
+        self.V = vertices
+        self.graph = []
+
+    def add_edge(self, u, v, w):
+        self.graph.append([u, v, w])
+
+    # Search function
+
+    def find(self, parent, i):
+        if parent[i] == i:
+            return i
+        return self.find(parent, parent[i])
+
+    def apply_union(self, parent, rank, x, y):
+        xroot = self.find(parent, x)
+        yroot = self.find(parent, y)
+        if rank[xroot] < rank[yroot]:
+            parent[xroot] = yroot
+        elif rank[xroot] > rank[yroot]:
+            parent[yroot] = xroot
+        else:
+            parent[yroot] = xroot
+            rank[xroot] += 1
+
+    #  Applying Kruskal algorithm
+    def kruskal_algo(self):
+        result = []
+        i, e = 0, 0
+        self.graph = sorted(self.graph, key=lambda item: item[2])
+        parent = []
+        rank = []
+        for node in range(self.V):
+            parent.append(node)
+            rank.append(0)
+        while e < self.V - 1:
+            u, v, w = self.graph[i]
+            i = i + 1
+            x = self.find(parent, u)
+            y = self.find(parent, v)
+            if x != y:
+                e = e + 1
+                result.append([u, v, w])
+                self.apply_union(parent, rank, x, y)
+        for u, v, weight in result:
+            print("%d - %d: %d" % (u, v, weight))
+
+
+g = Graph(6)
+g.add_edge(0, 1, 4)
+g.add_edge(0, 2, 4)
+g.add_edge(1, 2, 2)
+g.add_edge(1, 0, 4)
+g.add_edge(2, 0, 4)
+g.add_edge(2, 1, 2)
+g.add_edge(2, 3, 3)
+g.add_edge(2, 5, 2)
+g.add_edge(2, 4, 4)
+g.add_edge(3, 2, 3)
+g.add_edge(3, 4, 3)
+g.add_edge(4, 2, 4)
+g.add_edge(4, 3, 3)
+g.add_edge(5, 2, 2)
+g.add_edge(5, 4, 3)
+g.kruskal_algo()
+```
+
+The time complexity of Kruskal's algorithm is O(E logE).
+
+### Prim's algorithm
+
+Example of Prim's algorithm
+1. start with a weighted graph
+
+![image](https://user-images.githubusercontent.com/95273765/195534683-ebeda539-d003-49cf-9582-6d700be80805.png)
+
+2. choose a vertex
+
+![image](https://user-images.githubusercontent.com/95273765/195534746-3e29d894-cba8-42d2-8f60-03934a42f5dc.png)
+
+3. choose the shortest edge from this vertex and add it
+
+![image](https://user-images.githubusercontent.com/95273765/195534836-dad02a50-0e32-4a2d-8137-300d83df5b0f.png)
+
+4. choose the nearest vertex not yet in the solution
+
+![image](https://user-images.githubusercontent.com/95273765/195534942-1cbaceb9-1dec-4cd5-bb5c-6f0927cdd193.png)
+
+5. choose the nearest edge not yet in the solution, if there are multiple choices, choose one at random
+
+![image](https://user-images.githubusercontent.com/95273765/195535113-1d1b60c3-0f6e-43d8-b926-f2c1de06f431.png)
+
+6. repeat until we have a spanning tree
+
+![image](https://user-images.githubusercontent.com/95273765/195535220-82fc5ffe-178c-4371-9198-588d084e206f.png)
+
+``` python
+# Prim's Algorithm in Python
+
+INF = 9999999
+# number of vertices in graph
+V = 5
+# create a 2d array of size 5x5
+# for adjacency matrix to represent graph
+G = [[0, 9, 75, 0, 0],
+     [9, 0, 95, 19, 42],
+     [75, 95, 0, 51, 66],
+     [0, 19, 51, 0, 31],
+     [0, 42, 66, 31, 0]]
+# create a array to track selected vertex
+# selected will become true otherwise false
+selected = [0, 0, 0, 0, 0]
+# set number of edge to 0
+no_edge = 0
+# the number of egde in minimum spanning tree will be
+# always less than(V - 1), where V is number of vertices in
+# graph
+# choose 0th vertex and make it true
+selected[0] = True
+# print for edge and weight
+print("Edge : Weight\n")
+while (no_edge < V - 1):
+    # For every vertex in the set S, find the all adjacent vertices
+    #, calculate the distance from the vertex selected at step 1.
+    # if the vertex is already in the set S, discard it otherwise
+    # choose another vertex nearest to selected vertex  at step 1.
+    minimum = INF
+    x = 0
+    y = 0
+    for i in range(V):
+        if selected[i]:
+            for j in range(V):
+                if ((not selected[j]) and G[i][j]):  
+                    # not in selected and there is an edge
+                    if minimum > G[i][j]:
+                        minimum = G[i][j]
+                        x = i
+                        y = j
+    print(str(x) + "-" + str(y) + ":" + str(G[x][y]))
+    selected[y] = True
+    no_edge += 1
+```
+
+The time complexity of Prim's algorithm is O(E logV)
+
 ## Backtracking
 
 ## Maximum Flow
