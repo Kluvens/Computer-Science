@@ -1,4 +1,6 @@
 ## BFS and DFS
+
+### BFS
 A standard BFS implementation puts each vertex of the graph into one of two categories:
 1. visited
 2. not visited
@@ -16,7 +18,117 @@ BFS illustration:
 
 ![image](https://user-images.githubusercontent.com/95273765/195517463-2e5e3720-b1c6-4904-af18-f46d7d92dd2c.png)
 
-2. visit st
+2. visit start vertex and add its adjacent vertices to queue
+
+![image](https://user-images.githubusercontent.com/95273765/195518656-239f6327-1e5c-4b50-b7fc-6d49849bf6ae.png)
+
+3. Next, we visit the element at the front of the queue and add its adjacent nodes to the queue if it is not added.
+
+![image](https://user-images.githubusercontent.com/95273765/195518989-1856f20f-09eb-4714-891d-049ae2272d18.png)
+
+4. visit 2 and add its adjacent nodes
+
+![image](https://user-images.githubusercontent.com/95273765/195519190-33312394-23ba-4c70-9177-38425be21300.png)
+
+![image](https://user-images.githubusercontent.com/95273765/195519224-a81eb03e-2648-4784-a76f-9d6ab15e1a78.png)
+
+5. visit the last remaining item in the queue to check if it has unvisited neighbors
+
+![image](https://user-images.githubusercontent.com/95273765/195519327-8e60796f-041a-4922-aa3b-33651afe725d.png)
+
+``` python
+# BFS algorithm in Python
+
+
+import collections
+
+# BFS algorithm
+def bfs(graph, root):
+
+    visited, queue = set(), collections.deque([root])
+    visited.add(root)
+
+    while queue:
+
+        # Dequeue a vertex from queue
+        vertex = queue.popleft()
+        print(str(vertex) + " ", end="")
+
+        # If not visited, mark it as visited, and
+        # enqueue it
+        for neighbour in graph[vertex]:
+            if neighbour not in visited:
+                visited.add(neighbour)
+                queue.append(neighbour)
+
+
+if __name__ == '__main__':
+    graph = {0: [1, 2], 1: [2], 2: [3], 3: [1, 2]}
+    print("Following is Breadth First Traversal: ")
+    bfs(graph, 0)
+```
+
+The time complexity of BFS is O(V+E).
+
+The space complexity of BFS is O(V).
+
+### DFS
+The DFS algorithm works as follows:
+1. Start by putting any one of the graph's vertices on top of a stack.
+2. Take the top item of the stack and add it to the visited list.
+3. Create a list of that vertex's adjacent nodes. Add the ones which aren't in the visited list to the top of the stack.
+4. Keep repeating steps 2 and 3 until the stack is empty.
+
+DFS example:
+1. Undirected graph with 5 vertices
+
+![image](https://user-images.githubusercontent.com/95273765/195520130-bfba8fc2-3d4c-4694-856b-cfdd6a0a0647.png)
+
+2. visit the element and put it in the visited list
+
+![image](https://user-images.githubusercontent.com/95273765/195520259-8710df0d-3f23-439b-a225-eea5fbf32318.png)
+
+3. visit the element at the top of stack
+
+![image](https://user-images.githubusercontent.com/95273765/195520345-41b5d5c0-b563-4e49-a893-f92c6f459a88.png)
+
+4. visit the next vertex and its adjacent nodes
+
+![image](https://user-images.githubusercontent.com/95273765/195520620-f2548291-5612-4e18-833d-66a85ba3db9b.png)
+
+![image](https://user-images.githubusercontent.com/95273765/195520646-77a6e1ae-0534-49d5-91f6-81611ba57036.png)
+
+5. finally visit the rest nodes in the stack
+
+![image](https://user-images.githubusercontent.com/95273765/195520771-27f07b4f-1fd3-4064-866c-7090dd0835c1.png)
+
+``` python
+# DFS algorithm in Python
+
+# DFS algorithm
+def dfs(graph, start, visited=None):
+    if visited is None:
+        visited = set()
+    visited.add(start)
+
+    print(start)
+
+    for next in graph[start] - visited:
+        dfs(graph, next, visited)
+    return visited
+
+graph = {'0': set(['1', '2']),
+         '1': set(['0', '3', '4']),
+         '2': set(['0']),
+         '3': set(['1']),
+         '4': set(['2', '3'])}
+
+dfs(graph, '0')
+```
+
+The time complexity of BFS is O(V+E).
+
+The space complexity of BFS is O(V).
 
 ## Cycle in a graph
 
