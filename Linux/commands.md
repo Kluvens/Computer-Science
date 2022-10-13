@@ -10,7 +10,7 @@
 8. ```rmdir``` command: to delete empty directories.
 9. ```rm``` command: to delete directories and the contents within them. 
 - ```rm -r``` means recursively delete, so this is used to delete a directory.
-- `rm -f``` this is short for force. ignore nonexistent files and arguments, never prompt
+- `rm -f` this is short for force. ignore nonexistent files and arguments, never prompt
 10. ```touch``` command: to create a blank new file through Linux command line.
 11. ```locate``` command: search any files containing the following word. ```locate book``` is used to search any files that contain book. 
 12. ```find -name notes.txt``` is used to find the path of notes.txt from the current directory.
