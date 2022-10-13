@@ -402,7 +402,6 @@ Example of Dijkstra's algorithm:
 ``` python
 # Dijkstra's Algorithm in Python
 
-
 import sys
 
 # Providing the graph
@@ -471,6 +470,96 @@ This is done by using heap.
 A common method may require O(V^2).
 
 Space Complexity: O(V)
+
+### Bellman Ford's Algorithm
+It is similar to Dijkstra's algorithm but it can work with graphs in which edges can have negative weights.
+
+How Bellman Ford's algorithm works
+Bellman Ford algorithm works by overestimating the length of the path from the starting vertex to all over vertices.
+Then it iteratively relaxes those estimates by finding new paths that are shorter than the previously overestimated paths.
+
+1. start with the weighted graph
+
+![image](https://user-images.githubusercontent.com/95273765/195522971-0bf70f03-6050-4030-96c1-98a6cf36797f.png)
+
+2. choose a starting vertex and assign infinity path values to all other vertices
+
+![image](https://user-images.githubusercontent.com/95273765/195523135-cb7b37ca-201c-4592-b869-8c69123c5e4a.png)
+
+3. visit each edge and relax the path distance if they are inaccurate
+
+![image](https://user-images.githubusercontent.com/95273765/195523471-a61d9361-ebb1-434a-8a42-0adfecc8194b.png)
+
+4. we need to do this V times because in the worst case, a vertex's path length might need to be readjusted V times.
+
+![image](https://user-images.githubusercontent.com/95273765/195523617-3760f98b-7dab-4b95-8024-66c951ddc4af.png)
+
+5. Notice how the vertex at the top right corner had its path length adjusted
+
+![image](https://user-images.githubusercontent.com/95273765/195523898-aa193255-6667-4b7f-acdc-0ec6cfacec54.png)
+
+6. After all the vertices have their path lengths, we check if a negative cycle is present
+
+![image](https://user-images.githubusercontent.com/95273765/195523995-e399c1f5-ca25-4c0c-948b-07f0c1d6a339.png)
+
+``` python
+# Bellman Ford Algorithm in Python
+
+class Graph:
+
+    def __init__(self, vertices):
+        self.V = vertices   # Total number of vertices in the graph
+        self.graph = []     # Array of edges
+
+    # Add edges
+    def add_edge(self, s, d, w):
+        self.graph.append([s, d, w])
+
+    # Print the solution
+    def print_solution(self, dist):
+        print("Vertex Distance from Source")
+        for i in range(self.V):
+            print("{0}\t\t{1}".format(i, dist[i]))
+
+    def bellman_ford(self, src):
+
+        # Step 1: fill the distance array and predecessor array
+        dist = [float("Inf")] * self.V
+        # Mark the source vertex
+        dist[src] = 0
+
+        # Step 2: relax edges |V| - 1 times
+        for _ in range(self.V - 1):
+            for s, d, w in self.graph:
+                if dist[s] != float("Inf") and dist[s] + w < dist[d]:
+                    dist[d] = dist[s] + w
+
+        # Step 3: detect negative cycle
+        # if value changes then we have a negative cycle in the graph
+        # and we cannot find the shortest distances
+        for s, d, w in self.graph:
+            if dist[s] != float("Inf") and dist[s] + w < dist[d]:
+                print("Graph contains negative weight cycle")
+                return
+
+        # No negative weight cycle found!
+        # Print the distance and predecessor array
+        self.print_solution(dist)
+
+
+g = Graph(5)
+g.add_edge(0, 1, 5)
+g.add_edge(0, 2, 4)
+g.add_edge(1, 3, 3)
+g.add_edge(2, 1, 6)
+g.add_edge(3, 2, 2)
+
+g.bellman_ford(0)
+```
+
+The time complexity in worst case is O(VE).
+
+The space complexity is O(V).
 
 ## Minimum Spanning Tree
 
