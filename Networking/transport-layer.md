@@ -42,3 +42,5 @@ Remember that in TCP there's always a welcoming socket.
 In the destination, the port number is the same but the socket number is different.
 
 All the TCP sockets at the server have the same server-side port number when many clients are cimmultaneously communicating with a traditional TCP web server.
+
+Different sockets can share the same port.
