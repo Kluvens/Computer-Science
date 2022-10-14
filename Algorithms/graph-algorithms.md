@@ -662,6 +662,9 @@ g.kruskal_algo()
 
 The time complexity of Kruskal's algorithm is O(E logE).
 
+#### Union Find Kruskal's Algorithm
+https://www.youtube.com/watch?v=JZBQLXgSGfs
+
 ### Prim's algorithm
 
 Example of Prim's algorithm
