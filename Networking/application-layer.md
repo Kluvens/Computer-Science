@@ -132,3 +132,27 @@ File distribution time:
   - server transmission: F/us
   - slowest client download time: F/dmin
   - clients as aggregate downloading and uploading: NF/(us+total of ui)
+
+BitTorrent (a protocol for P2P):
+- Torrent files contain address of trackers for the file
+- torrent files contain a list of file chunks and their cryptographic hashes
+- once peer has entire file, it may leave or remain in torrent
+
+BitTorrent: requesting, sending file chunks
+- requesting chunks:
+  - at any given time, different peers have different subsets of file chunks
+  - periodically, Alice asks each peer for list of chunks that they have
+  - Alice requests missing chunks from peers, rarest first
+- sending chunks: tit-for-tat
+  - Alice sends chunks to those four peers currently sending her chunks at highest rate
+  - every 30 seconds: randomly select another peer, starts sending chunks where newly chosen peer may join top 4
+  
+Distributed Hash Table (DHT):
+- a distributed P2P database
+- database has pairs
+- distribute the pairs over many pairs
+- a peer queries DHT with key, DHT returns values that match the key
+- peers can also insert pairs
+
+## Video streaming and content distribution networks
+
