@@ -93,7 +93,7 @@ DNS services:
 - hostname to IP address translation
 - host aliasing
 - mail server aliasing
-- load distribution
+- load distribution (many IP addresses correspond to one name)
 
 Hierarchy:
 - top of hierarchy: root server (root)
@@ -106,6 +106,8 @@ Local Name Servers:
 - when host makes DNS query, query is sent to its local DNS server
   - has local cache of recent name-to-address translation pairs
   - acts as proxy, forwards query into hierarchy
+- generally speaking, it behaves like a cache
+- the record inside the local server has a TTL which means that if it's not reached by a certain number of times, it will be deleted
 
 DNS name resolution:
 - iterative query: client -> local -> root -> local -> TLD -> local -> authoritative -> local -> client
@@ -116,6 +118,11 @@ DNS records (RR format (name, value, type, ttl)):
 - type = NS (name is domain, value is hostname of authoritative name server for this domain)
 - type = CHAME (name is alias, value is canonical name)
 - type = MX (value is the name of mailserver associated with name)
+
+Addresses:
+- domain name: google.com
+- host name: www.google.com
+- IP address: 192.158.1.38
 
 ## P2P applications
 Peer-to-peer architecture
@@ -155,4 +162,3 @@ Distributed Hash Table (DHT):
 - peers can also insert pairs
 
 ## Video streaming and content distribution networks
-
