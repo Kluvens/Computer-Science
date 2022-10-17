@@ -141,8 +141,12 @@ File distribution time:
   - clients as aggregate downloading and uploading: NF/(us+total of ui)
 
 BitTorrent (a protocol for P2P):
+- breaks down files into small chunks
+- there's a server called tracker which tracks peers participating in torrent
+- torrent is a group of peers exhausting chunks of a file
 - Torrent files contain address of trackers for the file
 - torrent files contain a list of file chunks and their cryptographic hashes
+- churn: peers may come and go
 - once peer has entire file, it may leave or remain in torrent
 
 BitTorrent: requesting, sending file chunks
@@ -151,14 +155,34 @@ BitTorrent: requesting, sending file chunks
   - periodically, Alice asks each peer for list of chunks that they have
   - Alice requests missing chunks from peers, rarest first
 - sending chunks: tit-for-tat
+  - tit-for-tat is when there's no server and everyone's trying maximise their own outcome. That's we are using resources from someone else.
+  - if we give more resources others will also give us more resources; if we give less, they will give less
+  - BitTorrent uses tit-for-tat to determine to which peers to upload chunks
   - Alice sends chunks to those four peers currently sending her chunks at highest rate
   - every 30 seconds: randomly select another peer, starts sending chunks where newly chosen peer may join top 4
   
 Distributed Hash Table (DHT):
+- The main diffference is that the in CS, the server stores all the information whereas in P2P, the information is stored in many other peers
 - a distributed P2P database
 - database has pairs
 - distribute the pairs over many pairs
 - a peer queries DHT with key, DHT returns values that match the key
 - peers can also insert pairs
+
+Assign keys to peers:
+- rule: assign key to the peer that has the closest ID
+- common convention: closest is the immediate successor of the key
+
+Example 1:
+- each peer maintains 2 neighbours
+- worst case: N messages, Average: N/2 messages
+
+![image](https://user-images.githubusercontent.com/95273765/196302149-a2e79840-ea70-4619-ade9-4835212ba548.png)
+
+Example 2:
+- each peer keeps track of IP address of predecessor, successor and a shortcut
+- possible to design shortcuts so O(log N) neighbours, O(log N) messages in query
+
+![image](https://user-images.githubusercontent.com/95273765/196302957-ab19e748-df16-45fa-ae6f-a1dc98f73ce9.png)
 
 ## Video streaming and content distribution networks
