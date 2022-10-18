@@ -185,4 +185,48 @@ Example 2:
 
 ![image](https://user-images.githubusercontent.com/95273765/196302957-ab19e748-df16-45fa-ae6f-a1dc98f73ce9.png)
 
+Peer churn:
+- peers may come and go (churn)
+- each peer knows address of successors
+- each peer periodically pings its two successors to check aliveness
+- if immediate successor leaves, choose next successor as new imeediate successor
+
 ## Video streaming and content distribution networks
+Streaming multimedia: DASH
+- server:
+  - divides video file into multiple chunks
+  - each chunk stored, encoded at different rates
+  - manifest file: provides URLs for different chunks
+- client:
+  - periodically measures server-to-client bandwidth
+  - caonsulting manifest, requests one chunk at a time
+    - chooses maximum coding rate sustainable given current bandwidth
+    - can choose different coding rates at different points in time
+- client determines:
+  - when to request chunk
+  - what encoding rate to request
+  - where to request chunk
+  
+Streaming video = encoding + DASH + playout buffering
+
+To stream conent to hundreds of thousands of simultaneous users, we can store/server multiple copies of videos at multiple geographically distributed sites (CDN)
+- enter deep: push CDN servers deep into many access networks (close to users)
+- bring home: smaller number of larger clusters in POPs near access networks
+
+Content distribution networks (CDNs)
+- CDN: stores copies of content at CDN nodes
+- subscriber requests content from CDN
+  - directed to nearby copy, retrieves content
+  - may choose different copy if network path congested
+- the role of the CDN provider's authoritative DNS name server in a conent distribution network is described as to map the query for each CDN object to the CDN server closer to the requestor
+
+Steps requesting a video by CDN (example is NetCinema):
+- The user visits the web page at NetCinema
+- When the user clicks on the link, the user's host sends a DNS query for video.netcinema.com
+- The user's Local DNS Server replays the DNS query to an authoritative DNS server for NetCinema, which observes the string 'video' in the hostname video.netcinema.com.
+- The DNS query enters into KingCDN's private DNS infrastructure. The user's LDNS then sneds a second query, now for the hostname in the KingCDN's domain, and KingCDN's DNS system eventually returns the IP addresses of a KingCDN content server to the LDNS. It is thus here, within the KingCDN's DNS system, that the CDN server from which the client will receive its content is specified
+- The LDNS forwards the IP address of the content-serving CDN node to the user's host
+- Once the client receives the IP address for a KingCDN content server, it establishes a direct TCP connection with the server at that IP address and issues an HTTP GET request for the video. If DASH is used, the server will first send to the client a manifest file with a list of URLs, one for each version of the video, and the client will dynamically select chunks from the different versions.
+
+![image](https://user-images.githubusercontent.com/95273765/196329715-fea57b28-8e52-4fc7-8f2e-fc3429a681c0.png)
+
