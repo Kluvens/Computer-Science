@@ -1,12 +1,15 @@
-Transport layer provides logical communication between application processes running on different hosts (end systems).
-
-Two principal Internet transport protocols:
-1. TCP: provides reliable, in-order delivery, congestion control, flow control and connection setup
-2. UDP: provides unreliable and unordered delivery, it's an extension of best-effort IP
-
-The sender is passed an application-layer message, it then determines segment header fields values, create the segment and finally pass it to IP.
-
-The receiver receives segment from IP, checks header values, extracts appliation-layer message and finally demultiplexes message up to application via socket.
+## Transport-layer services
+Transport services and protocols
+- transport layer usually executing within the OS kernel
+- provides logical communication between application processes running on different hosts (end systems)
+- transport protocols actions in end systems:
+  - sender: breaks application messages into segments, passes to network layer
+  - receiver: reassembles segments into messages, passes to application layer
+- two transport protocols available to Internet applications:
+  1. TCP: provides reliable, in-order delivery, congestion control, flow control and connection setup
+  2. UDP: provides unreliable and unordered delivery, it's an extension of best-effort IP
+- The sender is passed an application-layer message, it then determines segment header fields values, create the segment and finally pass it to IP.
+- The receiver receives segment from IP, checks header values, extracts appliation-layer message and finally demultiplexes message up to application via socket.
 
 ## Multiplexing and Demultiplexing
 Multiplexing at sender handles data from multiple sockets and add transport header sending to different clients.
