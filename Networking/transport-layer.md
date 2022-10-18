@@ -92,6 +92,22 @@ Summary for UDP:
   - helps with reliability (checksum)
 - build additional functionality on top of UDP in application layer (HTTP/3)
 
+Reliable data transfer (RDT):
+- rdt 1.0: reliable transfer over a reliable channel
+  - underlying channel perfectly reliable
+    - no bit errors
+    - no loss of packets
+  - nothing to do
+
+![image](https://user-images.githubusercontent.com/95273765/196557570-f79ee0ba-01ad-4eaf-8401-332d55808632.png)
+
+- rdt 2.0: channel with bit errors
+  - underlying channel may flip bits in packet
+    - checksum to detect bit errors
+  - to recover from errors
+    - acknowledgements (ACKs): receiver explicitly tells sender that pkt received OK
+
+
 For example, we have two processes running on the server, when sending some data to clients, both of them using the same transport layer, this is referred to as multiplexing.
 Even though they come from the same sender, they will finally go to different destinations by using the same transport layer.
 
