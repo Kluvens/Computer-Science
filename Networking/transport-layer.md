@@ -12,9 +12,40 @@ Transport services and protocols
 - The receiver receives segment from IP, checks header values, extracts appliation-layer message and finally demultiplexes message up to application via socket.
 
 ## Multiplexing and Demultiplexing
-Multiplexing at sender handles data from multiple sockets and add transport header sending to different clients.
+Multiplexing/demultiplexing:
+- Multiplexing at sender handles data from multiple sockets and add transport header sending to different clients.
+- Demultiplexing at receiver uses header information from different clients to deliver received segments to correct socket.
 
-Demultiplexing at receiver uses header information from different clients to deliver received segments to correct socket.
+How demultiplexing works:
+- host receives IP datagrams
+  - each datagram has source IP address, destination IP address
+  - each datagram carries one transport-layer segment
+  - each segment has source, destination port number
+- host uses IP addresses and port numbers to direct segment to appropriate socket
+
+Connectionless demultiplexing (UDP):
+- when creating datagram to send into UDP socket, must specify distination IP address and destination port number
+- when receiving host receives UDP segment, checks destination port number in segment and directs UDP segment to socket with that port number
+- in UDP, different source IP addresses and/or source port numbers will be directed to same socket at receiving host
+
+Connection-oriented demultiplexing (TCP):
+- TCP socket identified by 4-tuple:
+  - source IP address
+  - source port number
+  - destination IP address
+  - destination port number
+- demultiplexing: receiver uses all four values to direct segment to appropriate socket
+- server may support many simultaneous TCP sockets:
+  - each socket identified by its own 4-tuple
+  - each socket associated with a different connecting client
+- there's a welcoming socket that all commmunications first go to it, and then each socket for each request
+- also needs TCP handshake for the establishing connection, where client and server agree on sequence numbers to prevent packet lost
+
+Summary for this part:
+- multiplexing, demultiplexing: based on segment, datagram header field values
+- UDP: demultiplexing using destination IP and port number
+- TCP: demultiplexing using 4-tuple: source and destination IP addresses, and port numbers
+- multiplexing and demultiplexing happen at all layers
 
 For example, we have two processes running on the server, when sending some data to clients, both of them using the same transport layer, this is referred to as multiplexing.
 Even though they come from the same sender, they will finally go to different destinations by using the same transport layer.
@@ -29,12 +60,6 @@ In connection-oriented demultiplexing, different sockets in the server are respo
 
 With connection-oriented protocols, we can create multiple connections and we can open multiple sockets in the server so that each of these processes can have its own end-to-end connection.
 This explains why we can have many windows in our desktop at the same time.
-
-TCP socket identified by 4-tuple:
-- source IP address
-- source port number
-- destination IP address
-- destination port number
 
 UDP demultiplexing uses destination IP and port number
 
