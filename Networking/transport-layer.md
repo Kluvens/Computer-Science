@@ -40,12 +40,57 @@ Connection-oriented demultiplexing (TCP):
   - each socket associated with a different connecting client
 - there's a welcoming socket that all commmunications first go to it, and then each socket for each request
 - also needs TCP handshake for the establishing connection, where client and server agree on sequence numbers to prevent packet lost
+- different sockets can share the same port
 
 Summary for this part:
 - multiplexing, demultiplexing: based on segment, datagram header field values
 - UDP: demultiplexing using destination IP and port number
 - TCP: demultiplexing using 4-tuple: source and destination IP addresses, and port numbers
 - multiplexing and demultiplexing happen at all layers
+
+## Connectionless transport: UDP
+UDP:
+- best-effort service: UDP segments may be lost and delivered out-of-order to app
+- connectonless:
+  - no handshaking between UDP sender, receiver
+  - each UDP segment handled independently of others
+
+Then, why UDP?
+- no connection establishment - faster
+- simple: no connection state at sender and receiver
+- small header size
+- no congestion control
+
+Applications that use UDP:
+- steaming multimedia apps
+- DNS
+- SNMP (network management)
+- HTTP/3
+- gaming
+- Routing updates (RIP)
+
+UDP segment header:
+- source port number
+- destination port number
+- length: in bytes of UDP segment including header
+- checksum: to detect errors in transmitted segment, but this can't guarantee as two or more bits are changed and may result in the same
+- application data (payload): data to/from application layer
+
+Calculating checksum:
+- adding two 16-bit integers: 1 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 + 1 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1
+ -> 1 1 0 1 1 1 0 1 1 1 0 1 1 1 0 1 1
+- wraparound the first number: 1 1 0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 -> 1 0 1 1 1 0 1 1 1 0 1 1 1 1 0 0
+- get the checksum: 1 0 1 1 1 0 1 1 1 0 1 1 1 1 0 0 -> 0 1 0 0 0 1 0 0 0 1 0 0 0 0 1 1
+
+Summary for UDP:
+- 'no frills' protocol:
+  - segments may be lost, delivered out of order
+  - best effort service: send and hope for the best
+- UDP has its plusses:
+  - no setup/handshaking needed
+  - can function when network service is compromised
+  - helps with reliability (checksum)
+- build additional functionality on top of UDP in application layer (HTTP/3)
 
 For example, we have two processes running on the server, when sending some data to clients, both of them using the same transport layer, this is referred to as multiplexing.
 Even though they come from the same sender, they will finally go to different destinations by using the same transport layer.
@@ -71,4 +116,4 @@ In the destination, the port number is the same but the socket number is differe
 
 All the TCP sockets at the server have the same server-side port number when many clients are cimmultaneously communicating with a traditional TCP web server.
 
-Different sockets can share the same port.
+
