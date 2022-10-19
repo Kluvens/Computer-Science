@@ -227,7 +227,94 @@ Summary for componenets of a solution:
 ## Connection-oriented transport: TCP
 TCP:
 - checksum (same as UDP)
-- sequence numbers are byte offsets (based on bytes)
+- sequence numbers are byte offsets (based on bytes) = first byte in segment = ISN (random) + k
+- ACK sequence number = next expected byte = sequence number + length(data)
+- receiver sends cumulative acknowledgements (like GBN)
+- receivers can buffer out-of-sequence packets (like SR)
+- sender maintains a single retransmission timer (like GBN) and restransmits on timeout
+- introduces fast retransmit: optimisation that uses duplicate ACKs to trigger early retransmission
+
+ACKing and Sequence Numbers:
+- sender sends packet
+  - data starts with sequence number X
+  - packet contains B bytes [x, x+1, x+2, ... x+b+1]
+- upon receipt of packet, receiver sends an ACK
+  - if all data prior to X already received:
+    - ACK acknowledges X+B (because that is next expected byte)
+  - if highest in-order byte received is Y such that (Y+1) < X
+    - ACK acknowledges Y+1
+    - Even if this has been ACKed before
+
+![image](https://user-images.githubusercontent.com/95273765/196660180-04afcb75-e6b5-4323-ade4-c576c0dac60a.png)
+
+![image](https://user-images.githubusercontent.com/95273765/196665544-e29ccb38-5975-48d5-8209-1f3d01bb94ce.png)
+
+Piggybacking
+- usually both sides of a connection send some data
+
+![image](https://user-images.githubusercontent.com/95273765/196662223-65385e5f-d57a-4190-b4dc-3e4ef8cf8aee.png)
+
+TCP round trip time, timeout:
+- EstimatedRTT = (1 - alpha)*EstimatedRTT + alpha*SampleRTT
+- exponential weighted moving average (EWMA)
+- influence of past sample decreases exponentially fast
+- typical value: a = 0.125
+- timeout interval: EstimatedRTT plus “safety margin”
+  - large variation in EstimatedRTT: want a larger safety margin
+  - TimeoutInterval = EstimatedRTT + 4*DevRTT
+- DevRTT: EWMA of SampleRTT deviation from EstimatedRTT
+  - DevRTT = (1-b)*DevRTT + b*|SampleRTT-EstimatedRTT|
+- the sample RTT is calculated from the original request until we receive its ACK
+
+![image](https://user-images.githubusercontent.com/95273765/196671064-344c5440-7ab2-4d50-b927-626c42ea91c5.png)
+
+![image](https://user-images.githubusercontent.com/95273765/196672095-b3c5ecd1-49e4-4790-ac62-cbc0b26de444.png)
+
+TCP fast retransmit:
+- if sender receives 3 additional ACKs for same data, resend unACKed segment with smallest sequence number
+
+TCP flow control:
+- TCP receiver “advertises” free buffer space in rwnd field in TCP header
+  - RcvBuffer size set via socket options
+  - many operating systems autoadjust RcvBuffer
+- sender limits amount of unACKed data to received rwnd
+- guarantees receive buffer will not overflow
+- stored in the reveive window field in the TCP segment format
+- what if rwnd = 0
+  - sender would stop sending data
+  - eventually the receive buffer would have space when the application process reads some bytes
+- sender keeps sending TCP segments with one data type to the receiver
+- these segments are dropped but acknowledged by the receiver with a zero-window size
+- Eventually when the buffer empties, non-zero window is advertised
+
+![image](https://user-images.githubusercontent.com/95273765/196676309-8c8a9493-a725-4b14-98a2-a84fdd588f1c.png)
+
+TCP 3-way handshake:
+![image](https://user-images.githubusercontent.com/95273765/196677688-b0fa593d-28f2-4af8-9ceb-593bf7fae9e0.png)
+
+TCP: closing a connection
+- client, server each close their side of connection
+  - send TCP segment with FIN bit = 1
+- respond to received FIN with ACK
+  - on receiving FIN, ACK can be combined with own FIN
+- simultaneous FIN exchanges can be handled
+
+Types of termination:
+- one at a time
+
+![image](https://user-images.githubusercontent.com/95273765/196678694-6f5c59a9-7efa-41a4-8530-a56907c28eaa.png)
+
+- both together
+
+![image](https://user-images.githubusercontent.com/95273765/196679113-8d471ecd-bec1-46de-b7bd-de90804813c9.png)
+
+- simultaneous closure
+
+![image](https://user-images.githubusercontent.com/95273765/196679320-89d65acf-2540-410c-89af-d335353d1202.png)
+
+- abrupt termination
+
+![image](https://user-images.githubusercontent.com/95273765/196679727-ef62f6b9-d40c-40e3-b2ad-24be105e3a06.png)
 
 For example, we have two processes running on the server, when sending some data to clients, both of them using the same transport layer, this is referred to as multiplexing.
 Even though they come from the same sender, they will finally go to different destinations by using the same transport layer.
@@ -242,12 +329,6 @@ In connection-oriented demultiplexing, different sockets in the server are respo
 
 With connection-oriented protocols, we can create multiple connections and we can open multiple sockets in the server so that each of these processes can have its own end-to-end connection.
 This explains why we can have many windows in our desktop at the same time.
-
-UDP demultiplexing uses destination IP and port number
-
-TCP demultiplexing uses source and destination IP address and its port numbers
-
-Remember that in TCP there's always a welcoming socket.
 
 In the destination, the port number is the same but the socket number is different.
 
