@@ -142,8 +142,86 @@ rdt2.2: a NAK-free protocol
 - same functionality as rdt2.1, using ACKs only
 - instead of NAK, receiver sends ACK for last packet received OK
 - duplicate ACK at sender results in same action as NAK: retransmit current packet
+- there's no timer in 2.2 to check timeout
 
 ![image](https://user-images.githubusercontent.com/95273765/196603083-c7766746-ce30-4edd-bc4f-2b7f7cd33cd8.png)
+
+rdt3.0: channels with errors and loss
+- New channel assumption: underlying channel can also lose packets
+  - checksum, sequence numbers, ACKs, retransmissions will be of help.. but not quite enough
+- to handle lost sender-to-receiver words in conversation, sender waits reasonable amount of time for ACK
+  - retransmits if no ACK received in this time
+  - if packet just delayed but not lost:
+    - retransmission will be duplicate, but sequence numbers already handles this
+    - receiver must specify sequence number of packet being acknoledged
+  - use contdown timer to interrupt after reasonable amount of time
+  - no retransmission on duplicate ACKs
+  
+![image](https://user-images.githubusercontent.com/95273765/196606334-7059c4b9-096b-46c7-ac47-b0bf1c62df63.png)
+
+![image](https://user-images.githubusercontent.com/95273765/196606396-52c1ec51-3c38-417d-9977-954e512fd9f1.png)
+
+Performance of rdt3.0
+- utilization of sender - fraction of time sender busy sending - (L/R)/((L/R)+RTT)
+- stop-and-wait operation: L/R << RTT
+
+![image](https://user-images.githubusercontent.com/95273765/196608016-6b3fa1c1-f829-4703-8c1e-568cc5272894.png)
+
+- pipelined protocols operation
+  - pipelining: sender allows multiple, in-flight, yet-to-be-acknowledged packets
+    - range of sequence numbers must be increased
+    - buffering at sender and/or receiver
+    - Go Back N, Selective Repeat
+  - utilization of sender = (n*(L/R))/(RTT+(L/R))
+
+![image](https://user-images.githubusercontent.com/95273765/196608673-b49148d5-ccac-4115-a82a-9b0e64d0158c.png)
+
+Go-Back-N: sender
+- sender: window of up to N, where window is the pipeline and N is the number of packets in the pipeline, consecutive transmitted but unACKed packets
+  - k-bit sequence number in packet header
+- cumulative ACK: ACK(n): ACKs all packets up to, including sequence number n
+  - on receiving ACK(n): move window forward to begin at n+1
+- timer for oldest in-flight packet - there's a single timer needed for Go-Back-N
+- timeout(n): retransmit packet n and all higher sequence number packets in window
+
+Selective repeat:
+- receiver individually acknowledges all correctly received packets
+  - buffers packets, as needed, for eventual in-order delivery to upper layer
+- sender times-out/retransmits individually for unACKed packets
+  - sender maintains timer for each unACKed packet
+- sender window
+  - N consecutive sequence numbers
+  - limits sequence numbers of sent, unACKed packets
+- sender:
+  - data from above:
+    - if next available sequence number in window, send packet
+  - timeout
+    - resend packet n, restart timer
+  - ACK(n) in in [sendbase,sendbase+N]:
+    - mark packet n as received
+    - if n smallest unACKed packet, advance window base to next unACKed sequence number
+- receiver:
+  - packet n in [rcvbase, rcvbase+N-1]:
+    - send ACK(n)
+    - out-of-order: buffer
+    - in-order: deliver, advance window to next not-yet received packet
+  - packet n in  [rcvbase-N,rcvbase-1]:
+    - ACK(n)
+  - otherwise:
+    - ignore
+- sender window size <= 1/2 of sequence number space
+
+Animation for Go-back-n and selective repeat: https://www2.tkn.tu-berlin.de/teaching/rn/animations/gbn_sr/
+
+Summary for componenets of a solution:
+- checksums (for error detection)
+- timers (for loss detection)
+- acknoledgements
+  - cumulative - GBN
+  - selective - selective repreat
+- sequence numbers (duplicate, windows)
+- sliding windows (for efficiency) - GBN and selective repeat
+- reliability protocols use the above to decide when and what to retransmit or acknowledge
 
 For example, we have two processes running on the server, when sending some data to clients, both of them using the same transport layer, this is referred to as multiplexing.
 Even though they come from the same sender, they will finally go to different destinations by using the same transport layer.
