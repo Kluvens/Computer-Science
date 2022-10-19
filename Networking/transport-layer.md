@@ -92,6 +92,7 @@ Summary for UDP:
   - helps with reliability (checksum)
 - build additional functionality on top of UDP in application layer (HTTP/3)
 
+## Principles of reliable data transfer
 Reliable data transfer (RDT):
 - rdt 1.0: reliable transfer over a reliable channel
   - underlying channel perfectly reliable
@@ -222,6 +223,11 @@ Summary for componenets of a solution:
 - sequence numbers (duplicate, windows)
 - sliding windows (for efficiency) - GBN and selective repeat
 - reliability protocols use the above to decide when and what to retransmit or acknowledge
+
+## Connection-oriented transport: TCP
+TCP:
+- checksum (same as UDP)
+- sequence numbers are byte offsets (based on bytes)
 
 For example, we have two processes running on the server, when sending some data to clients, both of them using the same transport layer, this is referred to as multiplexing.
 Even though they come from the same sender, they will finally go to different destinations by using the same transport layer.
