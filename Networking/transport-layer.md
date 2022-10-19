@@ -105,8 +105,45 @@ Reliable data transfer (RDT):
   - underlying channel may flip bits in packet
     - checksum to detect bit errors
   - to recover from errors
-    - acknowledgements (ACKs): receiver explicitly tells sender that pkt received OK
+    - acknowledgements (ACKs): receiver explicitly tells sender that packet received OK
+    - negative acknowledgements (NAKs): receiver explicitly tells sender that packet had errors
+    - sender retransmits packet on receipt of NAK
+  - summary of new mechanisms in rdt2.0:
+    - error detection
+    - feedback: control messages (ACK, NAK) from receiver to sender
+    - retransmission
 
+![image](https://user-images.githubusercontent.com/95273765/196598479-718ea612-d430-4320-9869-cc066605247b.png)
+
+rdt2.0 also has flaws:
+- what happens if ACK/NAK corrupted
+  - sender doesn't know what happened at receiver
+  - can't just retransmit: possible duplicate
+- handling duplicates:
+  - sender retransmits current packet if ACK/NAK corrupted
+  - sender adds sequence number to each packet
+  - receiver discards duplicate packet
+
+rdt2.1:
+- sender
+  - sequence number added to packet
+  - two sequence numbers (0, 1) will suffice
+  - must check if received ACK/NAK corrupted
+  - twice as many states
+    - state must remember whether expected packet should have sequence number of 0 or 1
+- receiver
+  - must check if received packet is duplicate
+    - state indicates whether 0 or 1 is expected packet sequence number
+  - receiver cannot know if its last ACK/NAK received OK at sender
+
+![image](https://user-images.githubusercontent.com/95273765/196602330-5bda8bd9-34c3-4e1a-bade-2813ae8dee77.png)
+
+rdt2.2: a NAK-free protocol
+- same functionality as rdt2.1, using ACKs only
+- instead of NAK, receiver sends ACK for last packet received OK
+- duplicate ACK at sender results in same action as NAK: retransmit current packet
+
+![image](https://user-images.githubusercontent.com/95273765/196603083-c7766746-ce30-4edd-bc4f-2b7f7cd33cd8.png)
 
 For example, we have two processes running on the server, when sending some data to clients, both of them using the same transport layer, this is referred to as multiplexing.
 Even though they come from the same sender, they will finally go to different destinations by using the same transport layer.
