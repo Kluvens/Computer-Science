@@ -55,10 +55,18 @@ Non-persistent HTTP (HTTP 1.0): response time
 - file transmission time
 - overall non-persistent HTTP response time = 2RTT + file transmission time
 
+![image](https://user-images.githubusercontent.com/95273765/196856410-90b23b58-2c08-434c-b163-5afd85f0596f.png)
+
+Persistent HTTP without pipelining: no need to set up TCP connection every time but still needs to request every file
+
+![image](https://user-images.githubusercontent.com/95273765/196856770-ec94b605-a042-4e2f-b41a-cfa1bdacf1f2.png)
+
 Persistent HTTP (HTTP 1.1):
 - one RTT with initiating TCP connection
 - one RTT for requesting file
 - as little as one RTT for all the referenced objects for persistent connection via pipelining
+
+![image](https://user-images.githubusercontent.com/95273765/196856579-99f8546b-6cc7-48ec-9b28-52ddcc146692.png)
 
 Web caches (proxy servers):
 - browser sends all HTTP requests to cache
