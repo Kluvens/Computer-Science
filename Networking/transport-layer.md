@@ -316,6 +316,56 @@ Types of termination:
 
 ![image](https://user-images.githubusercontent.com/95273765/196679727-ef62f6b9-d40c-40e3-b2ad-24be105e3a06.png)
 
+SYN:
+- Short for synchronize, SYN is a TCP packet sent to another computer requesting that a connection be established between them.
+- If the SYN is received by the second machine, an SYN/ACK is sent back to the address requested by the SYN.
+- Lastly, if the original computer receives the SYN/ACK, a final ACK is sent.
+- The SYN flag synchronizes sequence numbers to initiate a TCP connection.
+- Remember that the FIN flag indicates the end of data transmission to finish a TCP connection.
+
+## Principles of congestion control
+congestion:
+- informally: too many sources sending too much data too fast for network to handle
+- increases delays - if delays > RTO, sender retransmists
+- increases loss rate - dropped packets also retransmitted
+- increases retransmissions, many unnecessary
+- increases congestion, cycle continues
+
+Cost of congestion:
+- Knee - point after which
+  - throughput increases slowly
+  - delay increases fast
+- cliff - point after which
+  - throughput starts to drop to zero
+  - delay approaches infinity
+
+![image](https://user-images.githubusercontent.com/95273765/196822296-beacd383-b0b4-4d9c-b0c5-1c11821cce50.png)
+
+Approaches towards congestion control:
+- end-end congestion control:
+  - no explicit feedback from network
+  - congestion inferred from end-system observed loss
+  - approach taken by TCP
+- network-assisted congestion control:
+  - routers provide feedback to end systems
+  - single bit indicating congestion
+  - explicit rate for sender to send at
+
+## TCP congestion control
+TCP's approach in a nutshell:
+- TCP connection maintains a window (controls number of packets in flight)
+- TCP sending rate is roughly cwnd/RTT
+- vary window size to control sending rate
+
+All the windows:
+- congestion window: CWND
+  - how many bytes can be sent without overflowing routers
+  - computed by the sender using congestion control algorithm
+- flow control window: Advertised/receive window (RWND)
+  - How many bytes can be sent without overflowing receiver’s buffers
+  - Determined by the receiver and reported to the sender
+- sender-side window = minimum(CWND, RWND)
+
 For example, we have two processes running on the server, when sending some data to clients, both of them using the same transport layer, this is referred to as multiplexing.
 Even though they come from the same sender, they will finally go to different destinations by using the same transport layer.
 
