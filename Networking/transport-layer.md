@@ -366,6 +366,55 @@ All the windows:
   - Determined by the receiver and reported to the sender
 - sender-side window = minimum(CWND, RWND)
 
+Detection Congestion: Infer Loss
+- Duplicate ACKs: isolated loss
+  - duplicate ACKs indicate network capable of delivering some segments
+- Timeout: much more serious
+  - not enough duplicate ACKs
+  - must have suffered serveral losses
+
+Rate adjustment:
+- basic strucutre
+  - upon receipt of ACK: increase rate
+  - upon detection of loss: decrease rate
+- how we increase/decrease the rate depends on the phase of congestion congestion control we're in:
+  - discovering available bottleneck bandwidth
+  - adjusting to bandwidth variations
+
+TCP slow start (bandwidth discovery):
+- when connection begins, increase rate exponentially until first loss event:
+  - initially cwnd = 1 MSS
+  - double cwnd every RTT (all ACKs)
+  - simpler implementation achieved by incrementing cwnd for every ACK received (cwnd += 1 for each ACK)
+- initial rate is slow but ramps up exponenetially fast
+
+Adjusting to varying bandwidth:
+- slow start gave an estimate of available bandwidth
+- now, we want to track variations in this available bandwidth, oscillating around its current value
+  - repeated probing (rate increase) and back-off (rate decrease)
+  - known as Congestion Avoidance (CA)
+- TCP uses Additive Increase Multiplicative Decrease (AIMD)
+
+AIMD:
+- approach: sender increases transmission rate (window size), probing for usable bandwidth, until another congestion event occurs
+  - additive increase: increase cwnd by 1 MSS every RTT until loss detected
+    - for each successful RTT (all ACKs), cwnd = cwnd + 1
+    - simple implementation: for each ACK, cwnd = cwnd + 1/cwnd (since there are cwnd/MSS packets in a window)
+  - multiplicative decrease: cut cwnd in half after loss
+
+![image](https://user-images.githubusercontent.com/95273765/196852753-14b764f5-3c2b-462d-8324-4eb67a3d5c14.png)
+
+Events:
+- ACK (new data)
+  - if CWND < ssthresh, then CWND += 1 (slow-start phase, exponential)
+  - else, CWND = CWND + 1/CWND (congestion avoidance phase)
+- dupACK (duplicate ACK for old data)
+  - ssthresh = CWND/2
+  - CWND = CWND/2
+- Timeout
+  - ssthresh = CWND/2
+  - CWND = 1
+
 For example, we have two processes running on the server, when sending some data to clients, both of them using the same transport layer, this is referred to as multiplexing.
 Even though they come from the same sender, they will finally go to different destinations by using the same transport layer.
 
