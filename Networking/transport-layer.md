@@ -39,6 +39,7 @@ Connection-oriented demultiplexing (TCP):
   - each socket identified by its own 4-tuple
   - each socket associated with a different connecting client
 - there's a welcoming socket that all commmunications first go to it, and then each socket for each request
+- all 3 handshakes done on the welcoming socket, and after 3 handshakes, the client will communicate with another socket on the server
 - also needs TCP handshake for the establishing connection, where client and server agree on sequence numbers to prevent packet lost
 - different sockets can share the same port
 
