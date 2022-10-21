@@ -12,6 +12,7 @@ HTTP uses TCP:
 - server accepts TCP connection from client
 - HTTP messages exchanged between browser and web server
 - TCP connection closed
+- HTTP is pull-based
 
 Four important HTTP request messages:
 - POST method
@@ -27,6 +28,7 @@ HTTP response status codes:
 - 505 HTTP version not supported
 
 HTTP is all text:
+- each character in the text consumes one byte
 - makes the protocol simple
 - it's not the most efficient as it may take more space
 - non-text content needs to be encoded
@@ -95,6 +97,11 @@ Email sequence:
 Mail access protocols:
 - IMAP
 - HTTP
+
+how do we send pictures/videos/files via email:
+- encode these objects as ASCII
+
+SMTP is push based
 
 ## Domain Name Server
 DNS services:
@@ -176,6 +183,7 @@ Distributed Hash Table (DHT):
 - distribute the pairs over many pairs
 - a peer queries DHT with key, DHT returns values that match the key
 - peers can also insert pairs
+- in DHT, a hash function converts a string to an integer
 
 Assign keys to peers:
 - rule: assign key to the peer that has the closest ID
