@@ -139,6 +139,8 @@ Addresses:
 - host name: www.google.com
 - IP address: 192.158.1.38
 
+A web browser needs to contact a website, the minimum number of DNS request is 0 as the domain IP mapping could be saved in host, that is, the message is already in the end system so there's no need for a DNS request.
+
 ## P2P applications
 Peer-to-peer architecture
 - no always-on server
@@ -184,6 +186,7 @@ Distributed Hash Table (DHT):
 - a peer queries DHT with key, DHT returns values that match the key
 - peers can also insert pairs
 - in DHT, a hash function converts a string to an integer
+- P2P networks use DHT to help new peers join the network
 
 Assign keys to peers:
 - rule: assign key to the peer that has the closest ID
