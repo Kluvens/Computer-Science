@@ -1,5 +1,6 @@
 ## Web and HTTP
 Web page consists of objects, each of which can be stored on different Web servers.
+More specifically, a webpage consists of an index html file and urls to each object, when transferring a webpage, we firstly transfer the index file, then all its embedded objects.
 
 HTTP is a web's application layer protocol.
 
@@ -13,6 +14,7 @@ HTTP uses TCP:
 - HTTP messages exchanged between browser and web server
 - TCP connection closed
 - HTTP is pull-based
+- HTTP is stateless, which means the server maintains no information about past client requests
 
 Four important HTTP request messages:
 - POST method
@@ -20,12 +22,16 @@ Four important HTTP request messages:
 - HEAD method
 - DELETE  method
 
+![image](https://user-images.githubusercontent.com/95273765/197364559-18bf975b-1079-45be-8820-8270322488ae.png)
+
 HTTP response status codes:
 - 200 OK
 - 301 Moved Permanently
 - 400 Bad Rquest
 - 404 Not Found
 - 505 HTTP version not supported
+
+![image](https://user-images.githubusercontent.com/95273765/197364585-18211739-0006-4666-a56d-f60ff2ee7198.png)
 
 HTTP is all text:
 - each character in the text consumes one byte
@@ -43,7 +49,7 @@ Performance of HTTP:
 
 How to improve Page Load Time:
 - reduce content size for transfer (compression)
-- change HTTP to make better use of available bandwidth (persistent connections and pipelining)
+- change (improve) HTTP to make better use of available bandwidth (persistent connections and pipelining)
 - change HTTP to avoid repeated transfers of the same content (caching and web-proxies)
 - move content closer to the client (CDNs)
 
@@ -52,10 +58,13 @@ A website consists of:
 - many other objects including photos
 
 Non-persistent HTTP (HTTP 1.0): response time
+- at most one object sent over TCP connection and then the connection is closed
 - one RTT to initiate TCP connection
 - one RTT for HTTP request and first few bytes of HTTP response to return
 - file transmission time
-- overall non-persistent HTTP response time = 2RTT + file transmission time
+- overall non-persistent HTTP response time (every connection) = 2RTT + file transmission time
+- one TCP connection to fetch one web resource
+- multiple TCP slow-start phases (Non-persistent means you're establishing a new connection for each HTTP request.  A TCP connection always starts in slow-start.  So naturally if each request requires a new connection, and each connection starts in slow-start, then non-persistent will result in multiple slow-start phases.)
 
 ![image](https://user-images.githubusercontent.com/95273765/196856410-90b23b58-2c08-434c-b163-5afd85f0596f.png)
 
@@ -66,6 +75,7 @@ Persistent HTTP without pipelining: no need to set up TCP connection every time 
 Persistent HTTP (HTTP 1.1):
 - one RTT with initiating TCP connection
 - one RTT for requesting file
+- one RTT for each referenced object without pipelining
 - as little as one RTT for all the referenced objects for persistent connection via pipelining
 
 ![image](https://user-images.githubusercontent.com/95273765/196856579-99f8546b-6cc7-48ec-9b28-52ddcc146692.png)
@@ -80,17 +90,46 @@ Web caches (proxy servers):
 - it reduces response time for client request
 - it reduces traffic on an institution's access link
 
+Conditional GET:
+- cache: specify data of cached copy in HTTP request - If-modified-since: <date>
+- E-tag: usually used for dynamic content. The value is often a cryptographic hash of the content
+- server: response contains no object if cached copy is up-to-data: HTTP/1.0 304 Not Modified
+
+![image](https://user-images.githubusercontent.com/95273765/197366122-bb02e5a2-2cba-4763-824a-012521706722.png)
+  
+HTTPS:
+- HTTP is insecure
+- HTTPS: HTTP over a connection encrypted by Transport Layer Security (TLS)
+- provides authentication and bidirectional encryption
+- widely used in place of plain vanilla HTTP
+
 ## Electronic Mail
 Three major components for E-mail:
 - user agents - for example, outlook, iphone mail client
 - mail servers
+  - mailbox contains incoming messages for user
+  - message queue of outgoing mail messages
+  - SMTP protocol between mail servers to send email messages
 - simple mail transfer protocol: SMTP
+  
+  
+About E-mail:
+- uses TCP to transfer email message on port 25
+- direct transfer: sending server to receiving server
+- Three phases of transferring e-mails:
+  - handshaking
+  - transfer of messages
+  - closure
+- command/response interaction
+  - commands: ASCII text
+  - response: status code and phrase
+- messages must be in 7-bit ASCII
 
 Email sequence:
 - a person wirtes an email and message to the target mailbox
 - user agent sends message to his mail server and the message is placed in the message queue
 - client side of SMTP opens TCP connection with the receiver's mail server
-- SMTP client sends the composer's message over the TCP connection
+- SMTP client sends the composer's message over the TCP connection on port 25
 - the receiver's mail server places the message in receiver's mailbox
 - the receiver invokes his user agent to read the message
 
@@ -101,8 +140,21 @@ Mail access protocols:
 how do we send pictures/videos/files via email:
 - encode these objects as ASCII
 
-SMTP is push based
+SMTP:
+- push based
+- has ASCII command/response interaction
+- multiple objects sent in multipart message
+- uses persistent connection
+- requires message to be in 7-bit ASCII
+- SMTP server uses CRLF to determine end of message
 
+Mail message format:
+- header
+  - to
+  - from
+  - subject
+- body: the message, ASCII characters only
+  
 ## Domain Name Server
 DNS services:
 - hostname to IP address translation
