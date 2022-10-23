@@ -192,6 +192,7 @@ Go-Back-N: sender
   - on receiving ACK(n): move window forward to begin at n+1
 - timer for oldest in-flight packet - there's a single timer needed for Go-Back-N
 - timeout(n): retransmit packet n and all higher sequence number packets in window
+- the window size needs to be less than the sequence number space
 
 Selective repeat:
 - receiver individually acknowledges all correctly received packets
