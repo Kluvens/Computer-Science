@@ -231,6 +231,26 @@ Summary for componenets of a solution:
 - reliability protocols use the above to decide when and what to retransmit or acknowledge
 
 ## Connection-oriented transport: TCP
+TCP overview:
+- point-to-point
+  - one sender, one receiver
+- reliable, in-order byte stream
+  - no message boundaries
+- full duplex data
+  - bi-directional data flow in same connection
+  - MSS: maximum segment size
+- cumulative ACKs
+- pipelining
+  - TCP congestion and flow control set window size
+- connection-oriented
+  - handshaking initializes sender, receiver state before data exchange
+- flow controlled
+  - sender will not overwhelm receiver
+  
+TCP segment structure:
+
+![image](https://user-images.githubusercontent.com/95273765/197370640-c5da28b7-5078-447d-9b8d-4b0c66d388fe.png)
+
 TCP:
 - checksum (same as UDP)
 - sequence numbers are byte offsets (based on bytes) = first byte in segment = ISN (random) + k
