@@ -130,6 +130,7 @@ rdt2.0 also has flaws:
   - sender retransmits current packet if ACK/NAK corrupted
   - sender adds sequence number to each packet
   - receiver discards duplicate packet
+- stop and wait: sender sends one packet, then waits for receiver response (has only 1 bit for the sequence number)
 
 rdt2.1:
 - sender
@@ -180,6 +181,7 @@ Performance of rdt3.0
     - buffering at sender and/or receiver
     - Go Back N, Selective Repeat
   - utilization of sender = (n*(L/R))/(RTT+(L/R))
+- pipelining increases throughput compared to stop-and-wait linearly with the window size
 
 ![image](https://user-images.githubusercontent.com/95273765/196608673-b49148d5-ccac-4115-a82a-9b0e64d0158c.png)
 
@@ -216,7 +218,8 @@ Selective repeat:
     - ACK(n)
   - otherwise:
     - ignore
-- sender window size <= 1/2 of sequence number space
+- sender window size <= 1/2 of sequence number space (for example, if window size is 8, the sequence number field in the packet header must be at least 4-bit long (16))
+- the formula for computing the maximum possible window size for selective repeat is 2^(n-1) where n represents the number of bits sequence number field in the packet header
 
 Animation for Go-back-n and selective repeat: https://www2.tkn.tu-berlin.de/teaching/rn/animations/gbn_sr/
 
