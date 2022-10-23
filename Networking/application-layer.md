@@ -267,6 +267,7 @@ BitTorrent: requesting, sending file chunks
   - BitTorrent uses tit-for-tat to determine to which peers to upload chunks
   - Alice sends chunks to those four peers currently sending her chunks at highest rate
   - every 30 seconds: randomly select another peer, starts sending chunks where newly chosen peer may join top 4
+- a peer can stay and continue to upload chunks once they have the full file, but tit-fot-tat won't be useful for that peer
   
 Distributed Hash Table (DHT):
 - The main diffference is that the in CS, the server stores all the information whereas in P2P, the information is stored in many other peers
