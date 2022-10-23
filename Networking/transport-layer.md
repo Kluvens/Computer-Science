@@ -311,6 +311,8 @@ TCP round trip time, timeout:
 TCP fast retransmit:
 - if sender receives 3 additional ACKs for same data, resend unACKed segment with smallest sequence number
 
+![image](https://user-images.githubusercontent.com/95273765/197375726-6968b9ba-716c-4039-bcd6-1be30c0c9322.png)
+
 TCP flow control:
 - TCP receiver “advertises” free buffer space in rwnd field in TCP header
   - RcvBuffer size set via socket options
@@ -362,6 +364,17 @@ SYN:
 - Remember that the FIN flag indicates the end of data transmission to finish a TCP connection.
 
 ## Principles of congestion control
+What cuases congestion:
+- broadcase storms (too busy)
+- too many hosts in broadcast domain
+- low bandwidth (size of the pipe is too small)
+- devices using too much bandwidth
+- inefficient configuration management
+- outdated hardware
+- border gateway protocol
+- packet retransmissions
+- collisions
+
 congestion:
 - informally: too many sources sending too much data too fast for network to handle
 - increases delays - if delays > RTO, sender retransmists
@@ -394,6 +407,8 @@ TCP's approach in a nutshell:
 - TCP connection maintains a window (controls number of packets in flight)
 - TCP sending rate is roughly cwnd/RTT
 - vary window size to control sending rate
+
+In highlevel, flow control is to manage traffic from sender to receiver to avoid overwhelming the receiver, while congestion control is managing traffic entering the network from sender to control the rate of packets pushed to the network
 
 All the windows:
 - congestion window: CWND
