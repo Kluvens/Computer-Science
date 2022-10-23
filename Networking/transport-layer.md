@@ -15,6 +15,7 @@ Transport services and protocols
 Multiplexing/demultiplexing:
 - Multiplexing at sender handles data from multiple sockets and add transport header sending to different clients.
 - Demultiplexing at receiver uses header information from different clients to deliver received segments to correct socket.
+- In other words, multiplexing is on the sender side to wrap data, while demultiplexing is the reverse action in destination to deliver packet to individual apps
 
 How demultiplexing works:
 - host receives IP datagrams
@@ -42,6 +43,8 @@ Connection-oriented demultiplexing (TCP):
 - all 3 handshakes done on the welcoming socket, and after 3 handshakes, the client will communicate with another socket on the server
 - also needs TCP handshake for the establishing connection, where client and server agree on sequence numbers to prevent packet lost
 - different sockets can share the same port
+
+![image](https://user-images.githubusercontent.com/95273765/197368753-aa325b6e-6939-4650-96ee-a964c37cc0c1.png)
 
 Summary for this part:
 - multiplexing, demultiplexing: based on segment, datagram header field values
@@ -74,8 +77,10 @@ UDP segment header:
 - source port number
 - destination port number
 - length: in bytes of UDP segment including header
-- checksum: to detect errors in transmitted segment, but this can't guarantee as two or more bits are changed and may result in the same
+- checksum: to detect errors in transmitted segment, but this can't guarantee as two or more bits are changed and may lead to the same result
 - application data (payload): data to/from application layer
+
+![image](https://user-images.githubusercontent.com/95273765/197368831-e830d395-d4c9-4f4e-bafd-4cad30ff7410.png)
 
 Calculating checksum:
 - adding two 16-bit integers: 1 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 + 1 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1
