@@ -56,6 +56,7 @@ How to improve Page Load Time:
 A website consists of:
 - an HTML file
 - many other objects including photos
+- the time required to fetch one object = time to setup TCP connection + RTT for sending GET request and receiving response + time to tear down TCP connection
 
 Non-persistent HTTP (HTTP 1.0): response time
 - at most one object sent over TCP connection and then the connection is closed
