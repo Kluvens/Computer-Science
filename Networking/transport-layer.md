@@ -270,6 +270,8 @@ TCP:
 - receivers can buffer out-of-sequence packets (like SR)
 - sender maintains a single retransmission timer (like GBN) and restransmits on timeout
 - introduces fast retransmit: optimisation that uses duplicate ACKs to trigger early retransmission
+- TCP uses a single timer for the oldest unacknoledged segment
+- the receiver employs a delayed ACK mechanism - to send cumulative acks to reduce the bandwidth overhead
 
 ACKing and Sequence Numbers:
 - sender sends packet
