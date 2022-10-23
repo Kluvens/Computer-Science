@@ -1,3 +1,8 @@
+## Application layer overview
+two predominant architectural paradigms:
+- client and server: there's a always on server, which services requests from many other clients
+- peer to peer: no always on server, a peer can be a server uploading a file and can be a client downloading a file
+
 ## Web and HTTP
 Web page consists of objects, each of which can be stored on different Web servers.
 More specifically, a webpage consists of an index html file and urls to each object, when transferring a webpage, we firstly transfer the index file, then all its embedded objects.
@@ -46,6 +51,7 @@ Web sites and client browser use cookies to maintain some state between transact
 Performance of HTTP:
 - Page Load Time (PLT) is an important metric (it measures the time from click until user sees the page)
 - depends on many factors, such as page content, protocols involved and network bandwidth and RTT
+- Round-trip time (RTT) is the time it takes for a small packet to travel from client to server and then back to the client.
 
 How to improve Page Load Time:
 - reduce content size for transfer (compression)
@@ -211,6 +217,24 @@ DNS protocol messages:
 - answers is RRs in response to query
 - authority is records for authoritative servers
 - additional info is additional helpful info taht may be used
+  
+Inserting records into DNS (Example: new startup "newwork utopia"):
+- register name networkutopia.com at DNS registrar
+  - provide names, IP addresses of authoritative name server
+  - registrar inserts NS, A RRs into .com TLD server: (networkutopia.com, dns1.networkutopia.com, NS) and (dns1.networkutopia.com, 212.212.212.1, A)
+- create authoritative server locally with IP address 212.212.212.1
+  - containing type A record for www.networkutopia.com
+  - containing type MX record for networkutopia.com
+  
+Updating DNS records
+- Remember that old records may be cached in other DNS servers (for up to TTL)
+- General guidelines
+  - record the current TTL value of the record
+  - lower the TTL of the record to a low value
+  - wait the length of the prevous TTL
+  - update the record
+  - wait for some time
+  - change the TTL back to your previous time
 
 Addresses:
 - domain name: google.com
