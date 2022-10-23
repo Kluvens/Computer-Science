@@ -468,6 +468,17 @@ Events:
   - ssthresh = CWND/2
   - CWND = 1
 
+TCP flavours:
+- TCP-Tahoe
+  - cwnd = 1 on triple duplicate ACK & timeout
+- TCP-Reno
+  - cwnd =1 on timeout
+  - cwnd = cwnd/2 on triple dup ACK
+- TCP-newReno
+  - TCP-Reno + improved fast recovery
+- TCP-STACK
+  - incorporates selective acknowledgements
+
 For example, we have two processes running on the server, when sending some data to clients, both of them using the same transport layer, this is referred to as multiplexing.
 Even though they come from the same sender, they will finally go to different destinations by using the same transport layer.
 
@@ -477,13 +488,7 @@ Connectless means they don't have to maintain the state of connection.
 
 A single socket for two clients.
 
-In connection-oriented demultiplexing, different sockets in the server are responsible for different clients.
-
 With connection-oriented protocols, we can create multiple connections and we can open multiple sockets in the server so that each of these processes can have its own end-to-end connection.
 This explains why we can have many windows in our desktop at the same time.
 
-In the destination, the port number is the same but the socket number is different.
-
 All the TCP sockets at the server have the same server-side port number when many clients are cimmultaneously communicating with a traditional TCP web server.
-
-
