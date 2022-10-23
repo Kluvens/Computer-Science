@@ -253,6 +253,7 @@ BitTorrent (a protocol for P2P):
 - torrent files contain a list of file chunks and their cryptographic hashes
 - churn: peers may come and go
 - once peer has entire file, it may leave or remain in torrent
+- BitTorrent typically uses TCP as its transport protocol for exchanging pieces
 
 BitTorrent: requesting, sending file chunks
 - requesting chunks:
