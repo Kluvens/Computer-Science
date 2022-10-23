@@ -166,6 +166,9 @@ Hierarchy:
 - top of hierarchy: root server (root)
 - next level: top-level domain servers (edu... com... uk... au...)
 - bottom level: authoritative DNS servers (unsw... cse...)
+- each server stores a small subset of the total DNS database
+- an authoritative DNS server stores resource records for all DNS names in the domain that it has authority for
+- each server can discover the servers that are responsible for the other portions of the hierarchy
 
 Local Name Servers:
 - doesn't strictly belong to hierarchy
@@ -180,16 +183,49 @@ DNS name resolution:
 - iterative query: client -> local -> root -> local -> TLD -> local -> authoritative -> local -> client
 - recursive query: client -> local -> root -> TLD -> authoritative -> TLD -> root -> local -> client
 
+Caching, updating DNS records
+- once name server learns mapping, it caches mapping
+  - cache entries timeout after some time (TTL)
+  - TLD servers typically cached in local name servers, thus root name servers not often visited
+- cached entries may be out-of-date, if name host changes IP address, may not be known Internet-wide until all TTLs expire
+
 DNS records (RR format (name, value, type, ttl)):
 - type = A (name is hostname, value is IP address)
 - type = NS (name is domain, value is hostname of authoritative name server for this domain)
 - type = CHAME (name is alias, value is canonical name)
 - type = MX (value is the name of mailserver associated with name)
 
+DNS protocol messages:
+- DNS query and replay messages, both have same format
+
+![image](https://user-images.githubusercontent.com/95273765/197368025-eb4b682a-cad4-4576-8eff-1fa8608e2f84.png)
+
+- identification: 16 bit # for query, reply to query uses same #
+- flags:
+  - query or reply
+  - recursion desired
+  - recursion available
+  - reply is authoritative
+- questions is name, type fields for a query
+- answers is RRs in response to query
+- authority is records for authoritative servers
+- additional info is additional helpful info taht may be used
+
 Addresses:
 - domain name: google.com
 - host name: www.google.com
 - IP address: 192.158.1.38
+
+Reliability:
+- DNS servers are replicated
+  - name service available if at least one replicate is up
+  - queries can be load-balanced between replicates
+- usually, UDP used for queries
+  - still needs reliability, must implement this on top of UDP
+  - spec supports TCP too, but not always implemented
+- DNS uses port 53
+- try alternate servers on timeout
+- same identifier for all queries - don't care which server responds
 
 A web browser needs to contact a website, the minimum number of DNS request is 0 as the domain IP mapping could be saved in host, that is, the message is already in the end system so there's no need for a DNS request.
 
@@ -277,8 +313,7 @@ Streaming multimedia: DASH
   - when to request chunk
   - what encoding rate to request
   - where to request chunk
-  
-Streaming video = encoding + DASH + playout buffering
+- Streaming video = encoding + DASH + playout buffering
 
 To stream conent to hundreds of thousands of simultaneous users, we can store/server multiple copies of videos at multiple geographically distributed sites (CDN)
 - enter deep: push CDN servers deep into many access networks (close to users)
@@ -289,7 +324,7 @@ Content distribution networks (CDNs)
 - subscriber requests content from CDN
   - directed to nearby copy, retrieves content
   - may choose different copy if network path congested
-- the role of the CDN provider's authoritative DNS name server in a conent distribution network is described as to map the query for each CDN object to the CDN server closer to the requestor
+- the role of the CDN provider's authoritative DNS name server in a content distribution network is described as to map the query for each CDN object to the CDN server closer to the requestor
 
 Steps requesting a video by CDN (example is NetCinema):
 - The user visits the web page at NetCinema
