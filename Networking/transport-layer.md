@@ -239,8 +239,9 @@ Segment Structure:
 - TCP header (20 bytes)
 - TCP packet
 - IP packet: no bigger than Max Transmission Unit (MTU)
-- TCP Data/Segment: no more than max segment size (MSS)
+- MSS means the maximum size of TCP payload
 - MSS = MTU - IP Header - TCP header
+- The overall TCP segment can be greater than MSS
 
 TCP overview:
 - point-to-point
