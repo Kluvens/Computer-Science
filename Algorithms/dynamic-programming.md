@@ -131,3 +131,44 @@ else opt(i, c) = opt(i − 1, c).
 ```
 
 The time complexity of this algorithm is O(n\*W) where n is the total number of items, and K is the knapsack's capacity.
+
+### Partition problem
+Given a set of positive integers, check if it can be divided into two subsets with equal sum.
+
+The partition problem is a special case of the subset sum problem, which itself is a speical case of the Knapsack problem.
+
+The idea is to calculate the sum of all elements in the set, say `sum`.
+If `sum` is odd, we can't divide the array into two sets.
+If `sum` is even, check if a subset with `sum/2` exists or not.
+
+Dynamic programming can solve this problem by saving subproblem solutions in memory rather than computing them again and again.
+The idea is to solve smaller subproblems first, then solve larger subproblems from them.
+The following bottom-up approach computes `T[i][j]`, for each `1 <= i <= n` and `1 <= j <= sum`, which is true if subset with sum j can be found using items up to first i items. 
+It uses the value of smaller values i and j already computed.
+
+The time complexity of this algorithm is O(n\*sum) where n is the size of the input, and sum is the sum of all elements in the input.
+
+### Assembly Line Scheduling
+
+### Matrix Chain Multiplication
+Question: determine the optimal parenthesization of a product of n matrices.
+
+Matrix chain multiplication is an optimization problem that to find the most efficient way to multiply a given sequence of matrices.
+The problem is not actually to perform the multiplications but merely to decide the sequence of the matrix multiplication involved.
+
+The matrix multiplication is associative as no matter how the product is parenthesized, the result obtained will remain the same.
+
+However, the order in which the product is parenthesized affects the number of simple arithmetic operations needed to compute the product.
+
+The bottom-up approach computes, for each `2 <= k <= n`, the minimum costs of all subsequences of length k, using the prices of smaller subsequences already computed. 
+
+The subproblem P(i, j) is “group matrices AiAi+1...Aj−1Aj in such a way as to minimise the total
+number of multiplications needed to find the product matrix”.
+
+Let m(i, j) denote the minimal number of multiplications needed to compute the
+product AiAi+1...Aj−1Aj ; let also the size of matrix Ai be si−1 × si.
+
+Therefore, the recursion is:
+m(i, j) = min{m(i, k) + m(k + 1, j) + si−1\*sj\*sk : i ≤ k ≤ j − 1}
+
+The time complexity of this algorithm is O(n^3).
