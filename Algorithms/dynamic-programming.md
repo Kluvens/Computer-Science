@@ -177,6 +177,21 @@ The time complexity of this algorithm is O(n^3).
 Different from longest common substring.
 Subsequences are not required to occupy conscutive positions within the original string.
 
+Few steps to do this:
+1. create a table of dimension `n+1*m+1` where n and m are the lengths of X and Y respectively.
+The first row and the first column are filled with zeros.
+2. Fill each cell of the table using the following logic.
+3. if the character corresponding to the current row and current column are matching, then fill current cell by adding one to the diagonal element. Point an arrow to the diagonal cell.
+4. Else take the maximum value from the previous column and previous row element for filling the current cell. Point an arrow to the cell with maximum value. If they are equal, point to any of them.
+5. Step 2 is repeated until the table is filled.
+6. The value in the last row and the last column is the length of the longest common subsequence.
+
+![image](https://user-images.githubusercontent.com/95273765/201849097-8370ee34-2979-4477-8165-fb9b89d29549.png)
+
+7. In order to find the longest common subsequence, start from the last element and follow the direction of the arrow. The elements corresponding to () symbol form the longest common subsequence.
+
+![image](https://user-images.githubusercontent.com/95273765/201849670-aeb44df4-9aeb-4830-a438-7a52765eff8a.png)
+
 ### Shortest Common Subsequence
 
 ### Edit Distance
