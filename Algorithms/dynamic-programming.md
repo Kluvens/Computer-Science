@@ -117,3 +117,17 @@ opt(i) = min{opt(i − v(k)) : 1 ≤ k ≤ n} + 1
 ```
 
 The time complexity of this algorithm is O(n\*target) where n is the total number of coins and target is the total change required.
+
+### 0-1 Knapsack Problem
+We can solve this problem in a bottom-up manner. 
+In the bottom-up approach, we solve smaller subproblems first, then solve larger subproblems from them. 
+The following bottom-up approach computes `T[i][j]`, for each `1 <= i <= n` and `0 <= j <= W`, which is the maximum value that can be attained with weight less than or equal to j and using items up to first i items. 
+It uses the value of smaller values i and j already computed.
+
+```
+if opt(i − 1, c − wi) + vi > opt(i − 1, c)
+then opt(i, c) = opt(i − 1, c − wi) + vi;
+else opt(i, c) = opt(i − 1, c).
+```
+
+The time complexity of this algorithm is O(n\*W) where n is the total number of items, and K is the knapsack's capacity.
