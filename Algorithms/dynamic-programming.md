@@ -169,7 +169,7 @@ Let `m(i, j)` denote the minimal number of multiplications needed to compute the
 product `AiAi+1...Aj−1Aj` ; let also the size of matrix Ai be `si−1 × si`.
 
 Therefore, the recursion is:
-`m(i, j) = min{m(i, k) + m(k + 1, j) + si−1\*sj\*sk : i ≤ k ≤ j − 1}`
+`m(i, j) = min{m(i, k) + m(k + 1, j) + si−1*sj*sk : i ≤ k ≤ j − 1}`
 
 The time complexity of this algorithm is O(n^3).
 
@@ -206,6 +206,23 @@ LCS(s, s∗) =bcad
 shortest super-sequence S =axbyacazda
 
 ### Edit Distance
+Given two text strings A of length n and B of length m, you want to transform A into B.
+You are allowed to insert a character, delete a character and replace a character with another one.
+All of operations have a unit cost.
+The number is called the edit distance between A and B.
+
+Subproblems: Let C(i, j) be the minimum cost of transforming the sequence A[1..i] into the sequence B[1..j] for all i ≤ n and all j ≤ m.
+
+Recursion: we again fill the table of solutions C(i, j) for subproblems P(i, j) row by row:
+```
+C(i,j) = min(C(i-1,j) + 1(delete), C(i,j-1) + 1(insert), (C(i−1, j−1) if A[i] = B[j], C(i−1, j−1) + 1(replace) if A[i] ̸= B[j]))
+```
+
+1. cost (delete) + C(i − 1, j) corresponds to the option if you recursively transform A[1..i − 1] into B[1..j] and then delete A[i];
+2. cost C(i, j − 1) + (insert) corresponds to the option if you first transform A[1..i] to B[1..j − 1] and then append B[j] at the end;
+3. the third option corresponds to first transforming A[1..i − 1] to B[1..j − 1] and
+     1. if A[i] is already equal to B[j] do nothing, thus incurring a cost of only C(i − 1, j − 1);
+     2. if A[i] is not equal to B[j] replace A[i] by B[j] with a total cost of C(i − 1, j − 1) + (replace).
 
 ### Maximizing an expression
 
