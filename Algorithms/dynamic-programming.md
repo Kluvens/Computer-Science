@@ -98,3 +98,22 @@ LIS[15] — 0 4 6 9 13 15
 
 Time complexity: There are O(n) many subproblems and each of them takes O(n) to solve.
 Therefore, the overall time complexity is O(n^2).
+However, there's another algorithm that can solve this problem by O(n\*logn).
+
+### Coin change-making problem
+Given an unlimited supply of coins of given denominations, find the minimum number of coins required to get the desired change.
+
+We solve smaller subproblems first, then solve larger subproblems from them.
+It computes T[i] for each `1 <= i <= target`, which stores the minimum number of coins needed to get a total of `i`.
+
+Let v(i) denotes the value of the coin, we consider optimal solutions opt(i − v(k)) for every amount of th form i − v(k), where k ranges from 1 to n.
+
+Among all of these optimal solutions, we pick one which uses the fewest number of coins, say this is opt(i − v(m)) for some m, 1 <= m <= n.
+
+We obtain an optimal solution opt(i) for amount i by adding to opt(i − v(m)) one coin of denomination v(m).
+
+```
+opt(i) = min{opt(i − v(k)) : 1 ≤ k ≤ n} + 1
+```
+
+The time complexity of this algorithm is O(n\*target) where n is the total number of coins and target is the total change required.
