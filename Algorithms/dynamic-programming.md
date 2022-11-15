@@ -1,7 +1,5 @@
 Dynamic programming is an optimization approach that transforms a complex problem into a sequence of simpler problems.
 
-## Optimization
-
 ### Find the shortest path from a group of nodes to another group of nodes
 This question is similar but harder than finding the shortest path from one node to another node.
 But we still need dynamic programming to solve these problems.
@@ -57,4 +55,46 @@ L[i] = jobs[i] + { max(L[j]), where j < i and jobs[j].end < jobs[i].start }
 ```
 
 Time complexity: There are O(n) subproblems and each of them takes O(n) to solve.
+Therefore, the overall time complexity is O(n^2).
+
+### Longest Increasing Subsequence
+The Longest Increasing Subsequence (LIS) problem is to find the length of the longest subsequence of a given sequence such that all elements of the subsequence are sorted in increasing order. 
+For example, the length of LIS for {10, 22, 9, 33, 21, 50, 41, 60, 80} is 6 and LIS is {10, 22, 33, 50, 60, 80}. 
+
+Problem: Given a sequence of n real numbers A[1..n], determine a subsequence (not necessarily contiguous) of maximum length in which the values in the subsequence are strictly increasing.
+
+Subproblem: Let P(i) be the subproblem, finding a subsequence of the sequence A[1..i], and that we have put in a table S the values S[j] = lenj which are the lengths lenj of maximal increasing sequences which end with A[j].
+
+Recurrence: Assume we have solved the subproblems for all j < i, and that we have put in a table S the values S[j] = lenj which are the lengths lenj of maximal increasing sequences which end with A[j].
+
+Base case: S(1) = 1
+
+We are going to solve this problem in a bottom-up manner.
+In the bottom-up approach, solve smaller subproblems first,
+then solve larger subproblems from them.
+The following bottome-up approach computes `L[i]`, for each 0 <= i < n, which stores the length of the longest increasing subsequence of subarray `arr[0..i]` that ends with `arr[i]`.
+To calculate `L[i]`, consider longest increasing sequence of all smaller values of `i` already computed and pick maximum `L[j]`, where `arr[j]` is less than the current element `arr[i]`.
+
+For example, consider array `arr = [ 0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15]`.
+The longest increasing subsequence of subarray `arr[0…i]` that ends with `arr[i]` are:
+```
+LIS[0] — 0
+LIS[1] — 0 8
+LIS[2] — 0 4
+LIS[3] — 0 8 12
+LIS[4] — 0 2
+LIS[5] — 0 8 10
+LIS[6] — 0 4 6
+LIS[7] — 0 8 12 14
+LIS[8] — 0 1
+LIS[9] — 0 4 6 9
+LIS[10] — 0 4 5
+LIS[11] — 0 4 6 9 13
+LIS[12] — 0 2 3
+LIS[13] — 0 4 6 9 11
+LIS[14] — 0 4 6 7
+LIS[15] — 0 4 6 9 13 15
+```
+
+Time complexity: There are O(n) many subproblems and each of them takes O(n) to solve.
 Therefore, the overall time complexity is O(n^2).
