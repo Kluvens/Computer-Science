@@ -165,10 +165,26 @@ The bottom-up approach computes, for each `2 <= k <= n`, the minimum costs of al
 The subproblem P(i, j) is “group matrices AiAi+1...Aj−1Aj in such a way as to minimise the total
 number of multiplications needed to find the product matrix”.
 
-Let m(i, j) denote the minimal number of multiplications needed to compute the
-product AiAi+1...Aj−1Aj ; let also the size of matrix Ai be si−1 × si.
+Let `m(i, j)` denote the minimal number of multiplications needed to compute the
+product `AiAi+1...Aj−1Aj` ; let also the size of matrix Ai be `si−1 × si`.
 
 Therefore, the recursion is:
-m(i, j) = min{m(i, k) + m(k + 1, j) + si−1\*sj\*sk : i ≤ k ≤ j − 1}
+`m(i, j) = min{m(i, k) + m(k + 1, j) + si−1\*sj\*sk : i ≤ k ≤ j − 1}`
 
 The time complexity of this algorithm is O(n^3).
+
+### Longest Common Subsequence
+Different from longest common substring.
+Subsequences are not required to occupy conscutive positions within the original string.
+
+### Shortest Common Subsequence
+
+### Edit Distance
+
+### Maximizing an expression
+
+### Turtle Tower
+
+### Bellman-Ford Algorithm
+
+### Floyd-Warshall Algorithm
