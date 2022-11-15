@@ -33,6 +33,28 @@ Therefore, opt(i, j) = M[i][j] + min(opt(i-1, k) for k = j and j+1 if i is even 
 
 Order of computation: we apply the forward induction from the left (group of homes) to the rifht (group downtowns).
 
+Final answer: min(opt(n, k) for 1 <= k <= n).
+
 Time complexity: There are O(n\*m) subproblems if we are given n group of intersections and each group has m intersections.
 Each subproblem is solved by constant time.
 Thus, the overall time complexity is O(n\*m).
+
+### Selection problem
+Given a set of activities and the starting and finishing time of each activity, find the maximum number of activities that can be performed by a single person assuming that a person can only work on a single activity at a time.
+
+```
+{1, 4}, {3, 5}, {0, 6}, {5, 7}, {3, 8}, {5, 9}, {6, 10}, {8, 11}, {8, 12}, {2, 13}, {12, 14}
+```
+
+The idea is first to sort given activities in increasing order of their start time.
+Let `jobs[0…n-1]` be the sorted array of activities.
+We can define an array `L` such that `L[i]` itself is an array that stores maximum non-conflicting jobs ending at `i'th` job.
+Therefore, `L[i]` can be recursively written as:
+
+```
+L[i] = jobs[i] + { max(L[j]), where j < i and jobs[j].end < jobs[i].start }
+     = jobs[i], if there is no such j
+```
+
+Time complexity: There are O(n) subproblems and each of them takes O(n) to solve.
+Therefore, the overall time complexity is O(n^2).
