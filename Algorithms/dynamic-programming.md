@@ -225,6 +225,36 @@ C(i,j) = min(C(i-1,j) + 1(delete), C(i,j-1) + 1(insert), (C(i−1, j−1) if A[i
      2. if A[i] is not equal to B[j] replace A[i] by B[j] with a total cost of C(i − 1, j − 1) + (replace).
 
 ### Maximizing an expression
+You are given a boolean expression consisting of a string of the symbols true (T) and false (F) and with exactly one operation of and (∧), or (∨) or xor (⊕) between any two consecutive symbols(truth values). 
+Count the number of ways to place brackets in the expression such that it will evaluate to true.
+
+Solution: we start by defining some notations, let s1,..., sn denote the given n symbols and let o1,..., on−1 denote the given n − 1 operations.
+
+Subproblem: then we can solve this problem by considering the 2 subproblems
+1. P(l, r): how many ways are there to make the expression starting from at the sl and ending at sr (including all operations in between sl and sr) evaluate to T?
+2. Q(l, r): by inheriting the setup of l, r from above, how many ways evaluates to F?
+
+We then now let p(l, r) denote the solution of P(l, r) and q(l, r) for the solution of Q(l, r).
+
+Example (Definition of p). For T ∧ F ⊕ T, P(1, 2) will denote the number of ways of making T ∧ F evaluate to T with the correct bracketing, which in this case p(1, 2) = 0.
+
+Base case: we can now define our base case, note that if l = r, then p(·) and q(·) can be easily determined basing on the value of the symbol, hence ∀i : l = r = i, then
+p(i, i) = (1 if si = T and 0 if si = F);
+q(i, i) = (1 if si = F and 0 if si = T)
+if we consider p(·) and q(·)’s value on a grid in N^2m then our base case will fill the value for the diagonal of our grid.
+Also, note that we will only be filling for values l < r, hence our grid will be upper-triangular.
+
+Recurrence: For each subproblem, we also notice that as each of the operators is binary, we can split the expression around an operator om so that everything to the left of the operator is in its own bracket, and everything to the right of the operator is in its own bracket to form 2 smaller expressions.
+We give an illustration via (s1 o1 ... sm-1 om-1 sm) om (sm+1 om+1 ... on-1 sn).
+
+Order of computation: however, we should be careful of 2 things:
+1. to ensure that the recurrence can be given correct, we need to compute p(l, r) and q(l, r) in parallel
+2. order that we compute our subproblems is also important as each p(l, r) requires all of p(l, l+1), ... , p(l, r−1) and p(r − 1, r), ... , p(l + 1, r) (same for q(l, r)). 
+Therefore, one valid order of computation is solving our subproblem column by column from down to up (with no values considered below the diagonal) on our grid.
+
+Final answer: By our problem construction, the final solution is just the quantity p(1, n).
+
+Time complexity: Lastly, we see that the time complexity of our algorithm is O(n^3) as there are n^2 different ranges that l and r could cover, and each needs the evaluations of Γp(·) or Γq(·) at up to n different splitting points
 
 ### Turtle Tower
 
