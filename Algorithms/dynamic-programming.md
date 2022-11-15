@@ -192,7 +192,18 @@ The first row and the first column are filled with zeros.
 
 ![image](https://user-images.githubusercontent.com/95273765/201849670-aeb44df4-9aeb-4830-a438-7a52765eff8a.png)
 
-### Shortest Common Subsequence
+### Shortest Common Supersequence
+Instance: Two sequences s = ⟨a1, a2, . . . an⟩ and s∗ = ⟨b1, b2, . . . , bm⟩.
+
+Task: Find a shortest common super-sequence S of s, s∗, i.e., the shortest possible sequence S such that both s and s∗ are subsequences of S.
+
+Solution: Find the longest common subsequence LCS(s, s*) of s and s*, and then add differing elements of the two sequences at the right places, in any order
+
+Example:
+s = abacada
+s* = xbycazd
+LCS(s, s∗) =bcad
+shortest super-sequence S =axbyacazda
 
 ### Edit Distance
 
