@@ -1,4 +1,4 @@
-### Rabin - Karp Algorithm
+## Rabin - Karp Algorithm
 We compute a hash value for the string B = b0b1b2 ... bm in the following way.
 
 We will assume that strings A and B are in an alphabet Alpha with d many symbols in total.
@@ -73,3 +73,34 @@ The window size is 4 and every time we move the window to the right a bit.
 Every time we check hash('geek') and hash(window).
 
 That is, Geek, eeks, eksf, ksfo, sfor, forg ...
+
+## String Matching Finite Automata
+
+## The Knuth-Morris-Pratt Algorithm
+```
+1: function
+Compute − Prefix − Function(B)
+2:  m ← length[B]
+3:  let π[1..m] be a new array
+4:  π[1] = 0
+5:  k = 0
+6:  for q = 2 to m do
+7:    while k > 0 and
+        B[k + 1] ̸= B[q]
+8:    k = π[k]
+9:    if B[k + 1] == B[q]
+10:     k = k + 1
+11:   π[q] = k
+12:   end for
+13:   return π
+14: end function
+```
+
+![image](https://user-images.githubusercontent.com/95273765/202318708-910631a4-23d1-46ce-819c-1b1c932ed95c.png)
+
+Assume that length of B is m and that
+we have already found that π[q − 1] =
+k; to compute π[q] we check if B[q] =
+B[k + 1]; if true then π[q] = k + 1; if
+not true then we find π[k] = p; if now
+B[q] = B[p + 1] then π[q] = p + 1.
