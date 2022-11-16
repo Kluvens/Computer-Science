@@ -326,3 +326,14 @@ However, as always when we use hashing, we cannot guarantee the worst
 case performance.
 
 So we now look for algorithms whose worst case performance can be guaranteed.
+
+The basic idea of this algorithm is that if two strings are the same, their hash values must also be the same.\
+
+Example: given string 'Geeksforgeeks' and we want to check if 'geek' matches in the given string.
+
+The length of 'geek' is 4 and we calculate hash('geek').
+
+The window size is 4 and every time we move the window to the right a bit.
+Every time we check hash('geek') and hash(window).
+
+That is, Geek, eeks, eksf, ksfo, sfor, forg ...
