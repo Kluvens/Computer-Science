@@ -261,3 +261,6 @@ Time complexity: Lastly, we see that the time complexity of our algorithm is O(n
 ### Bellman-Ford Algorithm
 
 ### Floyd-Warshall Algorithm
+
+### Rabin - Karp Algorithm
+
