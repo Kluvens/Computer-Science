@@ -63,6 +63,13 @@ such flow must be maximal and the capacity of such a cut must be minimal.
 We now show that when the Ford - Fulkerson algorithm terminates, it
 produces a flow equal to the capacity of an appropriately defined cut.
 
+### Questions
+1. what is the augmenting path
+2. how augmenting determines the maximum flow
+3. why we need to talk about the minimum cut
+4. are we trying to find the most correct augmenting path
+5. we can we quickly identify the maximum flow f from a graph
+
 ## Edmonds-Karp Max Flow Algorithm
 The Edmonds-Karp algorithm improves the Ford Fulkerson algorithm in a
 simple way: always choose the shortest path from the source s to the sink t,
@@ -78,4 +85,4 @@ one needs a tricky mathematical proof, see the textbook. One can prove that
 such algorithm runs in time O(|V|\*|E|^2).
 
 ## Max flow with vertex capacities
-
+![image](https://user-images.githubusercontent.com/95273765/202436202-e5397e5f-370c-4d98-917c-ddce1f0aa996.png)
