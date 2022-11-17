@@ -261,4 +261,36 @@ Time complexity: Lastly, we see that the time complexity of our algorithm is O(n
 ### Bellman-Ford Algorithm
 
 ### Floyd-Warshall Algorithm
+Floyd-Warshall Algorithm is an algorithm for finding the shortest path between all the pairs of vertices in a weighted graph.
 
+Let again G = (V, E) be a directed weighted graph where V = {v1, v2, . . . , vn}
+and where weights w(e(vp, vq)) of edges e(vp, vq) can be negative, but there are
+no negative weight cycles.
+
+We can use a somewhat similar idea to obtain the shortest paths from every
+vertex vp to every vertex vq (including back to vp).
+
+Let opt(k, vp, vq) be the length of the shortest path from a vertex vp to a
+vertex vq such that all intermediate vertices are among vertices
+{v1, v2, . . . , vk}, (1 ≤ k ≤ n).
+
+Then opt(k, vp, vq) = min{opt(k − 1, vp, vq), opt(k − 1, vp, vk) + opt(k − 1, vk, vq)}
+
+Thus, we gradually relax the constraint that the intermediary vertices have to belong to {v1, v2, . . . , vk}.
+
+Algorithm runs in time |V|^3.
+
+Pseudo code:
+```
+for i = 1 to N
+   for j = 1 to N
+      if there is an edge from i to j
+         dist[0][i][j] = the length of the edge from i to j
+      else
+         dist[0][i][j] = INFINITY
+  
+for k = 1 to N
+   for i = 1 to N
+      for j = 1 to N
+         dist[k][i][j] = min(dist[k-1][i][j], dist[k-1][i][k] + dist[k-1][k][j])
+```
