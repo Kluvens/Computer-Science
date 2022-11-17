@@ -104,3 +104,9 @@ k; to compute π[q] we check if B[q] =
 B[k + 1]; if true then π[q] = k + 1; if
 not true then we find π[k] = p; if now
 B[q] = B[p + 1] then π[q] = p + 1.
+
+Example:
+- text - abcxabcdabxabcdabcdabcy
+- pattern - abcdabcy
+
+
