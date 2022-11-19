@@ -1,4 +1,6 @@
 ## Master's Theorem
+![image](https://user-images.githubusercontent.com/95273765/202820317-54395f4f-7f02-4b3e-9bc1-e8880dd2cdc4.png)
+
 
 ## Karatsuba's Trick
 Karatsuba's trick is a method used for fast integer multiplication by a divide and conquer approach.
@@ -46,3 +48,4 @@ The general case: slicing the input number A,B into p+1 many slices
 5. since s is constant, its impact can be neglected
 6. T(n) = O(n^(logb a)) = O(n^(log(p+1) (2p+1)))
 
+Video: https://www.youtube.com/watch?v=yWI2K4jOjFQ
