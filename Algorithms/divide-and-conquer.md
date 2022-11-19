@@ -1,6 +1,11 @@
 ## Master's Theorem
 ![image](https://user-images.githubusercontent.com/95273765/202820317-54395f4f-7f02-4b3e-9bc1-e8880dd2cdc4.png)
 
+In T(n) = aT(n/b) + f(n),
+- N is the length of your initial sequence
+- aa is how many parts you split that sequence into
+- N/bN/b is the size of each new sequence
+- f(n)f(n) is the overhead required at that level of the recurrence
 
 ## Karatsuba's Trick
 Karatsuba's trick is a method used for fast integer multiplication by a divide and conquer approach.
