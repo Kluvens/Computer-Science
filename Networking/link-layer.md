@@ -1,4 +1,6 @@
-## Link-layer
+# Link-layer
+
+## Overview
 The basic service of the link layer is to 'move' a datagram from one node to an adjacent node over a single communication link.
 
 Possible services that can be offered by a link-layer protocol include:
@@ -26,3 +28,15 @@ Error detection in the link-layer is usually more sophisticated and implemented 
 Some protocols provide link-layer error correction for the packet header rather than for the entire packet.
 6. Half-Duplex and Full-Dulplex: With full-dulplex transmission, both nodes at the ends of a link may transmit packets at the same time.
 With half-duplex transmission, a node cannot both transmit and receive at the same time.
+
+## Error Detection and Correction Techniques
+
+### Parity Checks
+
+### Checksum Methods
+In checksumming techniques, the d bits of data are treated as a sequence of k-bit integers.
+One simple checksumming method is to simply sum these k-bit 
+
+### Cyclic redundancy check
+
+
