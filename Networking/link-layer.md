@@ -123,6 +123,8 @@ otherwise the data is accepted as being correct.
 All CRC calculations are done in modulo 2 arithmetic without carries in addition or borrows in subtraction.
 This means that addition and subtraction are identical, and both are equivalent to the bitwise exclusive-or of the operands.
 
+Note: none of the Internet checksums, two-dimensional parity, cyclic redundancy check (CRC) can correct any bit errors.
+
 This approach can detect all burst errors less than r+l bits.
 In CRC, we want D*2^r XOR R = nG which is equivalent to D*2^r = nG XOR R.
 This tells us that if we divide D\*2^r by G, the value of the remainder is precisely R.
