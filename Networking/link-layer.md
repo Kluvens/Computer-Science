@@ -134,3 +134,46 @@ In other words, we can calculate R as R = remainder(D\*2^r/G)
 
 ![image](https://user-images.githubusercontent.com/95273765/202930927-661ebbd5-b7a9-426e-83ae-fd6a37db93b9.png)
 
+## Multiple Access Protocols and LANs
+An ideal multiple access protocol:
+- given: multiple access channel (MAC) of rate R bps
+- desired properties:
+  - when one node wants to transmit, it can send at rate R.
+  - when M nodes want to transmit, each can send at average rate R/M
+  - fully decentralized
+    - no special node to coordinate transmissions
+    - no synchronization of clocks, slots
+  - simple
+
+MAC protocols: taxonomy
+- channel partitioning
+  - divide channel into smaller 'pieces' (time slots, frequency, code)
+  - allocate piece to node for exclusive use
+- random access
+  - channel not divided, allow collisions
+  - 'recover' from collisions
+- 'talking turns'
+  - nodes take turns, but nodes with more to send can take longer turns
+
+### Channel partitioning MAC protocols: TDMA
+- TDMA: time division multiple access
+  - access to channel in 'rounds'
+  - each node gets fixed length slot (length = packet transmission time) in each round
+  - unused slots go idle
+  - it eliminates collisions and is perfectly fair: each node gets a dedicated transmission rate of R/N bps during each slot time.
+  - a node is limited to this rate of R/N bps over a slot's time even when it is the only node with frames to send.
+  - Second drawback is that a node must always wait for its turn in the transmission sequence
+
+### Channel paritioning MAC protocols: FDMA
+- FDMA: frequency division multiple access
+  - channel spectrum divided into frequency bands
+  - each node assigned fixed frequency band
+  - unused transmission time in frequency bands go idle
+  - FDMA shares both the advantages and drawbacks of TDMA.
+  - It avoids collisions and divide the bandwidth fairly among the N nodes.
+
+### Code Division Multiple Access (CDMA)
+While TDM and FDM assign times slots and frequencies, respectively, to the nodes, CDMA assigns a different code to each node. 
+Each node then uses its unique code to encode the data bits it sends.
+CDMA allows different nodes to transmit simultaneously and yet have their respective receivers correctly receive a sender's encoded data bits (assuming the receiver knows the sender's code) in spite of "interfering" transmissions by other nodes.
+
