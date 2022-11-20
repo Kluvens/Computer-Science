@@ -35,7 +35,40 @@ With half-duplex transmission, a node cannot both transmit and receive at the sa
 
 ### Checksum Methods
 In checksumming techniques, the d bits of data are treated as a sequence of k-bit integers.
-One simple checksumming method is to simply sum these k-bit 
+One simple checksumming method is to simply sum these k-bit integers and use the resulting sum as the error detection bits.
+The so-called Internet checksum is based on this approach - bytes of data are treated as 16-bit integers and their ones-complement sum forms th Internet checksum.
+A receiver calculates the checksum it calculates over the received data and checks whether it matches the checksum carried in the received packet.
+
+Checksum generation:
+1. break the original message into 'k' number of blocks with 'n' bits in each block
+2. sum all the 'k' data blocks
+3. add the carry to the sum, if any
+4. do 1's complement to the sum = checksum
+
+Checksum on the receiver:
+1. collect all the data blocks including the checksum
+2. sum all the data blocks and checksum
+3. if the result is all 1's, accept; else, reject
+
+Goal: detect errors in transmitted segment
+
+sender:
+- treat contents of UDP segment as sequence of 16-bit integers
+- checksum: addition (one's complement sum) of segment content
+- checksum value put into UDP checksum field
+
+receiver:
+- compute checksum of received segment
+- check if computed checksum equals checksum field value:
+  - not equal - error detected
+  - equal - no error detected, but not guarantee there's no error
+
+Performance of checksum:
+- the checksum detects all errors involving an odd number of bits
+- it detects most errors involving an even number of bits
+- if one or more bits of a segment are damaged and the corresponding bit or bits of opposite value in a second segment are also damaged, the sums of those columns will not change and the receiver will not detect the errors.
+
+Video explanation: https://www.youtube.com/watch?v=AtVWnyDDaDI
 
 ### Cyclic redundancy check
 
