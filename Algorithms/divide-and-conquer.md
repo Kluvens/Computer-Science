@@ -55,4 +55,8 @@ The general case: slicing the input number A,B into p+1 many slices
 5. since s is constant, its impact can be neglected
 6. T(n) = O(n^(logb a)) = O(n^(log(p+1) (2p+1)))
 
+![image](https://user-images.githubusercontent.com/95273765/203032852-a3afd7d3-961f-4738-b198-292291676574.png)
+
 Video: https://www.youtube.com/watch?v=yWI2K4jOjFQ
+
+
