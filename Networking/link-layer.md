@@ -227,7 +227,65 @@ Efficiency:
   - max efficiency: find p* that maximizes Np(1-p)^(N-1)
   - for many nodes, take limit of Np*(1-p*)^(N-1) as N goes to infinity, gives: max efficiency = 1/e = .37
   - at best: channel used for useful transmissions 37% of time!
+
+In slotted Aloha:
+- any station can transmit the data at the beginning of any time slot
+- the time is discrete and globally synchronized
+- vulnerable time in which collision may occur = Tfr
+- probability of successful transmission of data packet = G\*e^(-G)
+- maximum efficiency = 36.8%
+- it reduces the number of collisions to half and doubles the efficiency of pure aloha
+
+Video: https://www.youtube.com/watch?v=aqWTNk90zRA
   
-### ALOHA
+### Pure ALOHA
+- unslotted Aloha: simpler, no synchronization
+  - when frame first arrives: transmit immediately
+- collision probability increases with no synchronization:
+  - frame sent at t0 collides with other frames sent in [t0-1,t0+1]
+- pure Aloha efficiency: 18%
+
+In Aloha:
+- any station can transmit the data at any time
+- the time is continuous and not globally synchronized
+- vulnerable time in which collision may occur = 2\*Tfr
+- probability of successful transmission of data packet = G*e(-2G)
+- maximum efficiency = 18.4%
+- main advantage is the simplicity in implementation
 
 ### CSMA - Carrier Sense Multiple Access
+Simple CSMA: listen before transmit
+- if channel sensed idle: transmit entire frame
+- if channel sensed busy: defer transmission
+- human analogy: don't interrupt others
+
+CSMA/CD: CSMA with collision detection
+- collisions detected within short time
+- colliding transmissions aborted, reducing channel wastage
+- collision detection easy in wired, difficult with wireless
+- human analogy: the polite conversationalist
+
+A node will refrain from transmitting whenever it senses that another node is transmitting.
+
+CSMA/CD reduces the amount of time wasted in collisions and transmission aborted on collision detection
+
+![image](https://user-images.githubusercontent.com/95273765/202983722-6b6e08f2-30a5-472d-b676-862067338013.png)
+
+Ethernet CSMA/CD algorithm:
+1. NIC receives datagram from network layer, creates frame
+2. if NIC senses channel:
+  - if idle: start frame transmission
+  - if busy: wait until channel idle, then transmit
+3. if NIC transmits entire frame without collision, NIC is done with frame
+4. if NIC detects another transmission while sending: abort, send jam signal
+5. after aborting, NIC enters binary backoff:
+  - after mth collision, NIC chooses K at random from {0,1,2, ... , 2^m-1}. NIC waits K\*512 bit times, returns to Step 2
+  - more collisions: longer backoff interval
+
+CSMA/CD efficiency:
+- Tprop = max prop delay between 2 nodes in LAN
+- Trans = time to transmit max-size frame
+- efficiency goes to 1
+  - as Tprop goes to 0
+  - as Ttrans goes to infinity
+- better performance than ALOHA: and simple, cheap, decentralized
