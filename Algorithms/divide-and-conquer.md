@@ -3,9 +3,11 @@
 
 In T(n) = aT(n/b) + f(n),
 - N is the length of your initial sequence
-- aa is how many parts you split that sequence into
-- N/bN/b is the size of each new sequence
-- f(n)f(n) is the overhead required at that level of the recurrence
+- a is how many parts you split that sequence into
+- N/b is the size of each new sequence
+- f(n) is the overhead required at that level of the recurrence
+
+![image](https://user-images.githubusercontent.com/95273765/203002745-67c0a307-cc8e-4283-a73e-de32d389a42b.png)
 
 ## Karatsuba's Trick
 Karatsuba's trick is a method used for fast integer multiplication by a divide and conquer approach.
