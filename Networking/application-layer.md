@@ -3,11 +3,47 @@ two predominant architectural paradigms:
 - client and server: there's a always on server, which services requests from many other clients
 - peer to peer: no always on server, a peer can be a server uploading a file and can be a client downloading a file
 
+An application layer protocol defines:
+- the types of messages exchanged, e.g., request messages and response messages;
+- the syntax of the various message types, i.e., the fields in the message and how the fields are delineated;
+- the semantics of the fields, i.e., the meaning of the information in the fields;
+- rules for determining when and how a process sends message and responds to message.
+
+### Processes communicating across a network
+An application involves two processes in two different hosts communicating with each other over a network.
+The two processes communicate with each other by sending and receiving messages through their sockets.
+A process's socket can be thought of as the process's door:
+a process sends messages into, and receives message from, the network through its socket.
+The process assume that there is a transportation infrastructure on the other side of the door that will transport the message to the door of the destination process.
+A socket is the interface between the application layer and the transport layer within a host.
+It is also referred to as the API between the application and the network, since the socket is the programming interface with which networked applications are built in the Internet.
+
+### Addressing processes
+In order for a process on one host to send a message to a process on another host, the sending process must identify the receiving process.
+To identify the receiving process, one must typically specify two pieces of information:
+1. the name or address of the host machine
+2. an identifier that specifies the identity of the receiving process on the destination host
+
+The destination host is specified by its IP address.
+In addition to knowing the address of the end system to which a message is destined, a sending application must also specify information that will allow the receiving end system to direct the message to the appropriate process on that system.
+A receive-side port number serves this purpose in the Internet.
+When a developer create a new network application, the application must be assigned a new port number.
+
+### User agents
+The user agent is an interface between the user and the network application.
+For example, web broswer is a user agent.
+
+### Services needed
+- data loss: some applications can tolerant data loss whereas some can't
+- bandwidth: Some applications must be able to transmit data at a certain rate in order to be 'effective'.
+- timing: some applications are time sensitive whereas some aren't.
+
 ## Web and HTTP
 Web page consists of objects, each of which can be stored on different Web servers.
 More specifically, a webpage consists of an index html file and urls to each object, when transferring a webpage, we firstly transfer the index file, then all its embedded objects.
 
 HTTP is a web's application layer protocol.
+It defines how web clients request web pages from servers and how servers transfer web pages to clients.
 
 In the client/server model:
 - client which is the browser, requests, receives, and displays web objects
@@ -92,10 +128,16 @@ Web caches (proxy servers):
   - if object in cache: cache returns object to client
   - else cache requests object from origin server, caches received object, then returns object to client
 - that is cache can't directly return an object if it is in the cache, otherwise, it requests the origin server and pass it back to the client as a proxy
-- web cache acts as both client and server
+- web cache acts as both client and server at the same time
 - typically, cache is installed by ISP
 - it reduces response time for client request
 - it reduces traffic on an institution's access link
+
+This is how a web cache is working:
+1. the browser establishes a TCP connection to the proxy server and sends an HTTP request for the object to the web cache
+2. the web cache checks to see if it has a copy of the object stored locally. If it does, the web cache forwards the object within an HTTP response message to the client browser.
+3. If the web cache does not have the object, the web cache opens a TCP connection to the origin server. The web cache then sends an HTTP request for the object into the TCP connection. After receiving this request, the origin server sends the object within an HTTP response to the web cache.
+4. When the web cache receives the object, it stores a copy in its local storage and forwards a copy, within an HTTP response message, to the client browser.
 
 Conditional GET:
 - cache: specify data of cached copy in HTTP request - If-modified-since: <date>
@@ -163,6 +205,10 @@ Mail message format:
 - body: the message, ASCII characters only
   
 ## Domain Name Server
+The DNS is:
+1. a distributed database implemented in a herarchy of name servers
+2. an application-layer protocol that allows hosts and name servers to communicate in order to provide the translation service.
+  
 DNS services:
 - hostname to IP address translation
 - host aliasing
