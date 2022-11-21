@@ -1,3 +1,8 @@
+## Overview
+Divide and conquer (D&C) is an algorithm design paradigm based on multi-branched recursion. 
+A divide and conquer algorithm works by recursively breaking down a problem into two or more subproblems of the same or related type until these become simple enough to be solved directly. 
+The solutions to the subproblems are then combined to give a solution to the original problem.
+
 ## Master's Theorem
 ![image](https://user-images.githubusercontent.com/95273765/202820317-54395f4f-7f02-4b3e-9bc1-e8880dd2cdc4.png)
 
