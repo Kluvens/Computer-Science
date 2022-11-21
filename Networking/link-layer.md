@@ -178,9 +178,56 @@ Each node then uses its unique code to encode the data bits it sends.
 CDMA allows different nodes to transmit simultaneously and yet have their respective receivers correctly receive a sender's encoded data bits (assuming the receiver knows the sender's code) in spite of "interfering" transmissions by other nodes.
 
 ## Random Access Protocols
+- when node has packet to send
+  - transmit at full channel data rate R
+  - no a priori coordination among nodes
+- two or more transmitting node: 'collision'
+- random access MAC protocol specifies:
+  - how to detect collisions
+  - how to recover from collisions
+  - examples of random-access MAC protocols:
+    - ALOHA, slotted ALOHA
+    - CSMA, CSMA/CD, CSMA/CA
 
 ### Slotted ALOHA
+In our description of slotted ALOHA, we assume the following:
+- All frames consist of exactly L bits.
+- Time is divided into slots of size L/R seconds (i.e., a slot equals the time to transmit one frame).
+- Nodes start to transmit frames only at the beginnings of slots.
+- The nodes are synchronized so that each node knows when the slots begin.
+- If two or more frames collide in a slot, then all the nodes detect the collision event before the slot ends.
 
+Let p be a probability, that is, a number between 0 and 1.
+The operation of slotted ALOHA in each node is simple:
+- When the node has a fresh frame to send, it waits until the beginning of the next slot and transmits the entire frame in the slot.
+- If there isn't a collision, the node won't consider retransmitting the frame. (The node can prepare a new frame for transmission, if it has one.)
+- If there is a collision, the node detects the collision before the end of the slot. The node retransmits its frame in each subsequent slot with probability p until the frame is transmitted without a collision.
+
+By retransmitting with probability p, we mean that the node effectively tosses a biased coin:
+the event heads corresponds to retransmit, which occurs with probability p.
+The event tails corresponds to "skip the slot and toss the coin again in the next slot"; this occurs with probability (1-p).
+Each of the nodes involved in the collision toss their coins independently.
+
+Advantages:
+- allows a single active node to continuously transmit frames at the full rate of the channel
+- is highly decentralized, as each node detects collisions and independently decides when to retransmit
+- it is an extremely simple protocol
+
+Drawbacks:
+- collisions happen, wasting slots
+- idle slots
+- nodes may be able to detect collision in less than to transmit packet
+- clock synchronization
+
+Efficiency:
+- long-run fraction of successful slots (many nodes, all with many frames to send
+- suppose: N nodes with many frames to send, each transmits in slot with probability p
+  - prob that given node has success in a slot = p(1-p)^(N-1)
+  - prob that any node has a success = Np(1-p)^(N-1)
+  - max efficiency: find p* that maximizes Np(1-p)^(N-1)
+  - for many nodes, take limit of Np*(1-p*)^(N-1) as N goes to infinity, gives: max efficiency = 1/e = .37
+  - at best: channel used for useful transmissions 37% of time!
+  
 ### ALOHA
 
 ### CSMA - Carrier Sense Multiple Access
