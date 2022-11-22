@@ -336,8 +336,14 @@ ACKing and Sequence Numbers:
 
 Piggybacking
 - usually both sides of a connection send some data
+- acknowledge number is previous sequence number + length of data (bytes)
+- sequence number is previous acknowledge number
 
 ![image](https://user-images.githubusercontent.com/95273765/196662223-65385e5f-d57a-4190-b4dc-3e4ef8cf8aee.png)
+
+TCP uses pipeling, allowing the sender to have multiple transmitted but yet-to-be-acknowledged segments outsanding at any given time.
+Generally, the pipeling can greatly improve the throughput of a TCP connection when the ratio of the segment size to round trip delay is small.
+The specific number of outstanding unacknowledged segments that a sender can have is determined by TCP's flow control and congestion control mechanisms.
 
 TCP round trip time, timeout:
 - EstimatedRTT = (1 - alpha)*EstimatedRTT + alpha*SampleRTT
@@ -362,6 +368,7 @@ TCP fast retransmit:
 ![image](https://user-images.githubusercontent.com/95273765/197375726-6968b9ba-716c-4039-bcd6-1be30c0c9322.png)
 
 TCP flow control:
+- Receiver controls sender, so sender won't overflow receiver's buffer by transmitting too much, too fast
 - TCP receiver “advertises” free buffer space in rwnd field in TCP header
   - RcvBuffer size set via socket options
   - many operating systems autoadjust RcvBuffer
@@ -374,6 +381,12 @@ TCP flow control:
 - sender keeps sending TCP segments with one data type to the receiver
 - these segments are dropped but acknowledged by the receiver with a zero-window size
 - Eventually when the buffer empties, non-zero window is advertised
+
+GBN is a flow control protocol.
+TCP provides flow control by having the sender maintain a variable called the receive window.
+The receive window is used to give the sender an idea about how much free buffer space is available at the receiver.
+In a full-duplex connection, the sender at each side of the connection maintains a distinct receive window.
+The receive window is dynamic.
 
 ![image](https://user-images.githubusercontent.com/95273765/196676309-8c8a9493-a725-4b14-98a2-a84fdd588f1c.png)
 
