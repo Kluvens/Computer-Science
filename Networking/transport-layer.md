@@ -74,7 +74,7 @@ Then, why UDP?
 - no connection establishment - faster
 - simple: no connection state at sender and receiver
 - small header size
-- no congestion control
+- no congestion control (unregulated send rate)
 
 Applications that use UDP:
 - steaming multimedia apps
@@ -83,6 +83,10 @@ Applications that use UDP:
 - HTTP/3
 - gaming
 - Routing updates (RIP)
+
+Note: It is possible for an application to have reliable data transfer when using UDP.
+This can be done if reliability is built into the application itself.
+But this non-trivial task that would keep an application developer busy debuging for a long time.
 
 UDP segment header:
 - source port number
