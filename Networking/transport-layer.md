@@ -1,6 +1,6 @@
 ## Transport-layer services
 Transport services and protocols
-- transport layer usually executing within the OS kernel
+- transport layer usually executing within the OS kernel (end systems)
 - provides logical communication between application processes running on different hosts (end systems)
 - transport protocols actions in end systems:
   - sender: breaks application messages into segments, passes to network layer
@@ -11,7 +11,18 @@ Transport services and protocols
 - The sender is passed an application-layer message, it then determines segment header fields values, create the segment and finally pass it to IP.
 - The receiver receives segment from IP, checks header values, extracts appliation-layer message and finally demultiplexes message up to application via socket.
 
+### Relationship between Transport and Network Layers
+A transport layer protocol provides logical communication between processes running on different hosts,
+a network layer protocol provides logical communication between hosts.
+Certain services can be offered by a transport protocol even when the underlying network protocol doesn't offere the corresponding service at the network layer.
+A transport protocol can use encryption to gurantee that application messages are not read by intruders, even when the network layer cannot guarantee the secrecy.
+
 ## Multiplexing and Demultiplexing
+Extending host-to-host delivery to process-to-process delivery is called application multiplexing and demultiplexing.
+
+The job of delivering the data ina transport-layer segment to the correct application process is called demultiplexing.
+The job of gathering data at the source host from different application processes, enveloping the data with header information to create segments, and passing the segments to the network layer is called multiplexing.
+
 Multiplexing/demultiplexing:
 - Multiplexing at sender handles data from multiple sockets and add transport header sending to different clients.
 - Demultiplexing at receiver uses header information from different clients to deliver received segments to correct socket.
