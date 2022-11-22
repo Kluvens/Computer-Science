@@ -256,6 +256,23 @@ Summary for componenets of a solution:
 - reliability protocols use the above to decide when and what to retransmit or acknowledge
 
 ## Connection-oriented transport: TCP
+Connection establishment:
+1. the client application process first informs the clinet TCP that it wants to establish a connection to a process in the server.
+2. The TCP in the client then proceeds to establish a TCP connection with the TCP in the server.
+3. For now it suffices to know that the client first sends a special TCP segment; the server responds with a second special TCP segment; and finally the client responds again with a third special segment
+
+Once a TCP connection is established, the two application processes can send data to each other;
+because TCP is full-duplex they can send data at the same time.
+
+The maximum amount of data tha can be grabbed and placed in a segment is limited by the maximum segment size (MSS).
+Note that the MSS is the maximum amount of application-level data in the segment, not the maximum size of the TCP segment including headers.
+
+TCP encapsulates each chunk of client data with TCP header, thereby forming TCP segments.
+The segments are passed down to the network layer, where they are separately encapsulated within network-layer IP datagrams.
+When TCP receives a segment at the other end, the segment's data is placed in the TCP connection's receive buffer.
+The application reads the stream of data from this buffer.
+Each side of the connection has its own send buffer and its own receive buffer.
+
 Segment Structure:
 - TCP header (20 bytes)
 - TCP packet
@@ -281,6 +298,13 @@ TCP overview:
   - sender will not overwhelm receiver
   
 TCP segment structure:
+- source port number
+- destination port number
+- 32-bit sequence number
+- 32-bit acknowledgement number (for reliable data transfer)
+- 16-bit window size (for flow control)
+- 4-bit length field specifies the length of the TCP header in 32-bit words
+- The flag field contains 6 bits. ACK (acknowledgement); PSH (receiver should pass the data to the upper layer immediately); RST, SYN, FIN (connection setup and teardown); URG (entity marked as urgent)
 
 ![image](https://user-images.githubusercontent.com/95273765/197370640-c5da28b7-5078-447d-9b8d-4b0c66d388fe.png)
 
