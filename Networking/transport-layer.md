@@ -134,18 +134,24 @@ Reliable data transfer (RDT):
     - error detection
     - feedback: control messages (ACK, NAK) from receiver to sender
     - retransmission
+  - notes
+    - the send side of rdt2.0 has two states
+    - in one state, the send-side protocol is waiting for data to be passed down from the upper layer
+    - in the other state, the sender protocol is waiting for an ACK or a NAK packet from the receiver
+    - if an ACK packet is received, the sender knows the most recently transmitted packet has been received correctly and thus the protocol returns to the state of waiting for data from the upper layer
+    - if a NAK is received, the protocol retransmits the last packet and waits for an ACK or NAK to be returned by the receiver in response to the retransmitted data packet
 
 ![image](https://user-images.githubusercontent.com/95273765/196598479-718ea612-d430-4320-9869-cc066605247b.png)
 
 rdt2.0 also has flaws:
-- what happens if ACK/NAK corrupted
+- what happens if ACK/NAK corrupted (a fatal flaw)
   - sender doesn't know what happened at receiver
   - can't just retransmit: possible duplicate
 - handling duplicates:
   - sender retransmits current packet if ACK/NAK corrupted
   - sender adds sequence number to each packet
   - receiver discards duplicate packet
-- stop and wait: sender sends one packet, then waits for receiver response (has only 1 bit for the sequence number)
+- stop and wait: sender sends one packet, then waits for receiver response (has only 1 bit for the sequence number). when the receiver is in the wait for ACK or NAK state, it cannot get more data from the upper layer
 
 rdt2.1:
 - sender
