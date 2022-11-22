@@ -330,7 +330,8 @@ BitTorrent: requesting, sending file chunks
 - requesting chunks:
   - at any given time, different peers have different subsets of file chunks
   - periodically, Alice asks each peer for list of chunks that they have
-  - Alice requests missing chunks from peers, rarest first
+  - Alice requests missing chunks from peers, rarest first (the next chunk to download)
+  - the rarest first policy helps duplicate chunks in the P2P network so even if a peer disappears, other peers will contain the chunks
 - sending chunks: tit-for-tat
   - tit-for-tat is when there's no server and everyone's trying maximise their own outcome. That's we are using resources from someone else.
   - if we give more resources others will also give us more resources; if we give less, they will give less
@@ -370,6 +371,7 @@ Peer churn:
 - each peer knows address of successors
 - each peer periodically pings its two successors to check aliveness
 - if immediate successor leaves, choose next successor as new imeediate successor
+- each peer knows its immediate predecessor and two immediate successors to address the peer churn
 
 ## Video streaming and content distribution networks
 Streaming multimedia: DASH
