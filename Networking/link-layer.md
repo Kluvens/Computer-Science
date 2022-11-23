@@ -349,3 +349,47 @@ Summary of MAC protocols:
 - taking turns
   - polling from central site, token passing
   - bluetooth, FDDI, token ring
+
+## LAN addresses and ARP
+MAC addresses:
+- 32-bit IP address:
+  - network-layer address for interface
+  - used for network-layer forwarding
+  - e.g.: 128.119.40.136
+- MAC address:
+  - function: used locally to get frame from one interface to another physically-connected interface
+  - 48-bit MAC address burned in NIC ROM, also sometimes software settable
+  - e.g.: 1A-2F-BB-76-09-AD
+
+MAC addresses
+- MAC address allocation administered by IEEE
+- also referred to as a LAN address, a physical address and an Ethernet address
+- manufacturer buys portion of MAC address space
+- MAC flat address: portability
+  - can move interface from one LAN to another
+  - recall IP address not portable: depends on IP subnet to which node is attached
+
+MAC address vs. IP address:
+- MAC addresses used in link-layer
+  - hard-coded in read-only memory when adapter is built
+  - no two adapters have the same address
+  - flat name space of 48-bits
+  - portable, and can stay the same as the host moves
+  - used to get packet between interfaces on same network
+- IP addresses:
+  - learned dynamically
+  - hierarchical name space of 32 bits
+  - not portable, and depends on where the host is attached
+  - used to get a packet to destination IP subnet
+
+Why we need MAC addresses:
+- LANs are designed for arbitrary network-layer protocols, not just for IP. If adapters were to get assigned IP addresses rather than neutral LAN addresses, then the adapters would not be able to easily support other network-layer protocols.
+- Secondly, if adapters were to use IP addresses instead of LAN addresses, the IP address would have to stored in adapter RAM and configured every time the adapter were moved.
+
+## ARP: address resolution protocol
+Every Internet  host and router on a LAN has an ARP module.
+Each node has an IP address and each node's adapter has a lAN address.
+
+ARP table: each IP node on LAN has table
+- IP/MAC address mappings for some LAN nodes: <IP address; MAC address; TTL>
+- TTL: time after which address mapping will be forgotten
