@@ -29,6 +29,22 @@ Some protocols provide link-layer error correction for the packet header rather 
 6. Half-Duplex and Full-Dulplex: With full-dulplex transmission, both nodes at the ends of a link may transmit packets at the same time.
 With half-duplex transmission, a node cannot both transmit and receive at the same time.
 
+Place where the link layer is implemented:
+- in each-and-every host
+- link layer implemented in network interface card (NIC) or on a chip
+  - Ethernet, WiFi card or chip
+  - implements link, physical layer
+- attaches into host's system buses
+- combination of hardware, software, firmware
+
+On the sending side:
+- encapsulates datagram in frame
+- adds error checking bits, reliable data transfer, flow control, etc
+
+On the receiving side:
+- looks for errors, reliable data transfer, flow control, etc
+- extracts datagram, passes to upper layer at receiving side
+
 ## Error Detection and Correction Techniques
 
 ### Parity Checks
@@ -135,6 +151,11 @@ In other words, we can calculate R as R = remainder(D\*2^r/G)
 ![image](https://user-images.githubusercontent.com/95273765/202930927-661ebbd5-b7a9-426e-83ae-fd6a37db93b9.png)
 
 ## Multiple Access Protocols and LANs
+Multiple access protocol:
+- distributed algorithm that determines how nodes share channel, i.e., determine when node can transmit
+- communication about channel sharing must use channel itself
+  - no out-of-band channel for coordination
+
 An ideal multiple access protocol:
 - given: multiple access channel (MAC) of rate R bps
 - desired properties:
@@ -154,6 +175,15 @@ MAC protocols: taxonomy
   - 'recover' from collisions
 - 'talking turns'
   - nodes take turns, but nodes with more to send can take longer turns
+
+- channel partitioning MAC protocols:
+  - share channel efficiency and fairly at high load
+  - inefficient at low load: delay in channel access, I/N bandwidth allocated even if only I active node
+- random access MAC protocols
+  - efficient at low load: single node can fully utilize channel
+  - high load: collision overhead
+- taking turns protocol
+  - look for best of both worlds
 
 ### Channel partitioning MAC protocols: TDMA
 - TDMA: time division multiple access
@@ -207,6 +237,8 @@ By retransmitting with probability p, we mean that the node effectively tosses a
 the event heads corresponds to retransmit, which occurs with probability p.
 The event tails corresponds to "skip the slot and toss the coin again in the next slot"; this occurs with probability (1-p).
 Each of the nodes involved in the collision toss their coins independently.
+
+![image](https://user-images.githubusercontent.com/95273765/203468449-29f16d6e-e754-4e6e-860c-1b7c057cfb25.png)
 
 Advantages:
 - allows a single active node to continuously transmit frames at the full rate of the channel
@@ -289,3 +321,31 @@ CSMA/CD efficiency:
   - as Tprop goes to 0
   - as Ttrans goes to infinity
 - better performance than ALOHA: and simple, cheap, decentralized
+
+Taking turns MAC protocols:
+- polling:
+  - captain node invites other nodes to transmit in turn
+  - typically used with dumb devices
+  - concerns:
+    - polling overhead
+    - latency
+    - single point of failure (captain)
+- token passing:
+  - control token passed from one node to next sequentially
+  - token message
+  - concerns:
+    - token overhead
+    - latency
+    - single point of failure (token)
+
+Summary of MAC protocols:
+- channel partitioning, by time, frequency or code:
+  - time division, frequency division
+- random access (dynamic):
+  - ALOHA, slotted-ALOHA, CSMA, CSMA/CD
+  - carrier sensing: easy in some technologies (wired), hard in others (wireless)
+  - CSMA/CD used in Ethernet
+  - CSMA/CA used in 802.11
+- taking turns
+  - polling from central site, token passing
+  - bluetooth, FDDI, token ring
