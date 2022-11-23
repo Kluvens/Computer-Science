@@ -141,3 +141,87 @@ Hierarchical addressing: route aggregation
 
 - IP addresses are allocated as blocks and have geographical significance
 - it is possible to determine the geographical location of an IP address
+
+### Network address translation
+Private addresses cannot be routed
+- anyone can use them in a private network
+- typically used for NAT
+
+NAT: all devices in local network share just one IPv4 address as far as outside world is concerned
+- all datagrams leaving local network have same source NAT IP address, but different source port numbers
+- datagrams with source or destination in this network have address for source, destination
+- all devices in local network have 32-bit addresses in a private IP address space that can only be used in local network
+- advantages:
+  - just one IP address needed form provider ISP for all devices
+  - can change addresses of host in local network without notifying outside world
+  - can change ISP without changing addresses of devices in local network
+  - security: devices inside local net not directly addressable, visible by outside world
+
+Implementation: NAT router must:
+- outgoing datagrams: replace (source IP address, port number) of every outgoing datagram to (NAT IP addresses, new port number)
+  - remote clients/servers will respond using (NAT IP addresses, new port number) as destination address
+- remember in NAT translation table every (source IP address, port number) to (NAT IP address, new port number) translation pair
+- incoming datagrams: replace (NAT IP address, new port number) in destination fields of every incoming datagram with corresponding (source IP address, port number) stored in NAT table
+- NAT has been controversial:
+  - routers shoud only process up to layer 3
+  - address shortage should be solved by IPv6
+  - violates end-to-end argument
+  - NAT traversal: what if client wants to connect to server behind NAT
+- but NAT is here to stay:
+  - extensively used in home and institutional nets, 4G/5G cellular nets
+
+## Routing overview
+Routing protocol goal: determine good paths, from sending hosts to receiving host, through network of routers
+- path: sequence of routers packets traverse from given initial source host to final destination host
+- good: least cost, fastest, least congested
+
+Internet routing works at two levels:
+- each AS runs an intra-domain routing protocol that establishes routes within its domain
+  - AS - region of network under a single administrative entity
+  - link state, e.g., open shortest path first (OSPF)
+  - distance vector, e.g., routing information protocol (RIP)
+- ASes participate in an inter-domain routing protocol that establishes routes between domains
+  - path vector, e.g., border gateway protocol (BGP)
+
+Routing algorithm classification:
+- global: all routers have complete topology, link cost info (link state algorithms)
+- decentralised: iterative process of computation, exchange of info with neighbors. routers initially only know link costs to attached neighbors (distance vector algorithms)
+- static: routes change slowly over time
+- dynamic: routes change more quickly; periodic updates or in response to link cost changes
+
+## Routing protocols
+Link state routing:
+- each node maintains its local link state (LS)
+  - i.e., a list of its directly attached links and their costs
+- each node floods its local link state
+  - on receiving a new LS message, a router forwards the message to all its neighbors other than the one it received the message from
+- Eventually, each node learns the entire network topology
+  - Can use Dijkstra’s to compute the shortest paths between nodes
+
+Flooding LSAs
+- routers transmit link state advertisement (LSA) on links
+  - a neighboring router forwards out on all links except incoming
+  - keep a copy locally; don't forward previously-seen LSAs
+- challenges
+  - packet loss
+  - out of order arrival
+- solutions
+  - acknowledgements and retransmissions
+  - sequence numbers
+  - time-to-live for each packet
+
+Dijkstra's link-state routing algorithm:
+- centralized: network topology, link costs known to all nodes
+- computes least cost paths from one node (source) to all other nodes
+- iterative: after k iterations, know least cost path to k destinations
+
+![image](https://user-images.githubusercontent.com/95273765/203532788-22169979-292a-4362-8bc5-75464a6c7f21.png)
+
+Dijkstra's algorithm: discussion
+- algorithm complexity: n nodes
+  - each of n iteration: need to check all nodes, w, not in N
+  - n(n+1)/2 comparisons: O(n^2) complexity
+  - more efficient implementation possible: O(n logn)
+- message complexity:
+  - each router must broadcast its link state information to other n routers
+  - efficient broadcast algorithms: O(n) link crossings to disseminate a broadcast message from one source
