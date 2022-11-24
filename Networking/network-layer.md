@@ -210,6 +210,7 @@ Flooding LSAs
   - sequence numbers
   - time-to-live for each packet
 
+## Dijkstra's algorithm
 Dijkstra's link-state routing algorithm:
 - centralized: network topology, link costs known to all nodes
 - computes least cost paths from one node (source) to all other nodes
@@ -225,3 +226,74 @@ Dijkstra's algorithm: discussion
 - message complexity:
   - each router must broadcast its link state information to other n routers
   - efficient broadcast algorithms: O(n) link crossings to disseminate a broadcast message from one source
+  - each router's message crosses O(n) links: overall message complexity: O(n^2)
+
+Dijkstra's algorithm: oscillations possible
+- when link costs depend on traffic volume, route oscillations possible
+- sample scenario:
+  - routing to destination a, traffic entering at d, c, e with rate I, e < I, I
+  - link costs are directional, and volume-dependent
+
+## Distance vector algorithm (Bellman-Ford algorithm)
+Based on Bellman-Ford equation (dynamic programming):
+
+![image](https://user-images.githubusercontent.com/95273765/203701019-98b7f4ad-e69c-40d5-8879-5f60774ae7f1.png)
+
+Key idea:
+- from time-to-time, each node sends its own distance vector estimate to neighbors
+- when x receives new distance vector estimate from any neighbor, it updates its own DV using B-F equation: Dx(y) ← minv{cx,v + Dv(y)}  for each node y ∊ N
+- under minor, natural conditions, the estimate Dx(y) converge to the actual least cost dx(y).
+
+Distance vector algorithm:
+- iterative, asynchronous: each local iteration caused by:
+  - local link cost change
+  - DV update messages froom neighbor
+- distributed, self-stopping: each node notifies neighbors only when its DV changes
+  - neighbors then notify their neighbors - only if necessary
+  - no notification received: no actions taken
+- each node:
+  - wait for change in local link cost or DV from neighbor
+  - recompute DV estimates sing DV received from neighbor
+  - if DV to any destination has changed, notify neighbors
+
+Problems with distance vector:
+- a number of problems occur in a network using distance vector algorithm
+- most of these problems are caused by slow convergence or routers converging on incorrect information
+- convergence is the time during which all routers come to an aggreement about the best paths through the internetwork
+  - whenever topology changes there is a period of instability in the network as the routers converge
+- reacts rapidly to good news, but leisurely to bad news
+
+The poisoned reverse rule:
+- heuristic to avoid count-to-infinity
+- if B routes via C to get to A:
+  - B tells C its distance to A is inifinite, so C won't route to A via B
+
+Comparison of LS and DV algorithms:
+- message comlexity:
+  - LS: n routers, O(n^2) messages sent
+  - DV: exchange between neighbors; convergence time varies
+- speed of convergece:
+  - LS: O(n^2) algorithm, O(n^2) messages may have oscillations
+  - DV: convergence time varies
+    - may have routing loops
+    - count-to-infinity problem
+- robustness: what happens if router malfunctions, or is compromised
+  - LS: router can advertise incorrect link cost; each router computes only its own table
+  - DV router can advertise incorrect path cost: black-holling; each router's table used by others: error propagate through network
+
+Real protocols:
+- Link State
+  - open shortest path first (OSPF)
+  - Intermediate system to intermediate system (IS-IS)
+- Distance Vector:
+  - Routing information protocol (RIP)
+  - Interior gateway routing protocol (IGRP-Cisco)
+  - Border Gateway Protocol (BGP)
+
+## ICMP: Internet control message protocol
+- used by hosts and routers to communicate network level information
+  - error reporting: unreachable host, network, port
+  - echo request/reply
+- works above IP layer
+  - ICMP messages carried in IP datagrams
+- ICMP message: type, code plus IP header and first 8 bytes of IP datagram payload causing error
