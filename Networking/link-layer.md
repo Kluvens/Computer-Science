@@ -393,3 +393,98 @@ Each node has an IP address and each node's adapter has a lAN address.
 ARP table: each IP node on LAN has table
 - IP/MAC address mappings for some LAN nodes: <IP address; MAC address; TTL>
 - TTL: time after which address mapping will be forgotten
+
+ARP protocol in action:
+- A broadcasts ARP query, containing B's IP address (all nodes on LAN receive ARP query)
+- B replies to A with ARP response, giving its MAC address
+- A receives B's reply, address B entry into local ARP table
+
+### Routing to another subnet: addressing
+walkthrough: sending a datagram from A to B via R
+- focus on addressing - at IP and MAC layer levels
+- assume that:
+  - A knows B's IP address
+  - A knows IP address of first hop router, R
+  - A knows R's MAC address
+- A creates IP datagram with IP source A, destination B
+- A creates link-layer frame containing A-to-B IP datagram
+  - R's MAC address is frame's destination
+- frame sent from A to R
+- frame received at R, datagram removed, passed up to IP
+- R determines outgoing interface, passes datagram with IP source A, destination B to link layer
+- R creates link-layer frame containing A-to-B IP datagram. Frame destination address: B's MAC address
+- transmits link-layer frame
+- B receives frame, extracts IP datagram destination
+- B passes datagarm up protocol stack to IP
+
+Security Issues: ARP Cache Poisoning
+- denial of service - hacker replies back to an ARP query for a router NIC with a fake MAC address
+- Main-in-the-middle attack - Hacker can insert his/her machine along the path between victim machine and gateway router
+- such attacks are generally hard to launch as hacker needs physical access to the network
+
+## Ethernet
+the dominant wired LAN technology:
+- first widely used LAN technology
+- simpler, cheap
+- kept up with speed race: 10 Mbps – 400 Gbps
+- single chip, multiple speeds
+
+Ethernet: physical topology
+- bus: popular through mid 90s
+  - all nodes in same collision domain
+- switched: prevails today
+  - active link-layer 2 switch in center
+  - each spoke runs a separate Ethernet protocol
+
+![image](https://user-images.githubusercontent.com/95273765/203718484-c9a9661c-03c1-4d47-b1d1-3c8d9cfdeb66.png)
+
+Ethernet frame structure:
+sending interface encapsulates IP datagram (or other network layer protocol packet) in Ethernet frame.
+
+![image](https://user-images.githubusercontent.com/95273765/203718693-a2cbb704-dd79-45ee-801c-ef2159c96a41.png)
+
+- addresses: 6 byte source, destination MAC addresses
+  - if adapter receives frame with matching destination address, or with broadcast address, it passes data in frame to network layer protocol
+  - otherwise, adapter discards frame
+- type: indicates higher layer protocol
+  - mostly IP but others possible
+  - used to demultiplex up at receiver
+- CRC: cyclic redundancy check at receiver
+  - error detected: frame is dropped
+
+Ethernet: unreliable, connectionless
+- connectionless: no handshaking between sending and receiving NICs
+- unreliable: receiving NIC doesn't send ACKs or NAKs to sending NIC
+  - data in dropped frames recovered only if initial sender uses higher layer rdt, otherwise dropped data lost
+- Ethernet's MAC protocol: unslotted CSMA/CD with binary backoff
+
+## Ethernet switch
+- switch is a link-layer device: it takes an active role
+  - store, forward Ethernet frames
+  - examine incoming frame's MAC address, selectively forward frame to one-or-more outgoing links when frame is to be forwarded on segment, uses CSMA/CD to access segment
+- transparent: hosts unaware of presence of switches
+- plug-and-paly, self-learning
+  - switches do not need to be configured
+
+Switch: multiple simultaneous transmissions
+- hosts have dedicated, direct connection to switch
+- switches buffer packets
+- Ethernet protocol used on each incoming link, so:
+  - no collisions; full duplex
+  - each link is its own collision domain
+- switching: A-to-A's and B-to-B's can transmit simultaneously, without collisions
+  - but A-to-A's and C to A's can not happend simultaneously
+
+Switch: self-learning
+- switch learns which hosts can be reached through which interfaces
+  - when frame received, switch learns location of sender: incoming LAN segment
+  - records sender/location pair in switch table
+
+Switches vs. routers
+- both are store-and-forward
+  - routers: network-layer devices
+  - switches: link-layer devices
+- both have forwarding tables:
+  - routers: compute tables using routing algorithms, IP address
+  - switches: learn forwarding table using flooding, learning, MAC addresses
+
