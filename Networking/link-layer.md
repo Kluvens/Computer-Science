@@ -443,6 +443,9 @@ sending interface encapsulates IP datagram (or other network layer protocol pack
 
 ![image](https://user-images.githubusercontent.com/95273765/203718693-a2cbb704-dd79-45ee-801c-ef2159c96a41.png)
 
+- preamble:
+  - used to synchronize receiver, sender clock rates
+  - 7 bytes of 10101010 followed by one byte of 10101011
 - addresses: 6 byte source, destination MAC addresses
   - if adapter receives frame with matching destination address, or with broadcast address, it passes data in frame to network layer protocol
   - otherwise, adapter discards frame
