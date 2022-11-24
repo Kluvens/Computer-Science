@@ -488,3 +488,96 @@ Switches vs. routers
   - routers: compute tables using routing algorithms, IP address
   - switches: learn forwarding table using flooding, learning, MAC addresses
 
+## Wireless
+Elements of a wireless network:
+- wireless hosts:
+  - laptop, smartphones, IoT
+  - run applications
+  - may be stationary or mobile
+- base station:
+  - typically connected to wired network
+  - relay - responsible for sending packets between wired network and wireless hosts in its area
+- wirelss link:
+  - typically used to connect mobiles to base station, also used as backbone link
+  - multiple access protocol coordinates link access
+  - various transmission rates and distances, frequency bands
+- infrastructure mode:
+  - base station connects mobiles into wired network
+  - handoff: mobile changes base station providing connection into wired network
+- ad hoc mode
+  - no base stations
+  - nodes can only transmit to other nodes within link coverage
+  - nodes organize themselves into a network: route among themselves
+
+Wireless network taxonomy:
+
+![image](https://user-images.githubusercontent.com/95273765/203726825-c4bf2825-fafd-4512-9989-695fe4d23c0e.png)
+
+Wireless link characterristics:
+- decreased signal strength: radio signal attenuates as it propagates through matter
+- interference from other sources: wireless network frequencies shared by many devices
+- multipath propagation: radio signal reflects off objects ground, arriving at destination at slightly different times
+  - signals bounce off surface and interface with one another
+  - self-inerference
+- SNR: singal-to-noise ratio
+  - larger SNR - easier to extract signal from noise
+- SNR versus BER (bit error rate) tradeoffs
+  - given physical layer: increase power -> increase SNR -> decrease BER
+  - given SNR: choose physical layer that meets BER requirement, giving highest throughput
+    - SNR may change with mobility: dynamically adopt physical layer
+- multiple wireless senders, receivers create additional problems:
+  - hidden terminal problem
+  - signal attenuation
+- exposed terminals
+  - node B sends a packet to A; C hears this and decides not to send a packet to D
+  - carrier sense would prevent a successful transmission
+
+802.II LAN architecture
+- wireless host communicates with base station
+  - base station = access point (AP)
+- Basic service set (BSS) in infrastructure mode contains:
+  - wireless hosts
+  - access point: base station
+  - ad hoc mode: hosts only
+
+802.II: Channels, association
+- spectrum divided into channels at different frequencies
+  - AP admin chooses frequency for AP
+  - interference possible: channel can be same as that chosen by neighboring AP
+- arriving host: must associate with an AP
+  - scans channels, listening for beacon frames containing AP's name and MAC address
+  - selects AP to associate with
+  - then may perform authentication
+  - then typically run DHCP to get IP address in AP's subnet
+
+Passive scanning:
+- beacon frames sent from APs
+- association request from sent HI to selected AP
+- association response frame sent from selected AP to HI
+
+Active scanning:
+- probe request frame broadcast from HI
+- probe response frames sent from APs
+- association request frame sent: HI to selected AP
+- association response frame snet from selected AP to HI
+
+IEEE 802.II: multiple access
+- avoid collision: 2+ nodes transmitting at the same time
+- 802.II: CSMA - sense before transmitting
+  - don't collide with detected ongoing transmission by another node
+- 802.11: no collision detection
+  - difficult to sense collision: high transmitting signal, weak received signal due to fading
+  - can't sense all collisions in any case: hidden terminal, fading
+  - goal: avoid collisions: CSMA/Collision Avoidance
+
+Multiple access: Key points
+- no concept of a global collision
+  - different receivers hear different signals
+  - different senders reach different receivers
+- collisions are at receiver, not sender
+  - only care if receiver can hear the sender clearly
+  - it does not matter if sender can hear someone else
+  - as long as that signal does not interfere with receiver
+- goal of protocol
+  - detect if receiver can hear sender
+  - tell senders who might interfere with receiver to shut up
