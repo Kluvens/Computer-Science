@@ -584,3 +584,32 @@ Multiple access: Key points
 - goal of protocol
   - detect if receiver can hear sender
   - tell senders who might interfere with receiver to shut up
+
+![image](https://user-images.githubusercontent.com/95273765/203871010-d7e02141-5e4f-4150-903c-302badc73aa2.png)
+
+Avoiding collisions:
+- idea: sender reserves channel use for data frames using small reservation packets
+- sender first transmits small request-to-send (RTS) packet to BS using CSMA
+  - RTSs may still collide with each other but they are short
+- BS broadcasts clear-to-send CTS in response to RTS
+- CTS heard by all nodes
+  - sender transmits data frame
+  - other stations defer transmissions
+
+![image](https://user-images.githubusercontent.com/95273765/203871357-93d8b2aa-ee62-444c-beb4-57c0a97d75ef.png)
+
+![image](https://user-images.githubusercontent.com/95273765/203871805-6dd835cb-a81f-48c1-8290-754bb00ccb34.png)
+
+802.11 frame: addressing
+- Address 1: MAC address of wireless host or AP to receive this frame
+- Address 2: MAC address of wireless host or AP transmitting this frame
+- Address 3: MAC address of the router interface to which AP is attached
+- Address 4: used only in ad hoc mode
+- duration of reserved transmission time (RTS/CTS)
+- frame sequence number (for reliable data transfer)
+- frame type (RTS, CTS, ACK, data)
+
+802.11: advanced capabilities (Rate adaptation)
+- base station, mobile dynamically change transmission rate (physical layer modulation technique) as mobile moves, SNR varies
+  - SNR decreases, BER increases as node moves away from base station
+  - when BER becomes too high, switch to lower tranmission rate but with lower BER
