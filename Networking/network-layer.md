@@ -21,11 +21,13 @@ Two planes:
 ### IP datagram format
 IP datagram format:
 - 4-bit version number: indicates the version of the IP protocol (IPv4 or IPv6)
-- 4-bit header length: number of 32-bit words in the header
+- 4-bit header length: number of 32-bit words (a word equals four bytes) in the header
 - 16-bit total length: number of bytes in the packet where the maximum size is 65535 bytes
 - 8-bit type of service (TOS)
-- 16-bit identification; 3-bit flags and 13-bit fragment offset: deal with IP fragmentation
-- 8-bit TTL: to ensure that the datagram does not circulate forever
+- 16-bit identification used to identify the packet
+- 3-bit flags and if the flag is 0, it means this is the end of the fragmented packet
+- 13-bit fragment offset: the position of fragment in the packet (payload in bytes/8)
+- 8-bit TTL: number of hops to ensure that the datagram does not circulate forever
 - 8-bit protocol: only used when an IP datagram reaches its final destination. This indicates the transport-layer protocol at the destination
 - 16-bit checksum
 - 32-bit source IP and destination IP
@@ -39,6 +41,9 @@ IP fragmentation, reassembly:
   - one datagram becomes several datagrams
   - reassembled only at final destination
   - IP header bits used to identify, order related fragments
+- fragment can be fragmented
+- fragmentation increases the total number of bits to be transmitted for a given datagram
+- if one of the fragments are corrupted, then all the fragments are discarded and requests for retransmission
 
 IPv4 fragmentation procedure:
 - fragmentation
@@ -138,9 +143,10 @@ DHCP: more than IP addresses
 
 Hierarchical addressing: route aggregation
 - hierarchical addressing allows efficient advertisement of routing information
-
 - IP addresses are allocated as blocks and have geographical significance
 - it is possible to determine the geographical location of an IP address
+- longest prefix match
+  - when looking for forwarding table entry for given destination address, use longest address prefix that matches destination address
 
 ### Network address translation
 Private addresses cannot be routed
