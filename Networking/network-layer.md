@@ -154,6 +154,8 @@ Private addresses cannot be routed
 - typically used for NAT
 
 NAT: all devices in local network share just one IPv4 address as far as outside world is concerned
+- NAT is a way to map multiple local private addresses to a public one before transforming the information.
+- It violates the layering principle
 - all datagrams leaving local network have same source NAT IP address, but different source port numbers
 - datagrams with source or destination in this network have address for source, destination
 - all devices in local network have 32-bit addresses in a private IP address space that can only be used in local network
