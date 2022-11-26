@@ -399,6 +399,10 @@ ARP protocol in action:
 - B replies to A with ARP response, giving its MAC address
 - A receives B's reply, address B entry into local ARP table
 
+APR is used to resolve the associated LAN address of an IP address.
+
+In a lAN switch, packets can be flooded sometimes.
+
 ### Routing to another subnet: addressing
 walkthrough: sending a datagram from A to B via R
 - focus on addressing - at IP and MAC layer levels
@@ -482,6 +486,8 @@ Switch: self-learning
 - switch learns which hosts can be reached through which interfaces
   - when frame received, switch learns location of sender: incoming LAN segment
   - records sender/location pair in switch table
+
+If a LAN switch has flooded a packet, it means the switch did not know which LAN segment the packet destination is connected to.
 
 Switches vs. routers
 - both are store-and-forward
