@@ -4,6 +4,7 @@ Two key network-layer functions:
 - routing: determine route taken by packets from source to destination
 - routing algorithm determines end-end-path through network
 - forwarding table determines local forwarding at this router
+- The role of the forwarding table within a router is to hold entries to determine the outgoing link interface to which an arriving packet will be forwarded via switching fabric
 
 Two planes:
 - data plane:
