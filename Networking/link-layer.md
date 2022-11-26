@@ -497,6 +497,12 @@ Switches vs. routers
   - routers: compute tables using routing algorithms, IP address
   - switches: learn forwarding table using flooding, learning, MAC addresses
 
+Layer 2 swtiches have a MAC address table that contains a MAC address and physical port number.
+Switches follow this simple algorithm for forwarding frames:
+- when a frame is received, the switch compares the source MAC address to the MAC address table. If the source is unknown, the switch adds it to the table along with the physical port number the frame was received on. In this way, the switch leanrs the MAC address and physical connection port of every transmitting device.
+- The switch then compares the destination MAC address with the table. If there's an entry, the switch forwards the frame out the associated physical port. If there is no entry, the switch sends the frame out all its physical ports, except the physical port that the frame was received on (flodding). If the destination is on the same port as the source (if they're both on the same segment), the switch will not forward the frame.
+- Note that the switch does not learn the destination MAC until it receives a frame from that device.
+
 ## Wireless
 Elements of a wireless network:
 - wireless hosts:
