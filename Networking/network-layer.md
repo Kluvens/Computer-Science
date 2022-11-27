@@ -179,6 +179,8 @@ Implementation: NAT router must:
 - but NAT is here to stay:
   - extensively used in home and institutional nets, 4G/5G cellular nets
 
+By NAT, source port number, source IP address, transport checksum and IP checksum are changed.
+
 ## Routing overview
 Routing protocol goal: determine good paths, from sending hosts to receiving host, through network of routers
 - path: sequence of routers packets traverse from given initial source host to final destination host
