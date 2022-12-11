@@ -304,3 +304,70 @@ function anotherFunction<T, U extends number>(one: T, two: U):object {
   }
 }
 ```
+
+## in operator
+```
+interface User {
+  name: string,
+  email: string
+}
+
+interface Admin {
+  name: string,
+  email: string,
+  isAdmin: boolean
+}
+
+funtion isAdmin(account: User | Admin) {
+  if ('isAdmin' in account) {
+    return account.isAdmin
+  }
+  return false
+}
+```
+
+## Type predict
+```
+type Fish = {
+  swim: () => void
+}
+
+type Bird = {
+  fly: () => void
+}
+
+function isFish(pet: Fish | Bird): pet is Fish {
+  return (pet as Fish).swim !== undefined
+}
+
+function getFood(pet: Fish | Bird) {
+  if (isFish(pet)) {
+    pet
+    return 'fish food'
+  } else {
+    pet return 'bird food'
+  }
+}
+```
+
+## Discreminated Union
+```
+interface Circle {
+  kind: 'circle',
+  radius: number
+}
+
+interface Square {
+  kind: 'square',
+  side: number
+}
+
+type Shape = Circle | Square
+
+function getTrueShape(shape: Shape) {
+  if (shape.kind === 'circle') {
+    return Math.PI * shape.radius ** 2
+  }
+  return shape.side * shape.side
+}
+```
