@@ -42,6 +42,22 @@ For example, web broswer is a user agent.
 Web page consists of objects, each of which can be stored on different Web servers.
 More specifically, a webpage consists of an index html file and urls to each object, when transferring a webpage, we firstly transfer the index file, then all its embedded objects.
 
+Overview of HTTP:
+The HyperText Transfer Protocol (HTTP), is at the heart of the web.
+HTTP is implemented in two programs: a client program and a server program.
+HTTP defines the structure of these messages and how the client and server exchange the messages.
+HTTP defines how web clients requet web pages from web servers and how servers transfer web pages to clients.
+When a user request a web page, the browser sends HTTP request messages fro the objects in the page to the server.
+The server receives the requests and responds with HTTP response messages that contain the objects.
+The HTTP client first initiates a TCP connection with the server.
+Once the connection is established, the browser and the server processes access TCP through their socket interfaces.
+The client sends HTTP request messages into its socket interface and receives HTTP response messages from its socket interface.
+Similarly, the HTTP server receives request messages from its socket interface and sends response messages into its socket interface.
+It is important to note that the server sends requested files to clients without storing any state information about the client.
+
+On the client side, the socket interface is the door between the client process and the TCP connection;
+on the server side, it is the door between the server process and the TCP connection.
+
 HTTP is a web's application layer protocol.
 It defines how web clients request web pages from servers and how servers transfer web pages to clients.
 
@@ -79,6 +95,15 @@ HTTP is all text:
 - makes the protocol simple
 - it's not the most efficient as it may take more space
 - non-text content needs to be encoded
+
+### User-Server Interaction: Cookies
+Cookies allow sites to keep track of users.
+
+Cookie technology has four components:
+1. a cookie header line in the HTTP response message
+2. a cookie header line in the HTTP request message
+3. a cookie file kept on the user's end system and managed by the user's browser
+4. a back-end database at the web site
 
 Web sites and client browser use cookies to maintain some state between transactions
 - subsequent HTTP requests from the same client to this site will contain a special cookie ID value, allowing site to identify and direct to database.
@@ -122,6 +147,19 @@ Persistent HTTP (HTTP 1.1):
 - as little as one RTT for all the referenced objects for persistent connection via pipelining
 
 ![image](https://user-images.githubusercontent.com/95273765/196856579-99f8546b-6cc7-48ec-9b28-52ddcc146692.png)
+
+### Non-Persistent and Persistent Connections
+Non-persistent connection means each request/response pair be sent over a separate TCP connection;
+while persistent connection means all of the requests and their corresponding responses be sent over the same TCP connection.
+
+In the non-persistent connection, each TCP connection is closed after the server sends the object, the connection does not persist for other objects.
+Note that each TCP connection transports exactly one request message and one response message.
+Each object suffers a delivery delay of two RTTs - one RTT to establish the TCP connection and one RTT to request and receive an object.
+
+With HTTP 1.1 persistent connnections, the server leaves the TCP connnection open after sending a response.
+Subsequent requests and responses between the same client and server can be sent over the same connection.
+Moreover, multiple web pages residing on the same server can be sent from the server to the same client over a single persistent TCP connection.
+Typically, the HTTP server closes a connnection when it isn't used for a certain time.
 
 Web caches (proxy servers):
 - browser sends all HTTP requests to cache
