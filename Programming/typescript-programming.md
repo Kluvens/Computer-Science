@@ -187,3 +187,95 @@ interface Admin extends User {
 }
 ```
 
+## Classes
+```
+class User {
+  email: string
+  name: string
+  city: string = ''
+  constructor(email: string, name: string) {
+    this.email = email;
+    this.name = name
+  }
+}
+
+const hitech = new User('h@h.com', 'hitech')
+hitech.city = 'sydney'
+```
+
+```
+class User {
+  protected _courseCount = 1
+
+  readonly city: string = 'sydney'
+  constructor(
+    public email: string,
+    public name: string,
+    private userId: string
+  ) {
+    
+  }
+  
+  get getAppleEmail(): string {
+    return 'apple'
+  }
+  
+  get courseCount(): number {
+    return this._courseCount
+  }
+  
+  set courseCount(courseNum) {
+    if (courseNum < 2) {
+      throw new Error('too less')
+    }
+    this._courseCount = courseNum
+  }
+}
+```
+
+```
+class SubUser extends User {
+  isFamily: boolean = true
+}
+```
+
+## Abstract Class
+```
+abstract class TakePhoto {
+  constructor(
+    pubic cameraMode: string,
+    public filter: string
+  ) {}
+}
+
+class Ig extends TakePhoto{
+  constructor(
+    public cameraMode: string,
+    pubilc filter: string,
+    public burst: number
+  ){
+    super(cameraMode, filter)
+  }
+}
+```
+
+## Generics
+```
+const score: Array<number> = []
+const names: Array<string> = []
+
+function identityOne<Type>(val: Type): Type {
+  return val
+}
+
+function identityTwo<T>(val: T): T {
+  return val
+}
+
+interface Bootle {
+  brand: string,
+  type: number
+}
+
+identityFour<Bootle>({})
+```
