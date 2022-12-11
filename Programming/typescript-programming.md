@@ -279,3 +279,28 @@ interface Bootle {
 
 identityFour<Bootle>({})
 ```
+
+## More on Generics
+```
+interface Bootle {
+  brand: string,
+  type: number
+}
+
+function getSearchProducts<T>(products: T[]): T {
+  return products[1]
+}
+
+const getMoreSearchProducts = <T>(products: T[]): T => {
+  return products[4]
+}
+```
+
+```
+function anotherFunction<T, U extends number>(one: T, two: U):object {
+  return {
+    one,
+    two
+  }
+}
+```
