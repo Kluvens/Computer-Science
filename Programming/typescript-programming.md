@@ -118,3 +118,72 @@ type cardDetails = cardNumber & cardDate & {
 myUser.email = 'hello@h.com'
 muUser._id = 'aaa' // can't do this
 ```
+
+## Arrays
+```
+const superHeros: string[] = []
+
+const heroPower: Array<number> = []
+
+const MLModels: number[][] = [
+  [255, 255, 255],
+  [0, 0, 0]
+]
+
+superHeros.push('spiderman')
+```
+
+## Union Types
+```
+let score: number | string = 33
+
+const user: (string | number)[] = ['hc', 1]
+
+score = '55'
+```
+
+## Tuples
+```
+let tUser: [string, number, boolean]
+
+tUser = ['h', 1, true]
+
+type User = [number, string]
+
+const newUser: User = [112, 'example']
+newUser[1] = 'hc.com'
+newUser.push(true)
+```
+
+## Enumerations
+```
+enum SeatChoice {
+  AISLE = 'aisle',
+  MIDDLE = 'middle',
+  WINDOW = 'window'
+}
+
+const hcSeat = SeatChoice.WINDOW
+```
+
+## Interface
+```
+interface User {
+  email: string,
+  userId: number,
+  google?: string,
+  startTrail: () => string,
+  getCoupon(couponname: string): number
+}
+
+const hitech: User = {email: 'h.com', userId: 123, startTrail: () => { return 'started' }, getCoupon: () => {return 10}}
+
+interface User {
+  githubToken: string
+}
+
+interface Admin extends User {
+  role: 'admin' | 'good' | 'learner'
+}
+```
+
