@@ -70,3 +70,47 @@ switch (new Date().getDay()) {
     text = "Looking forward to the Weekend";
 }
 ```
+
+map in Javascript:
+```
+const numbers = [65, 44, 12, 4];
+const newArr = numbers.map(myFunction)
+
+function myFunction(num) {
+  return num * 10;
+}
+```
+
+filter in Javascript:
+```
+const ages = [32, 33, 16, 40];
+const result = ages.filter(checkAdult);
+
+function checkAdult(age) {
+  return age >= 18;
+}
+```
+
+reduce in Javascript:
+```
+const numbers = [15.5, 2.3, 1.1, 4.7];
+document.getElementById("demo").innerHTML = numbers.reduce(getSum, 0);
+
+function getSum(total, num) {
+  return total + Math.round(num);
+}
+```
+
+callback in Javascript (passing in a function):
+```
+function greeting(name) {
+  alert(`Hello, ${name}`);
+}
+
+function processUserInput(callback) {
+  const name = prompt("Please enter your name.");
+  callback(name);
+}
+
+processUserInput(greeting);
+```
