@@ -114,3 +114,43 @@ function processUserInput(callback) {
 
 processUserInput(greeting);
 ```
+
+## Javascript Dates
+```
+const now = new Date();
+
+now.valueOf();
+// miliseconds after 1970
+
+const now = new Date(2020, 11, 2, 7, 10)
+```
+
+## Javascript Regular Expression
+```
+const regex = new RegExp(/^a...s$/);
+console.log(regex.test('alias')); // true
+```
+
+```
+const string = 'Find me';
+const pattern = /me/;
+
+// search if the pattern is in string variable
+const result1 = string.search(pattern);
+console.log(result1); // 5
+
+// replace the character with another character
+const string1 = 'Find me';
+string1.replace(pattern, 'found you'); // Find found you
+
+// splitting strings into array elements
+const regex1 = /[\s,]+/;
+const result2 = 'Hello world! '.split(regex1);
+console.log(result2); // ['Hello', 'world!', '']
+
+// searching the phone number pattern
+const regex2 = /(\d{3})\D(\d{3})-(\d{4})/g;
+const result3 = regex2.exec('My phone number is: 555 123-4567.');
+console.log(result3); // ["555 123-4567", "555", "123", "4567"]
+```
+
