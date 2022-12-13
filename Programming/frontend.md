@@ -1,5 +1,7 @@
 # HTML
 
+HTML is used for structure
+
 List of items:
 1. \<html>
 2. \<head>
@@ -7,7 +9,15 @@ List of items:
 4. \<button>: breate a button
 5. \<title>: defines the title of the document
 6. \<style>: defines style information (CSS) for a document
-7. \<p>: defines a paragraph
+7. \<p class="attribute">: defines a paragraph where class indicates HTML attribute
+8. \<link rel="stylesheet" href="css/styles.css">: combine css and html
+9. \<script src="js/script.js">: add javascript on the document
+10. \<h1>: header
+11. \<strong>
+12. \<img src=""/>
+13. \<link />
+14. \<span>: an inline container used to mark up a part of a text, or a part of a document. The span tag is much like the div element, but div is a block-level element and span is an inline element.
+15. \<em>: emphasis
 
 # CSS
 
