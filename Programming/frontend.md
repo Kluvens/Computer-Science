@@ -14,10 +14,16 @@ List of items:
 9. \<script src="js/script.js">: add javascript on the document
 10. \<h1>: header
 11. \<strong>
-12. \<img src=""/>
+12. \<img src="" alt=""/>
 13. \<link />
 14. \<span>: an inline container used to mark up a part of a text, or a part of a document. The span tag is much like the div element, but div is a block-level element and span is an inline element.
 15. \<em>: emphasis
+16. \<div>: defines a division or a section in an HTML document. It is used as a container for HTML elements - which is then styled with CSS or manipulated with Javascript.
+17. \<input name="" placeholder=""/>
+18. \<ul>: uordered list
+19. \<li>: list element
+20. \<ol>: ordered list
+21. 
 
 # CSS
 
