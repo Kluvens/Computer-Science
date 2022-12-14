@@ -82,6 +82,17 @@ HTML example:
 ```
 -- The onload event occurs when an object has been loaded.
 onload="run()"
+
+-- the setTimeout() method calls a function after a number of miliseconds
+window.setTimeout(function, miliseconds);
+
+-- The clearRect() method clears the specified pixels within a given rectangle
+context.clearRect(x,y,width,height);
+
+-- The beginPath() method begins a path, or resets the current path
+-- use moveTo(), lineTo(), quadricCurveTo(), bezierCurveTo(), arcTo(), and arc() to create paths
+-- use the stroke() method to actually draw the path on the canvas
+context.beginPath();
 ```
 
 # JavaScript
