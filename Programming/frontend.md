@@ -79,6 +79,10 @@ HTML example:
 ```
 
 # CSS
+```
+-- The onload event occurs when an object has been loaded.
+onload="run()"
+```
 
 # JavaScript
 
