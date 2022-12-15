@@ -110,3 +110,95 @@ begin
 end;
 $$ language plpgsql;
 ```
+
+plpgsql aggregates:
+``` plpgsql
+-- aggregates
+-- acturally count(), sum(), avg(), min(), max() are aggregates
+-- to define a new aggregate, need to supply:
+-- basetype - type of input values
+-- statetype - type of intermediate states
+-- state mapping function - sfunc(state, value) -> newstate
+-- an initial state value (defaults to null)
+-- final function - ffunc(state) -> result
+create type StateType as ( sum numeric, count numeric );
+
+create function include(s StateType, v numeric) returns StateType
+as $$
+begin
+   if (v is not NULL) then
+      s.sum := s.sum + v;
+      s.count := s.count + 1;
+   end if;
+   return s;
+end;
+$$ language plpgsql;
+
+create or replace function compute(s StateType) returns numeric
+as $$
+begin
+   if (s.count = 0) then
+      return null;
+   else
+      return s.sum::numeric / s.count;
+   end if;
+end;
+$$ language plpgsql;
+
+create aggregate mean(numeric) (
+    stype     = StateType,
+    initcond  = '(0,0)',
+    sfunc     = include,
+    finalfunc = compute
+);
+```
+
+plpgsql constraints:
+``` plpgsql
+create assertion manager_works_in_department
+check  ( not exists (
+            select *
+            from   Employee e
+                join Department d on (d.manager = e.id)
+            where  e.works_in <> d.id
+        )
+);
+```
+
+plpgsql trigger:
+``` plpgsql
+-- this is before trigger
+drop if exists table emp;
+create table emp (
+    empname text primary key,
+    salary integer,
+    last_date timestamp,
+    last_user text
+)
+
+create or replace function emp_stamp () returns trigger
+as $$
+begin
+    -- Check that empname and salary are given
+    if new.empname is null then
+        raise exception 'empname cannot be NULL value';
+    end if;
+    if new.salary is null then
+        raise exception '% cannot have NULL salary', new.empname;
+    end if;
+
+    -- Who would works if they had to pay to do it?
+    if new.salary < 0 then
+        raise exception '% cannot have a negative salary', new.empname;
+    end if;
+
+    -- Remember who changed the payroll when
+    new.last_date := now();
+    new.last_user := user();
+    return new;
+end;
+$$ language plpgsql;
+
+create trigger emp_stamp before insert or update on emp
+    for each row execute procedure emp_stamp();
+```
