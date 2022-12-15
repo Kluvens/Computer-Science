@@ -1,3 +1,4 @@
+SQL keywords are not case sensitive
 ``` sql
 -- used to create a batabase
 create database mybd;
@@ -28,6 +29,9 @@ select title, rating from movies order by rating DESC;
 -- select title from movies where values in orig_title is not null
 select title from movies where orig_title is not null;
 
+-- select all fields from customers where country is not 'Germany'
+select * from customers where not country='Germany';
+
 -- select top 10 titles from movies ordered by rating by ascending order
 select titel from movies order by rating limit 10
 
@@ -44,8 +48,14 @@ select title from Movies where id in (select id from Movie_genres where genre = 
 -- select title and rating from movies where rating is between 8.5 and 9.5
 select title, rating from movies where rating between 8.5 and 9.5;
 
+-- select title and rating from movies where rating is not 8.0
+select title, rating from movies where rating <> 8.0;
+
 -- select id renamed as movie_id and select title renamed as movie_name from movies;
 select id as movie_id, title as movie_title from movies;
+
+-- selects all customers from the customers table, sorted ascending by the country and descending by the customername column
+select * from customers order by country ASC, customername DESC;
 
 -- join table movies and movie_genres on the condition of movies.id = movie_genres.movie_id and 
 -- select title from movies, select genre from movie_genres
@@ -62,6 +72,31 @@ select count(genre), genre from Movie_genres group by genre having count(genre) 
 -- the exists operator is used to test for the existence of any record in a subquery and 
 -- the exists operator returns true if the subquery returns one or more records
 select title, rating from movies where exists (select id from movies where rating = 8.0);
+
+-- select title, rating and a message as remarks from movies
+-- the message is defined as below
+-- if the rating is greater than 8.0 then it is 'the movie is very good'
+-- if the rating equals 8.0 then it is 'good'
+-- if the rating is lower than 8.0 then it is 'needs more'
+select title, rating, 
+case
+    when rating > 8.0 then 'The movie is very good'
+    when rating = 8.0 then 'GOOD'
+    when rating < 8.0 then 'Needs more'
+end as remarks
+from Movies;
+
+-- The insert into statement is used to insert new records in a table
+insert into customers (customername, contactname, address, city, postalcode, country)
+values ('Cardinal', 'Tom', 'Skagen', 'Stavanger', '4006', 'Norway');
+
+-- The update statement is used to modify the existing records in a table
+update customers
+set contactname = 'Alfred Schmidt', City = 'Frankfurt'
+where customerID = 1;
+
+-- The delete statement is used to delete existing records in a table
+delete from customers where customerName = 'Alfreds Futterkiste';
 ```
 
 ``` sql
