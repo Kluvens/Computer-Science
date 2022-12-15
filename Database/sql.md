@@ -5,6 +5,81 @@ create database mybd;
 
 -- used to drop a databse
 drop database mybd;
+
+-- to backup database
+backup database testDB
+to disk = 'filepath';
+
+-- create a table called persons that contains five columns: PersonID, LastName, FirstName, Address, and City
+create table Persons(
+    PersonID int,
+    LastName varchar(255),
+    FirstName varchar(255),
+    Address varchar(255),
+    City varchar(255)
+);
+
+-- create table using another table
+create table testtable as
+select customername, contactname
+from customers;
+
+-- drop a table
+drop table table_name;
+
+-- adds an email column to the customers table
+alter table customers
+add email varchar(255);
+
+-- SQL create constraints
+create table table_name (
+    column1 datatype constraint,
+    column2 datatype constraint,
+    column3 datatype constraint,
+);
+
+-- not null: ensures that a column cannot have a null value
+CREATE TABLE Persons (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255) NOT NULL,
+    Age int
+);
+
+-- unique: ensures that all values in a column are different
+CREATE TABLE Persons (
+    ID int NOT NULL UNIQUE,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int
+);
+
+-- primary key: a combination of a not null and unique
+CREATE TABLE Persons (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    PRIMARY KEY (ID)
+);
+
+-- foreign key: prevents actions that would destory links between tables
+CREATE TABLE Orders (
+    OrderID int NOT NULL,
+    OrderNumber int NOT NULL,
+    PersonID int,
+    PRIMARY KEY (OrderID),
+    FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
+);
+
+-- check: ensures that the values in a column satisfies a specific condition
+CREATE TABLE Persons (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    CHECK (Age>=18)
+);
 ```
 
 ``` sql
@@ -97,7 +172,53 @@ where customerID = 1;
 
 -- The delete statement is used to delete existing records in a table
 delete from customers where customerName = 'Alfreds Futterkiste';
+
+-- finds the price of the cheapest product
+select min(price) as smallestprice from products;
+
+-- selects all customers that are from the same countries as the suppliers
+select * from customers where country in (select country from suppilers);
+
+-- difference between in operator and exists operator
+-- in: determines whether a specified value matches any value in a subquery or a list
+-- exists: specifies a subquery to test for the existence of rows
+
+-- matches customers that are from the same city
+select A.customername as customername1, B.customersname as customername2, A.city
+from customers A, customers B
+where A.cutomerID <> B.customerID
+and A.city = B.city
+order by A.city;
+
+-- lists the productname if it finds ANY records in the orderdetails table has quantity equal to 10
+select productname
+from products
+where productID = ANY(
+    select productID
+    from orderdetails
+    where quantity = 10);
+    
+-- The select into statement copies data from one table into a new table
+select customerName, contactName into  customerBackup from customers;
+
+-- The insert into select statement copies data from one table and inserts it into another table
+insert into customers (customerName, city, country)
+select supplierName, city, country from suppliers;
+
+-- goes through conditions and returns a value when the first condition is met
+select orderID, quantity
+case
+    when quantity > 30 then 'The quantity is greater than 30'
+    when quantity = 30 then 'The quantity is 30'
+    else 'The quantity is under 30'
+end as quantityText
+from orderDetails;
+
+-- The ifnull() function lets you return an alternative value if an expression is NULL
+select productname, unitprice * (unitsinstock + ifnull(unitsonorder, 0)) from products;
 ```
+
+![image](https://user-images.githubusercontent.com/95273765/207810280-83b5f4a7-1ae3-469b-9ed7-e1ff6316d89c.png)
 
 ``` sql
 full sql query syntax:
