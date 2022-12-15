@@ -80,6 +80,37 @@ CREATE TABLE Persons (
     Age int,
     CHECK (Age>=18)
 );
+
+-- Auto-increment allows a unique number to be generated automatically when a new record is inserted into a table
+CREATE TABLE Persons (
+    Personid int NOT NULL AUTO_INCREMENT,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    PRIMARY KEY (Personid)
+);
+
+-- select dates
+select * from orders where orderDate='2008-11-11';
+
+-- a view is a virtual table based on the result-set of an SQL statement
+create view Allratings
+as
+select beer.name, ratings.score, taster.given from beer
+join ratings
+on ratings.beer = beer.id
+join Taster
+on taster.id = ratings.taster
+order by beer.name, taster.given
+;
+
+-- an update statement
+update salary
+set
+    sex = case sex
+        when 'm' then 'f'
+        else 'm'
+    end;
 ```
 
 ``` sql
@@ -216,6 +247,27 @@ from orderDetails;
 
 -- The ifnull() function lets you return an alternative value if an expression is NULL
 select productname, unitprice * (unitsinstock + ifnull(unitsonorder, 0)) from products;
+
+-- The SQL EXCEPT clause is used to combine two select statements and 
+-- returns rows from the first select statement that are not returned by the seconde statement
+-- I want to get movie title and rating from movies where rating is between 8.0 and 9.0
+select title, rating from movies where rating > 8.0
+EXCEPT
+select title, rating from movies where rating > 9.0;
+
+-- select all movie titles and rating where rating is above the average
+with teminfo(averageValue) as (select avg(rating) from movies)
+select title, rating, runtime from movies, teminfo where movies.rating > teminfo.averageValue;
+
+-- sql countif
+select count(case when rating = 8.0 then 1 end) from movies;
+
+-- delete duplicate emails in database
+delete p1 from person p1, person p2
+where p1.email = p2.email and p1.id > p2.id;
+
+-- find the second highest salary
+select max(salary) as SecondHighestSalary from Employee where salary < (select max(salary) from Employee)
 ```
 
 ![image](https://user-images.githubusercontent.com/95273765/207810280-83b5f4a7-1ae3-469b-9ed7-e1ff6316d89c.png)
