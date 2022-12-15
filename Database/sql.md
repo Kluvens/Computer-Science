@@ -283,3 +283,18 @@ group by attributes
 having conditionOnGroup
 order by attributes
 ```
+
+SQL functions
+``` sql
+-- sql functions
+create or replace function desired_movie(get_runtime integer, get_rating numeric) returns table(movie_title text) as
+$$
+select title from movies
+where runtime > get_runtime and rating > get_rating
+$$ language sql;
+
+create or replace function empSal(text) returns real
+as $$
+select salary from employees where name = $1
+$$ language sql;
+```
