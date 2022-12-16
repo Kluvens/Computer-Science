@@ -83,4 +83,35 @@ Branch instructions
 | bge         | if (Rs >= R) then go to label |
 | bgt         | if (Rs > R) then go to label |
 
+Jump instructions
+| instruction | description |
+| ----------- | ----------- |
+| j           | jump to label |
+| jal         | jump and back |
+| jr $ra      | jump to return address |
+
+Syscall
+| service | $v0 | arguments | returns |
+| ------- | --- | --------- | ------- |
+| printf("%d") | 1 | int in $a0 | |
+| fputs | 4 | string in $a0 | |
+| scanf("%d") | 5 | none | int in $v0 |
+| fgets | 8 | line in $a0, length in $a1
+| exit(0) | 10 | none
+| printf("%c") | 11 | char in $a0
+| scanf("%c") | 12 | none | char in $v0
+
+Accessing Memory on the MIPS
+- addresses are 32 bit
+- 1 byte loaded/stored with lb/sb
+- 2 bytes called a half-word, loaded/stored with lh/sh
+- 4 bytes called a word, loaded/stored with lw/sw
+
+Specifying addresses:
+``` mips
+sb $t0, x # store $t0 in byte at address labelled x
+sb $t1, x+15 # store $t1 15 bytes past address labelled x
+sb $t2, x($t3) # store $t2 $t3 bytes past address labelled x
+```
+
 
