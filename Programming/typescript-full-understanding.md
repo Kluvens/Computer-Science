@@ -28,3 +28,173 @@ So the overall process of compiling Typescript is:
 6. Bytecode is evaluated by runtime
 
 Steps 1-3 are done by TypeScript Compiler (TSC) and steps 4-6 are done by the Javascript runtime.
+
+Typescript is a gradually typed language.
+That means it works best when it knows the types of everything in your program at compile time, but it doesn't have to know every type in order to compile your program.
+Typescript complains as soon as you do something invalid.
+Typescript typechecks at compile time,
+so you don't need to actually run your code to see the errors.
+Typescript throws both syntax-related errors and type-related errors at compile time.
+
+TSC is itself a command-line application written in Typescript, which means you need Node.js to run it.
+Node.js comes with NPM, a package manager that you will use to manage your project's dependencies and orchestrate your build.
+
+### Things to note on project
+Every typescript project should include a file called tsconfig.json in its root directory.
+This file is where typescript projects define things like which files should be compiled, which directory to compile them to, and which version of Javascript to emit.
+
+Should have a tslint.json file containing our TSLint configuration, codifying whatever stylistic convensions we want for our code.
+
+Create a src folder containing our first typescript file, let's call it index.ts.
+
+## All About Types
+Type is a set of values and the things you can do with them.
+
+### Any
+Any is a set of all values, and you can do anything with any.
+
+Any makes our value behave like it would in regular Javascript, and totally prevents the typechecker from working its magic.
+
+### Unknown
+Like any, it represnets any value, but typescript won't let you use an unknown type until you refine it by checking what it is.
+
+### Boolean
+Represent two values: true and false.
+
+### Number
+number is the set of all numbers: integers, floats, positive, negative, infinity, NaN and so on.
+
+### Bigint
+It lets you work with large integers without running into rounding errors.
+
+### String
+string is the set of all strings and the things you can do with them like concatenate, slice and so on.
+
+### Objects
+Typescript's object types specify the shapes of objects.
+
+Javascript is generally structually typed, so Typescript favors that style of programming over a nominally typed style.
+
+Structural typing: a style of programming where you just care that an object has certain properties, and not what its name is.
+Also called duck typing in some languages.
+
+### Intermission: Type aliases, unions, and intersections
+We can declare a type alias that points to a type.
+
+``` typescript
+type Age = number
+
+type Person = {
+  name: string
+  age: Age
+}
+
+let age: Age = 55
+
+let driver: Person = {
+  name: 'Marry'
+  age: age
+}
+```
+
+In typescript, union is represented by |
+
+### Arrays
+Typescript arrays are special kinds of objects that support things like concatenation, pushing, searching, and slicing.
+
+The general rule is to keep every element of the array a single type
+
+### Tuples
+Tuples are subtypes of array.
+They are special way to type arrays that have fixed lengths, where the values at each index have specific, known types.
+
+Unlike most other types, tuples have to be explicitly typed when you declare them.
+
+### Enums
+Enums are a way to enumerate the possible values for a type.
+They are unordered data structures that map keys to values.
+
+## Functions
+Typescript will usually explicitly annotate function parameters - typescript will always infer types throughout the body of your function, but it won't infer types for your parameters.
+
+``` typescript
+// Named function
+function greet(name: string) {
+  return 'hello ' + name
+}
+
+// Function expression
+let greet2 = function(name: string) {
+  return 'hello ' + name
+}
+
+// Arrow function expression
+let greet3 = (name: string) => {
+  return 'hello ' + name
+}
+
+// Shorthand arrow function expression
+let greet4 = (name: string) =>
+  'hello ' + name
+
+// Function constructor
+let greet5 = new Function('name', 'return "hello " + name')
+```
+
+Additionally, we can use ? to mark parameters as optional.
+
+``` typescript
+function log(message: string, userId?: string) {
+  let time = new Date().toLocaleTimeString()
+  console.log(time, message, userId || 'Not signed in')
+}
+
+log('Page loaded') // Logs "12:38:31 PM Page loaded Not signed in"
+log('User signed in', 'da763be') // Logs "12:38:31 PM User signed in da763be"
+```
+
+We can also rewrite the above as:
+
+``` typescript
+function log(message: string, userId = 'Not signed in') {
+  let time = new Date().toISOString()
+  console.log(time, message, userId)
+}
+
+log('User clicked on a button', 'da763be')
+log('User signed out')
+```
+
+### Generator
+Generator functions are a convenient way to, generate a bunch of values.
+
+They give the gnerator's consumer fine control over the pace at which values are produced.
+They only compute the next value when a consumer asks for it.
+They can do things that can be hard to do otherwise, like generate infinite lists.
+The \* before a function's name makes that function a generator.
+Calling a generator returns an iterable iterator.
+
+``` typescript
+function* createFibonacciGenerator() {
+  let a = 0
+  let b = 1
+  while (true) {
+    yield a;
+    [a, b] = [b, a + b]
+  }
+}
+
+let fibonacciGenerator = createFibonacciGenerator() // IterableIterator<number>
+fibonacciGenerator.next() // evaluates to {value: 0, done: false}
+fibonacciGenerator.next() // evaluates to {value: 1, done: false}
+fibonacciGenerator.next() // evaluates to {value: 1, done: false}
+fibonacciGenerator.next() // evaluates to {value: 2, done: false}
+fibonacciGenerator.next() // evaluates to {value: 3, done: false}
+fibonacciGenerator.next() // evaluates to {value: 5, done: false}
+```
+
+### Iterators
+Iterators are the flip side to generators:
+while generators are a way to produce a stream of values, iterators are a way to consume those values.
+
+
