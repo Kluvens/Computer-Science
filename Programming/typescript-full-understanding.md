@@ -197,4 +197,37 @@ fibonacciGenerator.next() // evaluates to {value: 5, done: false}
 Iterators are the flip side to generators:
 while generators are a way to produce a stream of values, iterators are a way to consume those values.
 
+Iterable: any object that contains a property called Symbol.iterator, whose value is a function that returns an iterator.
 
+Iterator: any object that defines a method called next, which returns an object with the properties value and done.
+
+We can manually define an iterator or an iterable by creating an object or a class that implements Symbol.iterator or next, respectively.
+
+example:
+``` typescript
+let numbers = {
+  *[Symbol.iterator]() {
+    for (let n = 1; n <= 10; n++) {
+      yield n
+    }
+  }
+}
+```
+
+In other words, numbers is an iterable, and calling the generator function numbers[Symbol.iterator]() returns an iterable iterator.
+
+### Call signatures
+For a function like the following:
+``` typescript
+function sum(a: number, b: number): number {
+  return a + b
+}
+```
+
+sum is a function that takes two numbers and returns a number.
+In tpyescript we can express its type as:
+``` typescript
+(a: number, b: number) => number
+```
+
+This is typescript's syntax for a function's type, or call signature (also called a type signature).
