@@ -71,3 +71,16 @@ Instructions
 | MOVE        | Rt = Rs | |
 | LUI         | Rt = integer * 65536 | |
 | syscall     | system call | |
+
+Branch instructions
+| instruction | description |
+| ----------- | ----------- |
+| b           | go to label |
+| beq         | if (Rs == R) then go to label |
+| bne         | if (Rs != R) then go to label |
+| ble         | if (Rs <= R) then go to label |
+| blt         | if (Rs < R) then go to label |
+| bge         | if (Rs >= R) then go to label |
+| bgt         | if (Rs > R) then go to label |
+
+
