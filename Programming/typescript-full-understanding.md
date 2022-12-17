@@ -214,7 +214,7 @@ let numbers = {
 }
 ```
 
-In other words, numbers is an iterable, and calling the generator function numbers[Symbol.iterator]() returns an iterable iterator.
+In other words, numbers is an iterable, and calling the generator function numbers\[Symbol.iterator\]() returns an iterable iterator.
 
 ### Call signatures
 For a function like the following:
@@ -231,3 +231,65 @@ In tpyescript we can express its type as:
 ```
 
 This is typescript's syntax for a function's type, or call signature (also called a type signature).
+
+### Contextual Typing
+``` typescript
+function times(
+  f: (index: number) => void,
+  n: number
+) {
+  for (let i = 0; i < n; i++) {
+    f(i)
+  }
+}
+```
+
+When you call times, you don't have to explicitly annotate the function you pass to times if you declare that function inline:
+
+``` typescript
+times(n => console.log(n), 4)
+```
+
+Typescript infers from context that n is a number - 
+we declared that f's argument index is a number in time's signature, and Typescript is smart enough to infer that n is that argument, so it must be a number.
+
+Note if we didn't declare f inline, Typescript wouldn't have been able to infer its type.
+
+### Overloaded Function Types
+callback is a function that you passed as an argument to another function.
+
+The function type syntax we used in the last section - `Fn = (...) => ...` is a shorthand call signature.
+
+``` typescript
+// Shorthand call signature
+type Log = (message: string, userId?: string) => void
+
+// Full call signature
+type Log = {
+  (message: string, userId?: string): void
+}
+```
+
+Overload function: a function with multiple call signatures
+
+Typescript models this dynamism - overloaded function declarations, and a function's output type depending on its input type - with its static type system.
+
+### Polymorphism
+Concrete types are usful when you know precisely what type you're expecting, and want to verify that type was actually passed.
+But sometimes, you don't know what type to expect beforehand, and you don't want to restrict your function's behaviour to a specific type.
+
+Filter is meant to be a generic function - you can filter arrays of numbers, strings, objects, other arrays, anything.
+
+Generic type parameter: a placeholder type used to enforce a type-level constraint in multiple places.
+Also known as polymorphic type parameter.
+
+A generic exmaple would be:
+``` typescript
+type Filter = {
+  <T>(array: T[], f: (item: T) => boolean): T[]
+}
+```
+
+This function filter uses a generic type parameter T;
+we don't know what this type will be ahead of time, so Typescript if you can infer what it is each time we call filter that would be swell.
+Typescript infers T from the type we pass in for array.
