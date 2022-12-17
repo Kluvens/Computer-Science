@@ -293,3 +293,79 @@ type Filter = {
 This function filter uses a generic type parameter T;
 we don't know what this type will be ahead of time, so Typescript if you can infer what it is each time we call filter that would be swell.
 Typescript infers T from the type we pass in for array.
+Once Typescript infers what T is for a given call to filter, it substitutes that type in for every T it sees.
+T is like a placeholder type, to be filled in by the typechecker from context:
+it parameterizes filter's type, which is why we call it a generic type parameter.
+
+The funny looking angle brackets, <>, are how you declare generic type parameters;
+where you place the angle brackets scopes the generics, and typescript makes sure that within their scope, all instances of the generic type parameters are eventually bound to the same concrete types.
+You can declare as many comma-separated generic type parameters as you want between a pair of angle brackets.
+
+Like a function's parameter gets rebound every time you call that function, so each call to filter gets its own binding for T:
+``` typescript
+type Filter = {
+  <T>(array: T[], f: (item: T) => boolean): T[]
+}
+
+let filter: Filter = (array, f) => // ...
+
+// (a) T is bound to number
+filter([1, 2, 3], _ => _ > 2)
+
+// (b) T is bound to string
+filter(['a', 'b'], _ => _ !== 'b')
+
+// (c) T is bound to {firstName: string}
+let names = [
+  {firstName: 'beth'},
+  {firstName: 'caitlyn'},
+  {firstName: 'xin'}
+]
+filter(names, _ => _.firstName.startsWith('b'))
+```
+
+Typescript infers these generic bindings from the types of the arguments we passed in.
+Generics are a powerful way to say what your function does in a more general way than what concrete types allow.
+The way to think about generics is as constraints.
+Just like annotating a function parameter as n:
+number constrains the value of the parameter n to the type number, so using a generic T constrains the type of whatever type you bind to T to be the same type eveywhere that T shows up.
+
+### When are generics bound
+The place where you declare a genric type doesn't just scope the type, but also dictates when typescript will bind a concrete type to your generic.
+
+For the example of:
+``` typescript
+type Filter = {
+  <T>(array: T[], f: (item: T) => boolean): T[]
+}
+
+let filter: Filter = (array, f) =>
+  // ...
+```
+
+Because we declared <T> as part of a call signature, typescript will bind a concrete type to T when we actually call a function of type filter.
+  
+If we'd instead scoped T to the type alias filter, typescript would have required us to bind a type explicitly when we used filter:
+``` typescript
+type Filter<T> = {
+  (array: T[], f: (item: T) => boolean): T[]
+}
+  
+let filter: Filter = (array, f) => // Error TS2314: Generic type 'Filter'
+                                    // ... // requires 1 type argument(s).
+  
+type OtherFilter = Filter // Error TS2314: Generic type 'Filter'
+                          // requires 1 type argument(s).
+  
+let filter: Filter<number> = (array, f) =>
+  // ...
+  
+type StringFilter = Filter<string>
+let stringFilter: StringFilter = (array, f) =>
+  // ...
+```
+Generally, typescript will bind concrete types to your generic when you use the generic:
+for functions, it's when you call them;
+for classes, it's when you instantiate them;
+and for type alias and interfaces, it's when you use or implement them.
+  
