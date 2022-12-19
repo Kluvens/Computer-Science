@@ -369,3 +369,55 @@ for functions, it's when you call them;
 for classes, it's when you instantiate them;
 and for type alias and interfaces, it's when you use or implement them.
   
+### Where can you declare generics
+``` typescript
+type Filter = {
+	<T>(array: T[], f: (item: T) => boolean): T[]
+}
+	let filter: Filter = // ...
+		
+type Filter<T> = {
+	(array: T[], f: (item: T) => boolean): T[]
+}
+let filter: Filter<number> = // ...
+		
+type Filter = <T>(array: T[], f: (item: T) => boolean) => T[]
+let filter: Filter = // ...
+		
+type Filter<T> = (array: T[], f: (item: T) => boolean) => T[]
+let filter: Filter<string> = // ...
+		
+function filter<T>(array: T[], f: (item: T) => boolean): T[] {
+	// ...
+}
+```
+
+### Generic Type Interface
+Most of the time Typescript can infer the type correctly.
+We can also explicitly annotate our generics.
+Explicit annotations for generics are all-or-nothing:
+either annotate every required generic type, or non of them
+``` typescript
+map <string, booean> (
+	['a', 'b', 'c'],
+	_ => _ ==> 'a'
+)
+```
+
+Typescript will check that each inferred generic type is assignable to its corresponding explicitly bound generic;
+if it's not assignable, you'll get an error.
+		
+Type-driven developement
+With a powerful type system comes greater power.
+When you write in Typescript, you will often find yourself 'leading with the types'.
+This, of course, refers to type-driven development.
+		
+Type-driven development is style of programming where you sketch out type signatures first, and fill in value later.
+		
+The point of static type systems is to constrain the types of values an expression can hold.
+The more expressive the type system, the more it tells you about the value contained in that expression.
+When you apply an expressive type system to a function, the function's type signature might end up telling you most of what you need to know about that function.
+		
+When you write a typescript program, start by defining your functions' type signatures - 
+in other words, lead with the types - filling in the implementations later.
+By sketching out your program out at the type level first, you make sure that everything makes sense at a high level before you get down to your implementations.
