@@ -212,6 +212,68 @@ public class TextFileWritingExample2 {
 }
 ```
 
+## Syntactic sugar
+
+### Variable Arguments
+Variable Arguments in Java is a method that takes a variable number of arguments.
+
+Internaly, the Varargs method is implemented by using the single dimensions arrays concept.
+Hence, in the Varargs method, we can differentiate arguments by using index.
+A variable-length argument is specified by three periods or dots (...).
+
+``` java
+class Test2 {
+   
+    // Takes string as a argument followed by varargs
+    static void fun2(String str, int... a)
+    {
+        System.out.println("String: " + str);
+        System.out.println("Number of arguments is: "
+                           + a.length);
+ 
+        // using for each loop to display contents of a
+        for (int i : a)
+            System.out.print(i + " ");
+ 
+        System.out.println();
+    }
+ 
+    public static void main(String args[])
+    {
+        // Calling fun2() with different parameter
+        fun2("GeeksforGeeks", 100, 200);
+        fun2("CSPortal", 1, 2, 3, 4, 5);
+        fun2("forGeeks");
+    }
+}
+```
+
+### try-with-resource
+The statement automatically closes all the resources at the end of the statemet.
+A resource is an object to be closed at the end of the program.
+
+We declare the `try-with-resources` statement by:
+1. declaring and instantiating the resource within the try clause
+2. specifying and handling all exceptions that might be thrown while closing the resource
+
+
+``` java
+import java.io.*;
+
+class Main {
+  public static void main(String[] args) {
+    String line;
+    try(BufferedReader br = new BufferedReader(new FileReader("test.txt"))) {
+      while ((line = br.readLine()) != null) {
+        System.out.println("Line =>"+line);
+      }
+    } catch (IOException e) {
+      System.out.println("IOException in try block =>" + e.getMessage());
+    }
+  }
+}
+```
+
 ## Socket Programming
 
 ## Multithreading
