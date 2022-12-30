@@ -274,6 +274,15 @@ class Main {
 }
 ```
 
+## Reflection
+Reflection is an API that is used to examine or modify the behavior of methods, classes, and interfaces at runtime.
+The required classes for reflection are provided under `java.lang.reflect` package which is essential in order to understand reflection.
+
+Reflection gives us information about the class to which an object belongs and also the methods of that class that can be executed by using the object.
+Through reflection, we can invoke methods at runtime irrespective of the access specifier used with them.
+
 ## Socket Programming
 
 ## Multithreading
+
+## Synchronization
