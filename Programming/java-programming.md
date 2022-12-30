@@ -1,5 +1,7 @@
 ## Collections
 
+### Comparator
+
 ## Itorator
 
 ## Generics
@@ -68,9 +70,147 @@ roaster
   .forEach(e -> System.out.println(e.getName()));
 ```
 
-## Comparator
-
 ## File Handling
+The File Class is inside the `java.io` package.
+
+``` java
+File f = new File("myFile.txt");
+
+f.isFile();
+f.getName();
+f.getParent();
+f.getPath();
+f.length();
+f.lastModified();
+f.list();          // returns an array of the files in the directory
+f.mkdir();          // creates a new directory
+```
+
+Streams in Java
+- in Java, a sequence of data is known as a stream
+- this concept is used to perform I/O operations on a file
+- there are two types of streams
+  - Input Stream
+  - Output Stream
+
+There are several subclasses of the InputStream class, which are as follows:
+- AudioInputStream
+- ByteArrayInputStream
+- FileInputStream
+- FilterInputStream
+- StringBufferInputStream
+- ObjectInputStream
+
+There are several subclasses of the OutputStream class which are as follows:
+- ByteArrayOutputStream
+- FileOutputStream
+- StringBufferOutputStream
+- ObjectOutputStream
+- DataOutputStream
+- PrintStream
+
+Java Reading from Text File Example
+``` java
+package net.codejava.io;
+ 
+import java.io.FileReader;
+import java.io.IOException;
+ 
+/**
+ * This program demonstrates how to read characters from a text file.
+ * @author www.codejava.net
+ *
+ */
+public class TextFileReadingExample1 {
+ 
+    public static void main(String[] args) {
+        try {
+            FileReader reader = new FileReader("MyFile.txt");
+            int character;
+ 
+            while ((character = reader.read()) != -1) {
+                System.out.print((char) character);
+            }
+            reader.close();
+ 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+ 
+}
+```
+
+And the following example uses a BufferedReader to read a text file line by line (this is the most efficient and preferred way):
+``` java
+package net.codejava.io;
+ 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+ 
+/**
+ * This program demonstrates how to read characters from a text file
+ * using a BufferedReader for efficiency.
+ * @author www.codejava.net
+ *
+ */
+public class TextFileReadingExample3 {
+ 
+    public static void main(String[] args) {
+        try {
+            FileReader reader = new FileReader("MyFile.txt");
+            BufferedReader bufferedReader = new BufferedReader(reader);
+ 
+            String line;
+ 
+            while ((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
+            }
+            reader.close();
+ 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+ 
+}
+```
+
+Code example for writing a file:
+``` java
+package net.codejava.io;
+ 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+ 
+/**
+ * This program demonstrates how to write characters to a text file
+ * using a BufferedReader for efficiency.
+ * @author www.codejava.net
+ *
+ */
+public class TextFileWritingExample2 {
+ 
+    public static void main(String[] args) {
+        try {
+            FileWriter writer = new FileWriter("MyFile.txt", true);
+            BufferedWriter bufferedWriter = new BufferedWriter(writer);
+ 
+            bufferedWriter.write("Hello World");
+            bufferedWriter.newLine();
+            bufferedWriter.write("See You Again!");
+ 
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+ 
+    }
+ 
+}
+```
 
 ## Socket Programming
 
