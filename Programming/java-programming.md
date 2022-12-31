@@ -2,7 +2,13 @@
 
 ### Comparator
 
-## Itorator
+## Iterator
+Interface Iterator\<E\>
+
+Method Summary:
+- hasNext() - returns true if the iteration has more elements
+- next() - returns the next element in the iteration
+- remove() - removes from the underlying collection the last element returned by this iterator
 
 ## Generics
 A generic type is a generic class or interface that is parameterized over types.
