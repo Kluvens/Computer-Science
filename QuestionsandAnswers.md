@@ -40,3 +40,5 @@ The benefits of subnetting include:
 - allowing organizations to surpass LAN constraints such as maximum number of hosts
 
 ## Operating System
+
+### What is the kernal
