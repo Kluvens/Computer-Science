@@ -1,6 +1,143 @@
+## Data Structure
+A data structure is a storage that is used to store and organize data.
+It is a way of arranging data on a computer so that it can be accessed and updated efficiently.
+
+Classification of data structure:
+- linear data structure: data structure in which data elements are arranged sequentially or linearly, where each element is attached to its previous and next adjacent elements
+  - static data structure: has a fixed memory size, such as an array
+  - dynamic data structure: the size is not fixed, such as queue and stack
+- non-linear data structure: data structures where data elements are not placed sequentially or linearly are called non-linear data structures. We can't traverse all the elements in a single run only. Examples are trees and graphs.
+
 ## Array
+An array is a collection of items stored at contiguous memory locations.
+The idea is to store multiple items of the same type together.
+This makes it easier to calculate the position of each element by simply adding an offset to a base value.
+
+![image](https://user-images.githubusercontent.com/95273765/211014377-3e583887-8987-4df3-ab49-afd314cfde2d.png)
 
 ## Linked List
+A linked list is a linear data structure that includes a series of connected nodes.
+
+![image](https://user-images.githubusercontent.com/95273765/211014576-c36c7e5d-96b2-4f86-b34c-472dbfc997df.png)
+
+There are three common types of linked list:
+1. singly linked list
+2. doubly linked list
+3. circular linked list
+
+### Singly linked list
+![image](https://user-images.githubusercontent.com/95273765/211015388-11451244-b407-408b-a215-d8238051c2e0.png)
+
+Node is represented as:
+``` c
+struct node {
+  int data;
+  struct node *next;
+}
+```
+
+A three-member singly linked list can be created as:
+``` c
+/* Initialize nodes */
+struct node *head;
+struct node *one = NULL;
+struct node *two = NULL;
+struct node *three = NULL;
+
+/* Allocate memory */
+one = malloc(sizeof(struct node));
+two = malloc(sizeof(struct node));
+three = malloc(sizeof(struct node));
+
+/* Assign data values */
+one->data = 1;
+two->data = 2;
+three->data = 3;
+
+/* Connect nodes */
+one->next = two;
+two->next = three;
+three->next = NULL;
+
+/* Save address of first node in head */
+head = one;
+```
+
+### Doubly linked list
+![image](https://user-images.githubusercontent.com/95273765/211015465-a541d4c1-3a5c-4f8e-be64-88b56c309fe4.png)
+
+A node is represented as:
+``` c
+struct node {
+  int data;
+  struct node *next;
+  struct node *prev;
+}
+```
+
+A three-member doubly linked list can be created as:
+``` c
+/* Initialize nodes */
+struct node *head;
+struct node *one = NULL;
+struct node *two = NULL;
+struct node *three = NULL;
+
+/* Allocate memory */
+one = malloc(sizeof(struct node));
+two = malloc(sizeof(struct node));
+three = malloc(sizeof(struct node));
+
+/* Assign data values */
+one->data = 1;
+two->data = 2;
+three->data = 3;
+
+/* Connect nodes */
+one->next = two;
+one->prev = NULL;
+
+two->next = three;
+two->prev = one;
+
+three->next = NULL;
+three->prev = two;
+
+/* Save address of first node in head */
+head = one;
+```
+
+### Circular linked list
+![image](https://user-images.githubusercontent.com/95273765/211015753-ac9f957e-b224-49bc-b6b4-74ad073fef41.png)
+
+A circular linked list can be either singly linked or doubly linked.
+
+A three-member circular singly linked list can be created as:
+``` c
+/* Initialize nodes */
+struct node *head;
+struct node *one = NULL;
+struct node *two = NULL;
+struct node *three = NULL;
+
+/* Allocate memory */
+one = malloc(sizeof(struct node));
+two = malloc(sizeof(struct node));
+three = malloc(sizeof(struct node));
+
+/* Assign data values */
+one->data = 1;
+two->data = 2;
+three->data = 3;
+
+/* Connect nodes */
+one->next = two;
+two->next = three;
+three->next = one;
+
+/* Save address of first node in head */
+head = one;
+```
 
 ## Stack
 
