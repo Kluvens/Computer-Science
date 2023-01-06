@@ -145,7 +145,7 @@ More specifically, it follows the principle of Last In First Out (LIFO).
 This means that the last element inserted inside the stack is removed first.
 
 LIFO principle of stack:
-![image](https://user-images.githubusercontent.com/95273765/211024151-37a4cb4b-bec5-42a4-b67e-6c0c847ae257.png)
+![image](https://user-images.githubusercontent.com/95273765/211024568-a3b1b9da-9ef4-494a-9dbb-95bf391e5bc2.png)
 
 Stack implementation in Java:
 ``` java
