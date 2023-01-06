@@ -64,7 +64,7 @@ head = one;
 ```
 
 ### Doubly linked list
-![image](https://user-images.githubusercontent.com/95273765/211015465-a541d4c1-3a5c-4f8e-be64-88b56c309fe4.png)
+![image](https://user-images.githubusercontent.com/95273765/211016113-a2d68311-ef68-477f-90ef-25a3decd0665.png)
 
 A node is represented as:
 ``` c
@@ -108,7 +108,7 @@ head = one;
 ```
 
 ### Circular linked list
-![image](https://user-images.githubusercontent.com/95273765/211015753-ac9f957e-b224-49bc-b6b4-74ad073fef41.png)
+![image](https://user-images.githubusercontent.com/95273765/211016199-efadbf29-ab8d-4a89-a390-f3184511a6e2.png)
 
 A circular linked list can be either singly linked or doubly linked.
 
