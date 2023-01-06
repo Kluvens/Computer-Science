@@ -224,6 +224,21 @@ class Stack {
 For the array-based implementation of a stack, the push and pop operations take constant time, i.e. O(1).
 
 ## Queue
+A queue is defined as a linear data structure that is open at both ends and the operations are performed in First In First Out (FIFO) order.
+
+There are four different types of queues:
+1. simple queue
+2. circular queue
+3. priority queue
+4. double ended queue
+
+### Simple Queue
+
+### Circular Queue
+
+### Priority Queue
+
+### Double Ended Queue
 
 ## Hash Table
 
