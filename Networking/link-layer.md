@@ -387,12 +387,23 @@ Why we need MAC addresses:
 - Secondly, if adapters were to use IP addresses instead of LAN addresses, the IP address would have to stored in adapter RAM and configured every time the adapter were moved.
 
 ## ARP: address resolution protocol
-Every Internet  host and router on a LAN has an ARP module.
+Because there are both network-layer addresses and link-layer addresses,
+there is a need to translate between them.
+For the Internet, this is the job of the Address Resolution Protocol (ARP).
+An ARP module in the sending host takes any IP address on the same LAN as input, and returns the corresponding MAC address.
+So we see that ARP resolves an IP address to a MAC address.
+ARP resolves IP addresses only for hosts and router interfaces on the same subnet.
+
+Every Internet host and router on a LAN has an ARP module.
 Each node has an IP address and each node's adapter has a lAN address.
+That is, each host and router has an ARP table in its memory, which contains mapping of IP addresses to MAC addresses.
 
 ARP table: each IP node on LAN has table
 - IP/MAC address mappings for some LAN nodes: <IP address; MAC address; TTL>
 - TTL: time after which address mapping will be forgotten
+
+A table does not necessarily contain an entry for every host and router on the subnet,
+some may have never been entered into the table, and others may have expired.
 
 ARP protocol in action:
 - A broadcasts ARP query, containing B's IP address (all nodes on LAN receive ARP query)
