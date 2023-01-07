@@ -708,6 +708,196 @@ class Deque {
 ```
 
 ## Hash Table
+The hash table data structure stores elements in key-value pairs where
+- key - unique integer that is used for indexing the values
+- value - data that are associated with keys
+
+### Hashing (hash function)
+In a hash table, a new index is processed using the keys.
+And, the element corresponding to that key is stored in the index.
+This process is called hashing.
+
+### Hash collision
+When the hash function generates the same index for multiple keys, there will be a conflict.
+This is called a hash collision.
+
+We can resolve the hash collision using one of the following techniques:
+- collision resolution by chaining
+- open addressing: linear/quadratic probing and double hashing
+
+### Collision resolution by chaining
+In chaining, if a hash function produces the same index for multiple elements, these elements are stored in the same index by using a doubly-linked list.
+
+If `j` is the slot for multiple elements, it contains a pointer to the head of the list of elements.
+
+![image](https://user-images.githubusercontent.com/95273765/211134000-024872d6-a459-40a3-b909-7936befda516.png)
+
+### Open addressing
+Unlike chaining, open addressing doesn't store multiple elements into the same slot.
+Here, each slot is either filled with a single key or left `NIL`.
+
+Three approaches for open addressing:
+1. linear probing
+2. quadratic probing
+3. double hashing
+
+In linear probing, collision is resolved by checking the next slot.
+If a collision occurs at `h(k, 0)`, then `h(k, 1)` is checked.
+In this way, the value of `i` is incremented linearly.
+
+The problem with linear probing is that a cluster of adjacent slots is filled.
+When inserting a new element, the entire cluster must be traversed.
+This adds to the time required to perform operations on the hash table.
+
+Quadratic probing works similar to linear probing but the spacing between the slots is increated by using the following a different relation.
+
+This is how quadratic probing is done:
+1. if the slot hash(x) % S is full, then we try (hash(x) + 1*1) % S.
+2. If (hash(x) + 1\*1) % S is also full, then we try (hash(x) + 2\*2) % S.
+3. If (hash(x) + 2\*2) % S is also full, then we try (hash(x) + 3\*3) % S.
+4. This process is represented for all the values of i until an empty slot is found.
+
+If a collision occurs after applying a hash function `h(k)`, then another hash function is calculated for finding the next slot.
+
+### Implementation
+Hash table implementation in C:
+``` c
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+#define SIZE 20
+
+struct DataItem {
+  int data;
+  int key;
+}
+
+struct DataItem* hashArray[SIZE]; 
+struct DataItem* dummyItem;
+struct DataItem* item;
+
+int hashCode(int key) {
+  return key % SIZE;
+}
+
+struct DataItem *search(int key) {
+   //get the hash 
+   int hashIndex = hashCode(key);  
+	
+   //move in array until an empty 
+   while(hashArray[hashIndex] != NULL) {
+	
+      if(hashArray[hashIndex]->key == key)
+         return hashArray[hashIndex]; 
+			
+      //go to next cell
+      ++hashIndex;
+		
+      //wrap around the table
+      hashIndex %= SIZE;
+   }        
+	
+   return NULL;        
+}
+
+void insert(int key,int data) {
+
+   struct DataItem *item = (struct DataItem*) malloc(sizeof(struct DataItem));
+   item->data = data;  
+   item->key = key;
+
+   //get the hash 
+   int hashIndex = hashCode(key);
+
+   //move in array until an empty or deleted cell
+   while(hashArray[hashIndex] != NULL && hashArray[hashIndex]->key != -1) {
+      //go to next cell
+      ++hashIndex;
+		
+      //wrap around the table
+      hashIndex %= SIZE;
+   }
+	
+   hashArray[hashIndex] = item;
+}
+
+struct DataItem* delete(struct DataItem* item) {
+   int key = item->key;
+
+   //get the hash 
+   int hashIndex = hashCode(key);
+
+   //move in array until an empty
+   while(hashArray[hashIndex] != NULL) {
+	
+      if(hashArray[hashIndex]->key == key) {
+         struct DataItem* temp = hashArray[hashIndex]; 
+			
+         //assign a dummy item at deleted position
+         hashArray[hashIndex] = dummyItem; 
+         return temp;
+      }
+		
+      //go to next cell
+      ++hashIndex;
+		
+      //wrap around the table
+      hashIndex %= SIZE;
+   }      
+	
+   return NULL;        
+}
+
+void display() {
+   int i = 0;
+	
+   for(i = 0; i<SIZE; i++) {
+	
+      if(hashArray[i] != NULL)
+         printf(" (%d,%d)",hashArray[i]->key,hashArray[i]->data);
+      else
+         printf(" ~~ ");
+   }
+	
+   printf("\n");
+}
+
+int main() {
+   dummyItem = (struct DataItem*) malloc(sizeof(struct DataItem));
+   dummyItem->data = -1;  
+   dummyItem->key = -1; 
+
+   insert(1, 20);
+   insert(2, 70);
+   insert(42, 80);
+   insert(4, 25);
+   insert(12, 44);
+   insert(14, 32);
+   insert(17, 11);
+   insert(13, 78);
+   insert(37, 97);
+
+   display();
+   item = search(37);
+
+   if(item != NULL) {
+      printf("Element found: %d\n", item->data);
+   } else {
+      printf("Element not found\n");
+   }
+
+   delete(item);
+   item = search(37);
+
+   if(item != NULL) {
+      printf("Element found: %d\n", item->data);
+   } else {
+      printf("Element not found\n");
+   }
+}
+```
 
 ## Heap
 Heap is a complete binary tree that satisfies the heap property, where any given node is
