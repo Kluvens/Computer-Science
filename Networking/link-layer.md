@@ -414,6 +414,8 @@ APR is used to resolve the associated LAN address of an IP address.
 
 In a lAN switch, packets can be flooded sometimes.
 
+More explanation: https://www.youtube.com/watch?v=cn8Zxh9bPio
+
 ### Routing to another subnet: addressing
 walkthrough: sending a datagram from A to B via R
 - focus on addressing - at IP and MAC layer levels
