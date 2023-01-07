@@ -166,6 +166,14 @@ NAT: all devices in local network share just one IPv4 address as far as outside 
   - can change ISP without changing addresses of devices in local network
   - security: devices inside local net not directly addressable, visible by outside world
 
+The NAT-enabled router, residing in the home, has an interface that is part of the home network.
+All interfaces in the home network have the same subnet address.
+A realm with private addresses refers to a network whose addresses only have meaning to devices within that network.
+The NAT-enabled router does not look like a router to the outside world.
+Instead the NAT router behaves to the outside world as a single device with a single IP address.
+In essence, the NAT-enabled router is hiding the details of the home network from the outside world.
+If all datagrams arriving at the NAT router from the WAN have the same destination IP address, using a NAT translation table at the NAT router, and to include port numbers as well as IP addresses in the table entries in order for the router to know the internal host to which it should forward a given datagram.
+
 Implementation: NAT router must:
 - outgoing datagrams: replace (source IP address, port number) of every outgoing datagram to (NAT IP addresses, new port number)
   - remote clients/servers will respond using (NAT IP addresses, new port number) as destination address
