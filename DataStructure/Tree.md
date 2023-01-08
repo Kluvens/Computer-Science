@@ -270,6 +270,8 @@ A complete binary tree is just like a full binary tree, but with several major d
 2. all the leaf elements must lean towards the left
 3. the last leaf element might not have a right sibling
 
+![image](https://user-images.githubusercontent.com/95273765/211180636-eeab0871-5289-4eb0-8240-043c0569f7c6.png)
+
 Checking if a binary tree is a complete binary tree in Java:
 ``` java
 // Node creation
@@ -327,3 +329,14 @@ class BinaryTree {
   }
 }
 ```
+
+### Degenerate or Pathological Tree
+A degenerate or pathological tree is the tree having a single child either left or right.
+
+![image](https://user-images.githubusercontent.com/95273765/211180629-a077a422-01d7-4cb1-8223-1bc267b9a864.png)
+
+### Skewed Binary Tree
+A skewed binary tree is a pathological tree in which the tree is either dominated by the left nodes or the right nodes.
+
+![image](https://user-images.githubusercontent.com/95273765/211180657-0ef42f11-8b46-4f8f-be3c-04d015b69914.png)
+
