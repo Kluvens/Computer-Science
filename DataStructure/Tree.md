@@ -340,3 +340,204 @@ A skewed binary tree is a pathological tree in which the tree is either dominate
 
 ![image](https://user-images.githubusercontent.com/95273765/211180657-0ef42f11-8b46-4f8f-be3c-04d015b69914.png)
 
+### Balanced Binary Tree
+A balanced binary tree, also referred to as a height-balanced binary tree, is defined as a binary tree in which the height of the left and right subtree of any node differ by no more than 1.
+
+There are serveral conditions for a height-balanced binary tree:
+1. difference between the left and the right subtree for any node is not more than 1
+2. the left subtree is balanced
+3. the right subtree is balanced
+
+Checking if a binary tree is height balanced in Java:
+``` java
+// Node creation
+class Node {
+
+  int data;
+  Node left, right;
+
+  Node(int d) {
+    data = d;
+    left = right = null;
+  }
+}
+
+// Calculate height
+class Height {
+  int height = 0;
+}
+
+class BinaryTree {
+
+  Node root;
+
+  // Check height balance
+  boolean checkHeightBalance(Node root, Height height) {
+
+    // Check for emptiness
+    if (root == null) {
+      height.height = 0;
+      return true;
+    }
+
+    Height leftHeighteight = new Height(), rightHeighteight = new Height();
+    boolean l = checkHeightBalance(root.left, leftHeighteight);
+    boolean r = checkHeightBalance(root.right, rightHeighteight);
+    int leftHeight = leftHeighteight.height, rightHeight = rightHeighteight.height;
+
+    height.height = (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
+
+    if ((leftHeight - rightHeight >= 2) || (rightHeight - leftHeight >= 2))
+      return false;
+
+    else
+      return l && r;
+  }
+
+  public static void main(String args[]) {
+    Height height = new Height();
+
+    BinaryTree tree = new BinaryTree();
+    tree.root = new Node(1);
+    tree.root.left = new Node(2);
+    tree.root.right = new Node(3);
+    tree.root.left.left = new Node(4);
+    tree.root.left.right = new Node(5);
+
+    if (tree.checkHeightBalance(tree.root, height))
+      System.out.println("The tree is balanced");
+    else
+      System.out.println("The tree is not balanced");
+  }
+}
+```
+
+## Binary Search Tree
+Binary search tree is a data structure that quickly allows us to maintain a sorted list of numbers
+- it is called a binary tree because each tree node has a maximum of two children
+- it is called a search tree because it can be used to search for the presence of a number in O(log n) time
+
+The properties that separate a binary search tree from a regular binary tree is:
+1. all nodes of left subtree are less than the root node
+2. all nodes of right subtree are more than the root node
+3. both subtrees of each node are also BSTs
+
+### Implementation
+Binary Search Tree operations in Java
+``` java
+class BinarySearchTree {
+  class Node {
+    int key;
+    Node left, right;
+
+    public Node(int item) {
+      key = item;
+      left = right = null;
+    }
+  }
+
+  Node root;
+
+  BinarySearchTree() {
+    root = null;
+  }
+
+  void insert(int key) {
+    root = insertKey(root, key);
+  }
+
+  // Insert key in the tree
+  Node insertKey(Node root, int key) {
+    // Return a new node if the tree is empty
+    if (root == null) {
+      root = new Node(key);
+      return root;
+    }
+
+    // Traverse to the right place and insert the node
+    if (key < root.key)
+      root.left = insertKey(root.left, key);
+    else if (key > root.key)
+      root.right = insertKey(root.right, key);
+
+    return root;
+  }
+
+  void inorder() {
+    inorderRec(root);
+  }
+
+  // Inorder Traversal
+  void inorderRec(Node root) {
+    if (root != null) {
+      inorderRec(root.left);
+      System.out.print(root.key + " -> ");
+      inorderRec(root.right);
+    }
+  }
+
+  void deleteKey(int key) {
+    root = deleteRec(root, key);
+  }
+
+  Node deleteRec(Node root, int key) {
+    // Return if the tree is empty
+    if (root == null)
+      return root;
+
+    // Find the node to be deleted
+    if (key < root.key)
+      root.left = deleteRec(root.left, key);
+    else if (key > root.key)
+      root.right = deleteRec(root.right, key);
+    else {
+      // If the node is with only one child or no child
+      if (root.left == null)
+        return root.right;
+      else if (root.right == null)
+        return root.left;
+
+      // If the node has two children
+      // Place the inorder successor in position of the node to be deleted
+      root.key = minValue(root.right);
+
+      // Delete the inorder successor
+      root.right = deleteRec(root.right, root.key);
+    }
+
+    return root;
+  }
+
+  // Find the inorder successor
+  int minValue(Node root) {
+    int minv = root.key;
+    while (root.left != null) {
+      minv = root.left.key;
+      root = root.left;
+    }
+    return minv;
+  }
+
+  // Driver Program to test above functions
+  public static void main(String[] args) {
+    BinarySearchTree tree = new BinarySearchTree();
+
+    tree.insert(8);
+    tree.insert(3);
+    tree.insert(1);
+    tree.insert(6);
+    tree.insert(7);
+    tree.insert(10);
+    tree.insert(14);
+    tree.insert(4);
+
+    System.out.print("Inorder traversal: ");
+    tree.inorder();
+
+    System.out.println("\n\nAfter deleting 10");
+    tree.deleteKey(10);
+    System.out.print("Inorder traversal: ");
+    tree.inorder();
+  }
+}
+```
