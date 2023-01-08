@@ -1460,3 +1460,21 @@ Properties of a B+ Tree
 3. each node except root can have a maximum of `m` children and at least `m/2` children
 4. each node can contain a maximum of `m-1` keys and a minimum of `(m/2)-1` keys
 
+## Red-Black Tree
+A red-black tree is a self-balacing binary search tree in which each node contains an extra bit for denoting the color of the node, either red or black.
+
+A red-black tree satisfies the following properties:
+1. red/black property: every node is colored, either red or black
+2. root property: the root is black
+3. leaf property: every leaf (NIL) is black
+4. red property: if a red node has children then, the children are always black
+5. depth property: for each node, any simple path from this node to any of its descendant leaf has the same black-depth
+
+![image](https://user-images.githubusercontent.com/95273765/211199336-74d17eeb-786f-4dfb-8865-74c0b9619793.png)
+
+Each node has the following attributes:
+- color
+- key
+- leftChild
+- rightChild
+- parent
