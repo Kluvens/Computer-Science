@@ -129,3 +129,201 @@ class BinaryTree {
   }
 }
 ```
+
+## Binary Tree
+A binary tree is a tree data structure in which each parent node can have at most two children.
+Each node of a binary tree consists of three items:
+- data item
+- address of left child
+- address of right child
+
+### Full Binary Tree
+A full binary tree is a special type of binary tree in which every parent node/internal node has either two or no children. It is also known as a proper binary tree.
+
+![image](https://user-images.githubusercontent.com/95273765/211179863-475e7ef9-2762-4dbf-b4d6-8275e789f077.png)
+
+Checking if a binary tree is a full binary tree in Java:
+``` java
+class Node {
+  int data;
+  Node leftChild, rightChild;
+
+  Node(int item) {
+  data = item;
+  leftChild = rightChild = null;
+  }
+}
+
+class BinaryTree {
+  Node root;
+
+  // Check for Full Binary Tree
+  boolean isFullBinaryTree(Node node) {
+
+  // Checking tree emptiness
+  if (node == null)
+    return true;
+
+  // Checking the children
+  if (node.leftChild == null && node.rightChild == null)
+    return true;
+
+  if ((node.leftChild != null) && (node.rightChild != null))
+    return (isFullBinaryTree(node.leftChild) && isFullBinaryTree(node.rightChild));
+
+  return false;
+  }
+
+  public static void main(String args[]) {
+    BinaryTree tree = new BinaryTree();
+    tree.root = new Node(1);
+    tree.root.leftChild = new Node(2);
+    tree.root.rightChild = new Node(3);
+    tree.root.leftChild.leftChild = new Node(4);
+    tree.root.leftChild.rightChild = new Node(5);
+    tree.root.rightChild.leftChild = new Node(6);
+    tree.root.rightChild.rightChild = new Node(7);
+
+    if (tree.isFullBinaryTree(tree.root))
+      System.out.print("The tree is a full binary tree");
+    else
+      System.out.print("The tree is not a full binary tree");
+  }
+}
+```
+
+### Perfect Binary Tree
+A perfect binary tree is a type of binary tree in which every internal node has exactly two child nodes and all the leaf nodes are at the same level.
+
+![image](https://user-images.githubusercontent.com/95273765/211179906-6125da81-755b-478e-9632-06dba84ba8ef.png)
+
+Checking if a binary tree is a pefect binary tree in Java:
+``` java
+class PerfectBinaryTree {
+
+  static class Node {
+    int key;
+    Node left, right;
+  }
+
+  // Calculate the depth
+  static int depth(Node node) {
+    int d = 0;
+    while (node != null) {
+      d++;
+      node = node.left;
+    }
+    return d;
+  }
+
+  // Check if the tree is perfect binary tree
+  static boolean is_perfect(Node root, int d, int level) {
+
+    // Check if the tree is empty
+    if (root == null)
+      return true;
+
+    // If for children
+    if (root.left == null && root.right == null)
+      return (d == level + 1);
+
+    if (root.left == null || root.right == null)
+      return false;
+
+    return is_perfect(root.left, d, level + 1) && is_perfect(root.right, d, level + 1);
+  }
+
+  // Wrapper function
+  static boolean is_Perfect(Node root) {
+    int d = depth(root);
+    return is_perfect(root, d, 0);
+  }
+
+  // Create a new node
+  static Node newNode(int k) {
+    Node node = new Node();
+    node.key = k;
+    node.right = null;
+    node.left = null;
+    return node;
+  }
+
+  public static void main(String args[]) {
+    Node root = null;
+    root = newNode(1);
+    root.left = newNode(2);
+    root.right = newNode(3);
+    root.left.left = newNode(4);
+    root.left.right = newNode(5);
+
+    if (is_Perfect(root) == true)
+      System.out.println("The tree is a perfect binary tree");
+    else
+      System.out.println("The tree is not a perfect binary tree");
+  }
+}
+```
+
+### Complete Binary Tree
+A complete binary tree is just like a full binary tree, but with several major differences:
+1. every level must be completely filled
+2. all the leaf elements must lean towards the left
+3. the last leaf element might not have a right sibling
+
+Checking if a binary tree is a complete binary tree in Java:
+``` java
+// Node creation
+class Node {
+  int data;
+  Node left, right;
+
+  Node(int item) {
+    data = item;
+    left = right = null;
+  }
+}
+
+class BinaryTree {
+  Node root;
+
+  // Count the number of nodes
+  int countNumNodes(Node root) {
+    if (root == null)
+      return (0);
+    return (1 + countNumNodes(root.left) + countNumNodes(root.right));
+  }
+
+  // Check for complete binary tree
+  boolean checkComplete(Node root, int index, int numberNodes) {
+
+    // Check if the tree is empty
+    if (root == null)
+      return true;
+
+    if (index >= numberNodes)
+      return false;
+
+    return (checkComplete(root.left, 2 * index + 1, numberNodes)
+        && checkComplete(root.right, 2 * index + 2, numberNodes));
+  }
+
+  public static void main(String args[]) {
+    BinaryTree tree = new BinaryTree();
+
+    tree.root = new Node(1);
+    tree.root.left = new Node(2);
+    tree.root.right = new Node(3);
+    tree.root.left.right = new Node(5);
+    tree.root.left.left = new Node(4);
+    tree.root.right.left = new Node(6);
+
+    int node_count = tree.countNumNodes(tree.root);
+    int index = 0;
+
+    if (tree.checkComplete(tree.root, index, node_count))
+      System.out.println("The tree is a complete binary tree");
+    else
+      System.out.println("The tree is not a complete binary tree");
+  }
+}
+```
