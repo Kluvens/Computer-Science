@@ -11,6 +11,24 @@ All we need to do is put related classes into packages.
 After that, we can simply write an import class from existing packages and use it in our program.
 A package is a container of a group of related classes where some of the classes are accessible are exposed and others are kept for internal purpose.
 
+## Static import
+Static import is a feature introduced in Java programming language that allows members defined in a class as public static to be used in Java code without specifying the class in which the field is defined
+
+``` java
+// Note static keyword after import.
+import static java.lang.System.*;
+   
+class StaticImportDemo
+{
+   public static void main(String args[])
+   {      
+        // We don't need to use 'System.out' 
+        // as imported using static.
+        out.println("GeeksforGeeks");
+   }
+}
+```
+
 ## Collections
 
 ### Comparator
