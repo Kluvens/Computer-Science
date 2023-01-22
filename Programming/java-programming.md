@@ -163,6 +163,77 @@ roaster
   .forEach(e -> System.out.println(e.getName()));
 ```
 
+Filter: 
+``` java
+stringCollection
+	.stream()
+	.filter((s) -> s.startwith("a"))
+	.forEach(System.out.println(s));
+```
+
+Sorted: returns a sorted view of the stream, the order of the collection is untouched
+``` java
+stringCollection
+	.stream()
+	.sorted()
+	.filter((s) -> s.startwith("a"))
+	.forEach(System.out.println(s));
+```
+
+Map: converts each element into another object via the given function
+``` java
+stringCollection
+	.stream()
+	.map(String::toUpperCase)
+	.sorted((a, b) -> b.compareTo(a))
+	.forEach(e -> System.out.println(e));
+```
+
+Count: returns a number of elements in the stream as a long
+``` java
+long startsWithB = 
+	stringCollection
+		.stream()
+		.filter(s -> s.startsWith("b"))
+		.count();
+```
+
+Reduce: performs a reduction on the elements of the stream with the given function
+``` java
+String reduced = 
+	stringCollection
+		.stream()
+		.sorted()
+		.reduce((s1, s2) -> s1 + "#" + s2);
+```
+
+Match: is used to check whether a certain predicate matches the stream
+``` java
+boolean anyStartsWithA = 
+	stringCollection
+		.stream()
+		.anyMatch(s -> s.startsWith("a"));
+		
+boolean allStartsWithA = 
+	stringCollection
+		.stream()
+		.allMatch(s -> s.startsWith("a"));
+		
+boolean noneStartsWithA = 
+	stringCollection
+		.stream()
+		.noneMatch(s -> s.startsWith("a"));
+```
+
+Filter to an arraylist:
+``` java
+List<String> filtered = 
+	stringCollection
+		.stream()
+		.filter(e -> e.startsWith("a"))
+		.collect(Collectors.toList());
+```
+
 ## File Handling
 The File Class is inside the `java.io` package.
 
