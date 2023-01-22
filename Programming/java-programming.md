@@ -234,6 +234,17 @@ List<String> filtered =
 		.collect(Collectors.toList());
 ```
 
+Parallel sort uses Fork/Join framework to assign the sorting tasks to multiple threads available in the thread pool.
+parallelSort() method uses concept of multithreading which makes the sorting faster as compared to normal sorting method.
+``` java
+long count =
+	values
+		.stream()
+		.parallelStream()
+		.sorted()
+		.count();
+```
+
 ## File Handling
 The File Class is inside the `java.io` package.
 
