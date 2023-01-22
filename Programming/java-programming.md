@@ -152,6 +152,21 @@ There are several basic function shapes, including
 - Predicate (unary function from T to boolean)
 - Suppier (nilary function to R)
 
+## Optionals
+Optionals are not functional interfaces, but nifty utilities to prevent `NullPointerException`.
+Optional is a simple container for a value which may be null or non-null.
+Think of a method which may return a non-null result but sometimes return nothing.
+
+``` java
+Optional<String> optional = Optional.of("bam");
+
+optional.isPresent();           // true
+optional.get();                 // "bam"
+optional.orElse("fallback");    // "bam"
+
+optional.ifPresent((s) -> System.out.println(s.charAt(0)));     // "b"
+```
+
 ## Pipelines and Streams
 A pipeline is a sequence of aggregate operations
 
