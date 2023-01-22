@@ -28,6 +28,19 @@ public class Box<T> {
 }
 ```
 
+Generic methods:
+``` java
+public class Example {
+    public static <T, R> R first(T f, R s) {
+        return s;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(first(1, "Good"));
+    }
+}
+```
+
 Multiple Type Parameters
 ``` java
 public interface Pair<K, V> {
