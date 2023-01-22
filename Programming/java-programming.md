@@ -1,3 +1,16 @@
+## Package
+Package in Java is a mechanism to encapsulate a group of classes, sub packages and interfaces.
+
+Packages are used for:
+- preventig naming conflicts
+- making searching/locating and usage of classes, interfaces, enumerations and annotations easier
+- providing controlled access
+- packages can be considered as data encapsulation
+
+All we need to do is put related classes into packages.
+After that, we can simply write an import class from existing packages and use it in our program.
+A package is a container of a group of related classes where some of the classes are accessible are exposed and others are kept for internal purpose.
+
 ## Collections
 
 ### Comparator
@@ -486,6 +499,9 @@ Through reflection, we can invoke methods at runtime irrespective of the access 
 
 ## More
 
+### Instanceof operator
+The instance of the operator is used for type checking. It can be used to test if an object is an instance of a class, a subclass, or an interface.
+
 ### BufferReader
 
 ## Socket Programming
@@ -493,3 +509,5 @@ Through reflection, we can invoke methods at runtime irrespective of the access 
 ## Multithreading
 
 ## Synchronization
+
+## How JVM works
