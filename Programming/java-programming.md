@@ -520,6 +520,15 @@ Through reflection, we can invoke methods at runtime irrespective of the access 
 ### Instanceof operator
 The instance of the operator is used for type checking. It can be used to test if an object is an instance of a class, a subclass, or an interface.
 
+### StringBuffer and StringBuilder
+String class is immutable whereas StringBuffer and StringBuilder are mutable.
+StringBuffer is fast and consumes less memory when we concatenate t strings.
+
+``` java
+StringBuffer sb = new StringBuffer("Java");
+String final = sb.toString();
+```
+
 ### BufferReader
 
 ## Socket Programming
