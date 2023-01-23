@@ -529,6 +529,17 @@ StringBuffer sb = new StringBuffer("Java");
 String final = sb.toString();
 ```
 
+### StringTokenizer
+StringTokenizer allows us to break a String into tokens.
+It is a simple way to break a String.
+
+``` java
+StringTokenizer st = new StringTokenizer("I love java", " ");
+while (st.hasMoreTokens()) {
+	System.out.println(st.nextToken());
+}
+```
+
 ### BufferReader and BufferdWriter
 BufferedWriter is an easy way to write something to a file.
 
