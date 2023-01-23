@@ -529,7 +529,33 @@ StringBuffer sb = new StringBuffer("Java");
 String final = sb.toString();
 ```
 
-### BufferReader
+### BufferReader and BufferdWriter
+BufferedWriter is an easy way to write something to a file.
+
+``` java
+try {
+	BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"));
+	writer.write("java");
+	writer.close();
+} catch (IOException e) {
+	e.printStackTrace();
+}
+```
+
+BufferedReader is used to read from a file.
+
+``` java
+try {
+	BufferedReader reader = new BufferedReader(new FileReader("input.txt"));
+	String line;
+	while ((line = reader.readLine()) != null) {
+		System.out.println(line);
+	}
+	reader.close();
+} catch (IOException e) {
+	e.printStackTrace();
+}
+```
 
 ## Socket Programming
 
