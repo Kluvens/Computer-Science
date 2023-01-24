@@ -644,6 +644,13 @@ public class Server
 }
 ```
 
+Important points:
+- Server application makes a ServerSocket on a specific port which is 5000. This starts our Server listening for client requests coming in for port 5000
+- Then Server makes a new Socket to communicate with the client
+- The accept() method blocks until a client connects to the server
+- Then we take input from the socket using getInpuutStream() method. Our Server keeps receiving messages until the Client sends "Over"
+- After we're done with close the connection by closing the socket and the input stream
+
 ## Multithreading
 
 ## Synchronization
