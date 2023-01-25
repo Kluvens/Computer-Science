@@ -1,3 +1,20 @@
+## Reading input from the console
+``` java
+import java.io.*;
+
+public class ReadConsole {
+    public static void main(String[] args) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            String name = reader.readLine();
+
+            System.out.println(name);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } 
+    }
+}
+```
+
 ## Create a file with numbers from 1 to 1000
 ``` java
 import java.io.*;
