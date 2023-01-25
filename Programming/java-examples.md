@@ -15,6 +15,30 @@ public class CreateFile {
 }
 ```
 
+## Read from a file and calculate the average of the numbers
+``` java
+import java.io.*;
+
+public class ReadFile {
+    public static void main(String[] args) {
+        int sum = 0;
+        try (BufferedReader reader = new BufferedReader(new FileReader("new.txt"))) {
+            String line;
+            int counter = 0;
+            while ((line = reader.readLine()) != null) {
+                sum += Integer.parseInt(line);
+                counter++;
+            }
+
+            double result = (double)(sum/counter);
+            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
 ## Sort an arraylist by different fields
 ``` java
 import java.util.*;
