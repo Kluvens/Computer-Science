@@ -72,6 +72,12 @@ Collections.sort(reportList, Comparator.comparing(Report::getReportKey)
 				.thenComparing(Report::getStudentNumber)
 				.thenComparing(Report::getSchool));
 ```
+or
+``` java
+reportList.stream().sorted(Comparator.comparing(Report::getReportKey)
+									.thenComparing(Report::getStudentNumber)
+									.thenComparing(Report::getSchool));
+```
 
 ## Iterator
 Interface Iterator\<E\>
