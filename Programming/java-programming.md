@@ -568,6 +568,52 @@ try {
 }
 ```
 
+### DataInputStream and DataOutputStream
+A data input stream enables an application to read primitive java data types fom an underlying input stream in a machine-independent way.
+It reads data (numbers) instead of just bytes.
+
+``` java
+import java.io.*;
+
+class DataInputStreamDemo {
+	pubic static void main(String[] args) throws IOException {
+		try (DataOutputStream dout = new DataOutputStream(new FileOutputStream("file.dat"))) {
+			dout.writeDouble(1.1);
+			dout.writeInt(55);
+			dout.writeBoolean(true);
+			dout.writeChar('4');
+			dout.writeByte(5);
+			dout.writeUTF("UTF-8");
+			
+			byte[] buffer = new byte[4*1024];
+			while ((bytes = fileInputStream.read(buffer)) != -1) {
+				dataOutputStream.write(buffer, 0, bytes);
+				dataOutputStream.flush();
+			}
+		} catch (FileNotFoundException ex) {
+			ex.printStackTrace();
+		}
+		
+		try (DataInputStream din = new DataInputStream(new FileInputStream("file.dat"))) {
+			double a = din.readDouble();
+			int b = din.readInt();
+			boolean c = din.readBoolean();
+			char d = din.readChar();
+			Byte f = din.readByte();
+			String g = din.readUTF();
+			
+			byte[] buffer = new byte[4*1024];
+			while (size > 0 && (bytes = dataInputStream.read(buffer, 0, (int)Math.min(buffer.length, size)))) {
+				fileOutputStream.write(buffer, 0, bytes);
+				size -= bytes;
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+}
+```
+
 ## Socket Programming
 
 ### Server programming
