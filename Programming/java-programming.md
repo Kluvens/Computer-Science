@@ -75,8 +75,8 @@ Collections.sort(reportList, Comparator.comparing(Report::getReportKey)
 or
 ``` java
 reportList.stream().sorted(Comparator.comparing(Report::getReportKey)
-									.thenComparing(Report::getStudentNumber)
-									.thenComparing(Report::getSchool));
+				.thenComparing(Report::getStudentNumber)
+				.thenComparing(Report::getSchool));
 ```
 
 ## Iterator
