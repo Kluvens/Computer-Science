@@ -919,6 +919,30 @@ public class Server {
 }
 ```
 
+## Java Regex
+### Pattern class
+- `matches(String regex, CharSequence input)` - check if input matches the regex pattern
+- `matcher(CharSequence input)` - to create a matcher that will match the given input against this pattern
+- `split(CharSequence input)` - to split the given input sequence around matches of this pattern
+
+``` java
+import java.util.regex.Pattern;
+Pattern.matches("geeksforg**ks", "geeksforgeeks");
+```
+
+### Matcher class
+``` java
+String text = "geeks1for2geeks3";
+String delimiter = "\\d";
+Pattern pattern = Pattern.compile(delimiter, Pattern.CASE_INSENSITIVE);
+
+String[] result = pattern.split(text);
+
+for (String temp: result) {
+	System.out.println(temp);
+}
+```
+
 ## Multithreading
 
 ## Synchronization
