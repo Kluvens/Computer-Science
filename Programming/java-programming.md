@@ -32,6 +32,46 @@ class StaticImportDemo
 ## Collections
 
 ### Comparator
+Comparable is an interface defining a strategy of coparing an object with other objects of the same type.
+``` java
+public class Player implements Comparable<Player> {
+	// ...
+	
+	@Override
+	public int compareTo(Player otherPlayer) {
+		return Integer.compare(getRanking(), otherPlayer.getRanking());
+	}
+}
+```
+
+Creating Comparators
+``` java
+public class PlayerRankingComparator implements Comparator<Player> {
+	@Override
+	public int compare(Player firstPlayer, Player secondPlayer) {
+		return Integer.compare(firstPlayer.getRanking(), secondPlayer.getRanking());
+	}
+}
+```
+
+More
+``` java
+Comparator<Player> byRanking = Comparator.comparing(Player::getRanking);
+Comparator<Player> byAge = Comparator.comparing(Player::getAge);
+```
+
+Modified sort method
+``` java
+PlayerAgeComparator playerCoparator = new PlayerAgeCoparator();
+Collection.sort(footballTeam, playerComparator);
+```
+
+With multiplee fields:
+``` java
+Collections.sort(reportList, Comparator.comparing(Report::getReportKey)
+				.thenComparing(Report::getStudentNumber)
+				.thenComparing(Report::getSchool));
+```
 
 ## Iterator
 Interface Iterator\<E\>
