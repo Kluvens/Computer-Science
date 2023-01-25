@@ -615,6 +615,18 @@ class DataInputStreamDemo {
 ```
 
 ## Socket Programming
+ServerSocket is a java.net class that provides a system-independent implementation of the server side of a client/server socket connection.
+The constructor for ServerSocket throws an exception if it can't listen on the specified port.
+
+``` java
+ServerSocket serverSocket = new ServerSocket(portNumber);
+```
+
+The `accept()` method waits until a client starts up and requests a connection on the host and port of this server.
+
+``` java
+Socket clientSocket = serverSocket.accept();
+```
 
 ### Server programming
 To write a server application two sockets are needed.
