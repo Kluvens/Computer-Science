@@ -943,6 +943,23 @@ for (String temp: result) {
 }
 ```
 
+## BigDecimal
+`double` and `float` may lose precision when calculating.
+We can use `BigDecimal` to deal with the issue especially in the circumstance of transactions.
+
+``` java
+BigDecimal a = new BigDecimal("1.0");
+BigDecimal b = new BigDecimal("0.9");
+BigDecimal c = new BigDecimal("0.8");
+
+BigDecimal x = a.subtract(b);
+BigDecimal y = b.subtract(c);
+
+System.out.println(x.compareTo(y));	// 0
+```
+
+use `BigDecimal(String val)` and `BigDecimal.valueOf(double val)`, don't use `BigDecimal(double val)`.
+
 ## Multithreading
 
 ## Synchronization
