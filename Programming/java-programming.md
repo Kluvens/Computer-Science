@@ -960,6 +960,85 @@ System.out.println(x.compareTo(y));	// 0
 
 use `BigDecimal(String val)` and `BigDecimal.valueOf(double val)`, don't use `BigDecimal(double val)`.
 
+## Serializable
+Serialization is the conversion of the state of an object into a byte stream; deserialization does the opposite.
+Stated differently, serialization is the conversion of a java object into a static stream of bytes, which can then save to a database or transfer over a network.
+
+The serialization process is instance-independent;
+for example, we can serialize objects on one platform and deserialize them on another.
+Classes that are eligible for serialization need to implement a special marker interface, `Seriaalizable`.
+
+`ObjectOutputStream` can write primitive types and graphs of objects to an OutputStream as a stream of bytes.
+We can then read these streams using ObjectInputStream.
+
+The most important method in `ObjectOutputStream` is:
+``` java
+public final void writeObject(Object o) throws IOException;
+```
+
+This method takes a serializable object and converts it into a sequence of bytes.
+Similarly, the most important method in `ObjectInputStream` is:
+``` java
+public final Object readObject() 
+  throws IOException, ClassNotFoundException;
+```
+
+This method can read a stream of bytes and convert it back into a Java object.
+It can then be cast back to the original object.
+
+Static fields belong to a class and are not serialized.
+We can use the keyword transient to ignore class fields during serialization.
+``` java
+public class Person implements Serializable {
+    private static final long serialVersionUID = 1L;
+    static String country = "ITALY";
+    private int age;
+    private String name;
+    transient int height;
+
+    // getters and setters
+}
+```
+
+The following shows an example of saving an object of type `Person` to a local file, and then reading the value back in:
+``` java
+@Test 
+public void whenSerializingAndDeserializing_ThenObjectIsTheSame() () 
+  throws IOException, ClassNotFoundException { 
+    Person person = new Person();
+    person.setAge(20);
+    person.setName("Joe");
+    
+    FileOutputStream fileOutputStream
+      = new FileOutputStream("yourfile.txt");
+    ObjectOutputStream objectOutputStream 
+      = new ObjectOutputStream(fileOutputStream);
+    objectOutputStream.writeObject(person);
+    objectOutputStream.flush();
+    objectOutputStream.close();
+    
+    FileInputStream fileInputStream
+      = new FileInputStream("yourfile.txt");
+    ObjectInputStream objectInputStream
+      = new ObjectInputStream(fileInputStream);
+    Person p2 = (Person) objectInputStream.readObject();
+    objectInputStream.close(); 
+ 
+    assertTrue(p2.getAge() == person.getAge());
+    assertTrue(p2.getName().equals(person.getName()));
+}
+```
+
+All its sub-classes are serializable.
+When an object has a reference to another object, these objects must implement the Serializable interface separately, or else a `NotSerializableException` will be thrown:
+``` java
+public class Person implements Serializable {
+    private int age;
+    private String name;
+    private Address country; // must be serializable too
+}
+```
+
 ## Multithreading
 
 ## Synchronization
