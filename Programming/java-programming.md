@@ -1093,5 +1093,221 @@ public class Person implements Serializable {
 ## Multithreading
 
 ## Synchronization
+Multi-threaded programs may often come to a situation where multiple threads try to access the same resources and finally produce erroneous and unforeseen results.
+
+So it needs to be made sure by some synchronization method that only one thread can access the resource at a given point in time.
+
+All synchronized blocks synchronize on the same object can only have one thread executing inside them at a time.
+All other threads attempting to enter the synchronized block are blocked until the thread inside the synchronized block exits the block.
+
+``` java
+// Only one thread can execute at a time. 
+// sync_object is a reference to an object
+// whose lock associates with the monitor. 
+// The code is said to be synchronized on
+// the monitor object
+synchronized(sync_object)
+{
+   // Access shared variables and other
+   // shared resources
+}
+```
+
+This synchronization is implemented in Java with a concept called monitors.
+Only one thread can own a monitor at a given time.
+When a thread acquires a lock, it is said to have entered the monitor.
+All other threads attempting to enter the locked monitor will be suspended until the first thread exits the monitor.
+
+``` java
+// A Java program to demonstrate working of
+// synchronized.
+
+import java.io.*;
+import java.util.*;
+
+// A Class used to send a message
+class Sender
+{
+	public void send(String msg)
+	{
+		System.out.println("Sending\t" + msg );
+		try
+		{
+			Thread.sleep(1000);
+		}
+		catch (Exception e)
+		{
+			System.out.println("Thread interrupted.");
+		}
+		System.out.println("\n" + msg + "Sent");
+	}
+}
+
+// Class for send a message using Threads
+class ThreadedSend extends Thread
+{
+	private String msg;
+	Sender sender;
+
+	// Receives a message object and a string
+	// message to be sent
+	ThreadedSend(String m, Sender obj)
+	{
+		msg = m;
+		sender = obj;
+	}
+
+	public void run()
+	{
+		// Only one thread can send a message
+		// at a time.
+		synchronized(sender)
+		{
+			// synchronizing the send object
+			sender.send(msg);
+		}
+	}
+}
+
+// Driver class
+class SyncDemo
+{
+	public static void main(String args[])
+	{
+		Sender send = new Sender();
+		ThreadedSend S1 =
+			new ThreadedSend( " Hi " , send );
+		ThreadedSend S2 =
+			new ThreadedSend( " Bye " , send );
+
+		// Start two threads of ThreadedSend type
+		S1.start();
+		S2.start();
+
+		// wait for threads to end
+		try
+		{
+			S1.join();
+			S2.join();
+		}
+		catch(Exception e)
+		{
+			System.out.println("Interrupted");
+		}
+	}
+}
+```
+
+In the above example, we choose to synchronize the Sender object inside the run() method of the ThreadedSend class.
+Alternatively, we could define the whole send() block as synchronized, producing the same result.
+Then we don't have to synchronize the Message object inside the run() method in ThreadedSend class.
+
+### Method synchronization
+Synchronized methods enables a simple strategy for preventing the thread interference and memory consistency error.
+If an Object is visible to more than one threads, all reads or writes to that Object's fields are done through the synchronized method.
+
+``` java
+// Example that shows multiple threads
+// can execute the same method but in
+// synchronized way.
+class Line
+{
+
+	// if multiple threads(trains) trying to access
+	// this synchronized method on the same Object
+	// but only one thread will be able
+	// to execute it at a time.
+	synchronized public void getLine()
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			System.out.println(i);
+			try
+			{
+				Thread.sleep(400);
+			}
+			catch (Exception e)
+			{
+				System.out.println(e);
+			}
+		}
+	}
+}
+
+class Train extends Thread
+{
+	// Reference variable of type Line.
+	Line line;
+
+	Train(Line line)
+	{
+		this.line = line;
+	}
+
+	@Override
+	public void run()
+	{
+		line.getLine();
+	}
+}
+
+class GFG
+{
+	public static void main(String[] args)
+	{
+		Line obj = new Line();
+
+		// we are creating two threads which share
+		// same Object.
+		Train train1 = new Train(obj);
+		Train train2 = new Train(obj);
+
+		// both threads start executing .
+		train1.start();
+		train2.start();
+	}
+}
+```
+
+### Block synchronization
+If we only need to execute some subsequent lines of code not all lines of code within a method, then we should synchronize only block of the code within which required instructions are existing.
+
+``` java
+import java.io.*;
+import java.util.*;
+
+public class Geek
+{
+	String name = "";
+	public int count = 0;
+
+	public void geekName(String geek, List<String> list)
+	{
+		// Only one thread is permitted
+		// to change geek's name at a time.
+		synchronized(this)
+		{
+			name = geek;
+			count++; // how many threads change geek's name.
+		}
+
+		// All other threads are permitted
+		// to add geek name into list.
+		list.add(geek);
+	}
+}
+
+class GFG
+{
+	public static void main (String[] args)
+	{
+		Geek gk = new Geek();
+		List<String> list = new ArrayList<String>();
+		gk.geekName("mohit", list);
+		System.out.println(gk.name);
+
+	}
+}
+```
 
 ## How JVM works
