@@ -660,6 +660,57 @@ class DataInputStreamDemo {
 }
 ```
 
+### Shallow copy and deep copy
+In object-oriented programming, object copying is creating a copy of an existing object, the resulting object is called an object copy or a copy of the original object.
+
+### Shallow copy
+- clone() method of the object class supports a shallow copy of the object.
+If the object contains primitive as well as non-primitive or reference type variables in shallow copy, the cloned object also refers to the same object to which the original object refers as only the object references get copied and not the referred objects themselves.
+- whenever we use the default implementation of the clone method we get a shallow copy of the object means it creates a new instance and copies all the field of the object to that new instance and returns it as an object type,
+- if only primitive data type fields or immutable objects are there, then there is no difference between shallow and deep copy in Java.
+
+``` java
+//code illustrating shallow copy 
+public class ShallowExample { 
+
+	private int[] data; 
+
+	// makes a shallow copy of values 
+	public ShallowExample(int[] values) { 
+		data = values; 
+	} 
+
+	public void showData() { 
+		System.out.println( Arrays.toString(data) ); 
+	} 
+} 
+```
+
+### Deep copy
+- whenever we need our own copy not to use default implementation we call it is a deep copy, whenever we need a deep copy of the object we need to implement it according to our need
+- so for a deep copy, we need to ensure all the member classes also implement the Cloneable interface and orverride the clone() method of the object class
+- a deep copy means actually creating a new array and copying over the values
+
+``` java
+// Code explaining deep copy 
+public class DeepCopy { 
+	
+	private int[] data; 
+
+	// altered to make a deep copy of values 
+	public DeepCopy(int[] values) { 
+		data = new int[values.length]; 
+		for (int i = 0; i < data.length; i++) { 
+			data[i] = values[i]; 
+		} 
+	} 
+
+	public void showData() { 
+		System.out.println(Arrays.toString(data)); 
+	} 
+} 
+```
+
 ## Socket Programming
 ServerSocket is a java.net class that provides a system-independent implementation of the server side of a client/server socket connection.
 The constructor for ServerSocket throws an exception if it can't listen on the specified port.
