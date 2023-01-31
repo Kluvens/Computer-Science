@@ -1438,4 +1438,11 @@ while(rs.next()){
 }  
 ```
 
+By closing connection object statement and ResultSet will be closed automatically.
+The close() method of Connection interface is used to close the connection.
+
+``` java
+con.close(); 
+```
+
 ## How JVM works
