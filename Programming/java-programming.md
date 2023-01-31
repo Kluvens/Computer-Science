@@ -1400,4 +1400,42 @@ class GFG
 }
 ```
 
+## JDBC
+There are 5 steps to connect any java application with the database using JDBC.
+- register the driver class
+- create connection
+- create statement
+- execute queries
+- close connection
+
+The forName() method of Class class is used to register the driver class.
+
+``` java
+Class.forName("oracle.jdbc.driver.OracleDriver");  
+```
+
+The getConnection() method of DriverManager class is used to establish connection with database.
+
+``` java
+Connection con=DriverManager.getConnection(  
+"jdbc:oracle:thin:@localhost:1521:xe","system","password");  
+```
+
+The createStatement() method of Connection interface is used to create statement.
+The object of statement is responsible to execute queries with the database.
+
+``` java
+Statement stmt=con.createStatement();  
+```
+
+The executeQuery() method of Statement interface is used to execute queries to the database.
+
+``` java
+ResultSet rs=stmt.executeQuery("select * from emp");  
+  
+while(rs.next()){  
+	System.out.println(rs.getInt(1)+" "+rs.getString(2));  
+}  
+```
+
 ## How JVM works
