@@ -1092,6 +1092,96 @@ public class Person implements Serializable {
 
 ## Multithreading
 
+### Multiprocessing in Java
+Multiprocessing in Java is purely based on the number of processors available on the host computer.
+Every process initiated by the user is sent to the CPU.
+It loads the registers on the CPU with the data related to the assigned process.
+
+To perform multiprocessing in Java, the user needs one processor.
+Therefore, when the user requests the simultaneous execution of the second process, the alternate CPU core gets triggered and executes the process.
+
+### Multithreading in Java
+Multithreading in Java is a similar approach to multiprocessing.
+However, there are some fundamental differences between the two.
+Instead of a physical processor, multithreading involves virtual and independent threads.
+
+It assigns each process with one or more threads based on their complexity.
+Each thread is virtual and independent of the other.
+This makes process execution much safer.
+If a thread or two are terminated during an unexpected situation, the process execution will not halt.
+
+### What is a thread
+A thread is the smallest segment of an entire process.
+A thread is an independent, virtual and sequential control flow within a process.
+In process execution, it involves a collection of threads, and each thread shares the same memory.
+Each thread performs the job independently of another thread.
+
+### What is Multithreading in Java
+As the name suggests, multithreading in Java executes a complex process by running a collection of threads simultaneously.
+Each thread belongs to the Java.lang.Thread class.
+The thread class overrides run() method and executes the process.
+
+### Methods of multithreading in Java
+
+| Method | Description |
+| ------ | ----------- |
+| start() | The start method initiates the execution of a thread |
+| currentThread() | The currentThread method returns the reference to the currently executing thread object |
+| run() | The run method triggers an action for the thread |
+| isAlive() | The isAlive method is invoked to verify if the thread is alive or dead |
+| sleep() | the method is used to suspend the thread temporarily |
+| yield() | the method is used to send the currently executing threads to standby mode and runs different sets of threads on higher priority |
+| suspend() | the method is used to instantly suspend the thread execution |
+| resume() | the method is used to resume the execution of a suspended thread only |
+| interrupt() | the interrupt method triggers an interruption to the currently executing thread class |
+| destory() | the mthod is invoked to destory the execution of a group of threads |
+| stop() | the method is used to stop the execution of a thread |
+
+``` java
+class RunnableDemo implements Runnable {
+   private Thread t;
+   private String threadName;
+   
+   RunnableDemo( String name) {
+      threadName = name;
+      System.out.println("Creating " +  threadName );
+   }
+   
+   public void run() {
+      System.out.println("Running " +  threadName );
+      try {
+         for(int i = 4; i > 0; i--) {
+            System.out.println("Thread: " + threadName + ", " + i);
+            // Let the thread sleep for a while.
+            Thread.sleep(50);
+         }
+      } catch (InterruptedException e) {
+         System.out.println("Thread " +  threadName + " interrupted.");
+      }
+      System.out.println("Thread " +  threadName + " exiting.");
+   }
+   
+   public void start () {
+      System.out.println("Starting " +  threadName );
+      if (t == null) {
+         t = new Thread (this, threadName);
+         t.start ();
+      }
+   }
+}
+
+public class TestThread {
+
+   public static void main(String args[]) {
+      RunnableDemo R1 = new RunnableDemo( "Thread-1");
+      R1.start();
+      
+      RunnableDemo R2 = new RunnableDemo( "Thread-2");
+      R2.start();
+   }   
+}
+```
+
 ## Synchronization
 Multi-threaded programs may often come to a situation where multiple threads try to access the same resources and finally produce erroneous and unforeseen results.
 
