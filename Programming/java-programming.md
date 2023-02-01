@@ -1511,4 +1511,14 @@ public void updateCoffeeSales(HashMap<String, Integer> salesForWeek) throws SQLE
   }
 ```
 
+## Annotations
+
+### @Expose
+An annotation that indicates this member should be exposed for JSON serialization or deserialization.
+
+``` java
+@Expose
+int movieId;
+```
+
 ## How JVM works
