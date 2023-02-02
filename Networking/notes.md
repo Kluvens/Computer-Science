@@ -1,4 +1,4 @@
-## What is HTTP
+## An introduction of HTTP
 HTTP is a protocol for fetching resources such as HTML documents.
 It is the foundation of any data exchange on the Web and it is a **client-server protocol**, which means requests are initiated by the recipent,
 usually the Web browser.
@@ -45,3 +45,37 @@ Proxies may perform numerous functions:
 - load balancing (to allow multiple servers to server different requests)
 - authentication (to control access to different resources)
 - logging (allowing the storage of historical information)
+
+HTTP is **stateless**: there is no link between two request being successively carried out on the same connection.
+But while the core of HTTP itself is stateless, **HTTP cookies allow the use of stateful sessions**.
+Using header extensibility, HTTP cookies are added to the workflow, allowing session creation on each HTTP request to share the same context, or the same state.
+
+A connection is controlled at the transport layer, and therefore fundamentally out of scope for HTTP.
+HTTP doesn't require the underlying transport protocol to be connection-based;
+it only requires it to be reliable, or not lose messages.
+
+Before a client and server can exchange an HTTP request/response pair, they must establish a TCP connection, a process which requires several round-trips.
+
+HTTP/1.1 introduced pipelining and persistent connections:
+the underlying TCP connection can be partially controlled using the Connection header.
+
+HTTP/2 went a step further by multiplexing messages over a single connection, helping keep the connection warm and more efficient.
+
+Common features controllable with HTTP:
+- Caching: how documents are cached can be controlled by HTTP. The server can instruct proxies and clients about what to cache and for how long. The client can instruct intermediate cache proxies to ignore the stored document
+- Authentication: some pages may be protected so that only specific users can access them.
+- Sessions: using HTTP cookies allows us to link requests with the state of the server. This create sessions, despite basic HTTP being a stateless protocol
+- Proxy and tunneling: servers or clients are often located on intranets and hide their true IP address from other computers. HTTP then go through proxies to cross this network barrier.
+
+## HTTP and HTTPS
+HTTP has no data encryption implemented while HTTPS surpports encrypted connections.
+
+HTTP remains focused on presenting the information, but cares less about the way this information travels from one place to another.
+Unfortunately, this means that HTTP can be intercepted and potentially altered, making both the information and information receiver vulnerable.
+
+HTTPS is an extension of HTTP.
+HTTPS is powered by Transport Layer Security (TLS), the standard security technology that establishes an encrypted connection between a web server and a browser.
+
+## API, Socket and Port
+
+## Cookie and Session
