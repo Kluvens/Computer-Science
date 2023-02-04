@@ -23,17 +23,41 @@ Important terms:
 - Inversion of control (IoC) - Taking control away from the class and giving it to the Spring Framework.
 - Inversion of control container - This is the core of the Spring Framework where objects are created, wired together, configured, and managed throughout their life cycle.
 
+## Micro Service
+Micro service is an architecture that allows the developers to develop and deploy services independently.
+Each service running has its own process and this achieves the lightweight model to support business applications.
+
 ## Spring Boot
+Spring Boot uses Spring as its foundation layer and allows developers to build a standalone application with none or minimal configuration.
+It is targeted specifically towards building web applications and microservices.
 
 ## Spring MVC
+Spring MVC: Spring MVC is a Web MVC framework for developing or building web applications. It contains many configuration files for various capabilities. Spring MVC is an HTTP-oriented web application development framework.
+
+Spring MVC is considered to be the model view controller-based web framework under the Spring framework.
 
 ## Spring Cloud
+Spring Cloud provides tools for developers to quickly build some of the common patterns in distributed systems (e.g. configuration management, service discovery, circuit breakers, intelligent routing, micro-proxy, control bus, one-time tokens, global locks, leadership election, distributed sessions, cluster state).
 
 ## Mybatis
 
 ## Maven
+Maven is an open-source software project management tool that is primarily used for Java projects.
+Maven addresses the two main aspects of software development; dependency, and how software is built. In maven, An XML file describes the building process of a project, its dependencies, components, and other external modules. There are predefined targets for tasks like packaging and compiling.
+
+Maven provides a very rigid model that makes customization tedious and sometimes impossible.
 
 ## Gradle
+Gradle is a build automation tool that is an open-source and builds based on the concepts of Apache Maven and Apache Ant. It is capable of building almost any type of software.
+It is designed for the multi-project build, which can be quite large.
+It introduces a Java and Groovy-based DSL (Domain Specific Language) instead of XML (Extensible Markup Language) for declaring the project configuration.
+Gradle provides support for the building, testing, and deploying software on different platforms.
+
+Gradle avoids work by tracking input and output of tasks and only running what is necessary, and only processing files that changed when possible.
+
+Reuses the build outputs of any other Gradle build with the same inputs, including between machines.
+
+A long-lived process that keeps build information "hot" in memory.
 
 ## Redis
 
