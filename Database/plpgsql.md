@@ -228,3 +228,22 @@ begin
 end
 $$ language plpgsql
 ```
+
+``` plpgsql
+-- a record type
+create or replace function get_random()
+returns varchar as
+$$
+declare
+	rand int;
+	emp record;
+begin
+	select random()*(5-1) + 1 into rand;
+	select *
+	from sales_person
+	into emp
+	where id = rand;
+	returns concat(emp.first_name, ' ', emp.last_name);
+end
+$$ language plpgsql
+```
