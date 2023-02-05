@@ -247,3 +247,33 @@ begin
 end
 $$ language plpgsql
 ```
+
+``` plpgsql
+create or replace function get_sum(in v1 int, in v2 int, out ans int)
+as
+$$
+begin
+	ans = v1 + v2;
+end
+$$ language plpgsql
+```
+
+``` plpgsql
+-- returns query
+create or replace function get_query()
+retruns table (
+	name varchar,
+	supplier varchar,
+	price numeric
+) as
+$$
+begin
+	return query
+	select product.name, product supplier, item.price
+	from item
+	natural join product
+	order by item.price DESC
+	limit 10;
+end
+$$ language plpgsql
+```
