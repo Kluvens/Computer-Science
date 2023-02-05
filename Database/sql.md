@@ -111,6 +111,48 @@ set
         when 'm' then 'f'
         else 'm'
     end;
+
+-- sql enum
+create type sex_type as enum
+('M', 'F');
+
+-- alter column
+alter table customer
+alter column sex type sex_type using sex::sex_type;
+
+-- add new column
+alter table sales_item add day_of_week varchar(8);
+alter table sales_item alter column day_of_week set not null;
+
+-- rename column
+alter table sales_items rename column day_of_week to weekday;
+
+-- drop column
+alter table sales_items drop column weekday;
+
+-- add new table
+create table transaction_type (
+	name varchar(30) not null
+);
+
+-- create index
+create index transaction_id on transaction(name);
+
+-- insert values
+insert into product_type(name) values('Business');
+
+-- change column type
+alter table sales_person alter column zip type integer;
+
+-- select based on a field
+select first_name, last_name, street, city, zip, birth_date
+from customer
+where extract(month from birth_date) = 12
+union
+select first_name, last_name, street, city, zip, birth_date
+from sales_person
+where extract(month from birth_date) = 12
+order by birth_date;
 ```
 
 ``` sql
@@ -296,6 +338,14 @@ $$ language sql;
 create or replace function empSal(text) returns real
 as $$
 select salary from employees where name = $1
+$$ language sql;
+
+create or replace function update_status(int, int)
+returns void as
+$$
+update sales_person
+set state = 'PA'
+where state is null
 $$ language sql;
 ```
 
