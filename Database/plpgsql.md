@@ -202,3 +202,29 @@ $$ language plpgsql;
 create trigger emp_stamp before insert or update on emp
     for each row execute procedure emp_stamp();
 ```
+
+``` plpgsql
+create or replace function get_name(prod_name varchar)
+returns numeric as
+$$
+begin
+	return item.price
+	from item
+	natural join produce
+	where product.name = prod_name;
+end
+$$ language plpgsql
+```
+
+``` plpgsql
+create or replace function get_sum(val int, val2 int)
+retrun int as
+$$
+declare
+	ans int
+begin
+	ans = val1 + val2;
+	return ans;
+end
+$$ language plpgsql
+```
