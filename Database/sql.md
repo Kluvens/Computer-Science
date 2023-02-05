@@ -153,6 +153,7 @@ select first_name, last_name, street, city, zip, birth_date
 from sales_person
 where extract(month from birth_date) = 12
 order by birth_date;
+
 ```
 
 ``` sql
@@ -346,6 +347,14 @@ $$
 update sales_person
 set state = 'PA'
 where state is null
+$$ language sql;
+
+create or replace function replace(loc varchar)
+returns setof sales_person as
+$$
+select *
+from sales_person
+where state = loc
 $$ language sql;
 ```
 
