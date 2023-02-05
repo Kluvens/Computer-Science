@@ -204,6 +204,48 @@ create trigger emp_stamp before insert or update on emp
 ```
 
 ``` plpgsql
+create or replace function log_dist_name_change()
+return trigger
+as
+$$
+begin
+	if new.name <> old.name then
+		insert into distributor_audit
+		(dist_id, name, edit_date)
+		values
+		(old.id, old.name, now());
+	end if;
+end;
+$$ language plpgsql
+
+create trigger dist_name_changed before update on distributor
+for each row execute procedure log_dist_name_change();
+```
+
+Cursors:
+``` plpgsql
+do
+$$
+declare
+	msg text default '';
+	rec_customer record;
+	cur_customers CURSOR;
+	for 
+		select * from customer;
+begin
+	open cur_customers;
+	loop 
+		fetch cur_customers into rec_customer;
+		exit when not found;
+		msg := msg || rec_customer.first_name | ' ' || rec_customer.last_name || ', ';
+	end loop
+	raise notice '%', msg;
+end;
+$$ language plpgsql
+```
+
+More:
+``` plpgsql
 create or replace function get_name(prod_name varchar)
 returns numeric as
 $$
@@ -349,4 +391,23 @@ begin
 		raise notice '$', j;
 	end loop;
 end;
+```
+
+``` plpgsql
+-- plpgsql stored procedure
+create or replace procedure debt_paid(
+	past_due_id int,
+	payment numeric
+) as
+$$
+declare
+begin
+	update post_due
+	set balance = balance - payment
+	where id = past_due_id;
+	commit; -- commit to run the procedure
+end
+$$ language plpgsql
+
+call debt_paid(1, 10.00);
 ```
