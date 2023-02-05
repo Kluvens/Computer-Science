@@ -277,3 +277,76 @@ begin
 end
 $$ language plpgsql
 ```
+
+``` plpgsql
+-- plpgsql case statement
+create or replace function check_month_orders()
+retruns varchar as
+$$
+declare
+	total_orders int;
+begin
+	select count(purchase_order_number)
+	into total_orders
+	from sales_person
+	where extract(month from time_order taken) = the_month;
+	case
+		when total_orders < 1 then
+			return concat(total_orders, ' orders: terrible');
+		when total_orders > 1 and total_orders < 5 then
+			return concat(total_orders, ' orders: on target);
+		else
+			return concat('doing good');
+	end case;
+end
+$$ language plpgsql
+```
+
+``` plpgsql
+-- plpgsql foreach and arrays
+do
+$$
+declare
+	arr1 int[] := array[1,2,3];
+	i int;
+begin
+	foreach i in array arr1
+	loop
+		raise notice '%', i;
+	end loop;
+end
+$$ language plpgsql
+```
+
+``` plpgsql
+do
+$$
+declare
+	j int default 1;
+	sum int default 0;
+begin
+	while j <= 10
+	loop
+		sum := sum + j;
+		j := j + 1;
+	end loop;
+	raise notice '%', sum;
+end;
+$$ language plpgsql
+```
+
+``` plpgsql
+-- plpgsql continue statement
+do
+$$
+declare
+	j int default 1;
+begin
+	loop
+		j := j + 1;
+		exit when j > 10;
+		continue when mod(j, 2) = 0;
+		raise notice '$', j;
+	end loop;
+end;
+```
