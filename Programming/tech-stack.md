@@ -40,6 +40,12 @@ Spring MVC is considered to be the model view controller-based web framework und
 Spring Cloud provides tools for developers to quickly build some of the common patterns in distributed systems (e.g. configuration management, service discovery, circuit breakers, intelligent routing, micro-proxy, control bus, one-time tokens, global locks, leadership election, distributed sessions, cluster state).
 
 ## Mybatis
+MyBatis is a Java persistence framework that couples objects with stored procedures or SQL statements using an XML descriptor or annotations.
+
+MyBatis does not map Java objects to database tables but Java methods to SQL statements.
+MyBatis lets you use all your database functionality like stored procedures, views, queries of any complexity and vendor proprietary features.
+It simplifies coding compared to JDBC.
+SQL statements are executed with a single line.
 
 ## Maven
 Maven is an open-source software project management tool that is primarily used for Java projects.
@@ -68,4 +74,6 @@ A long-lived process that keeps build information "hot" in memory.
 ## Docker
 
 ## CI/CD
+
+## DevOps
 
