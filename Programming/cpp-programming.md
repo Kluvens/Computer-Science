@@ -130,3 +130,8 @@ const int* const ptr = &x;
 This means that both the pointer and the value of the `int` are const, and cannot be modified.
 
 Overall, a top-level const variable cannot be modified at all, while a bottom-level const variable can be modified indirectly (e.g. through a pointer or reference).
+
+## Type inference
+In C++, `auto` is a keyword that allows the compiler to automatically determine the type of a variable based on the value assigned to it. This is known as type inference.
+
+Note that the use of `auto` does not mean that the type of the variable is unknown or dynamic at runtime. Rather, it simply allows the compiler to determine the type of the variable based on the context in which it is used at compile-time.
