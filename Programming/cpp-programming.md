@@ -40,3 +40,93 @@ constexpr int add(int x, int y) {
 
 int z = add(2, 3);
 ```
+
+## Type conversion
+In C++, we can convert one type of variable to another using either implicit or explicit type conversion.
+
+Implicit type conversion, also known as type coercion, is an automatic conversion that the compiler performs when it encounters an expression with two operands of different types.
+The compiler automatically converts one of the operands to the type of the other operand.
+
+``` cpp
+int x = 5;
+double y = 2.5;
+double z = x + y;
+```
+
+Explicit type conversion, also known as type casting, is a manual conversion that the programmer performs using a cast operator.
+
+C-style casts look like:
+``` cpp
+int x = 5;
+double y = 2.5;
+int z = (int)(x + y);
+```
+
+Cpp-style casts look like:
+``` cpp
+int x = 5;
+double y = 2.5;
+int z = static_cast<int>(x + y);
+```
+
+## Value semantics
+C++ has value semantics, which means that when creating a variable of a certain type, that variable stores the actual value of the object, rather than just a reference to the object.
+When creating a variable, the compiler allocates memory to store the actual value of the variable.
+When assigning a value to the variable, the value is copied to the memory location reserved for the variable.
+This means that each variable has its own memory location and holds its own copy of the value.
+
+## Reference
+A reference is a type of variable that refers to another object or variable.
+We creating a reference, we give it a name that refers to an existing object or variable, and then we can use the reference to access or modify the value of that object or variable.
+
+``` cpp
+int x = 5;
+int& y = x;  // y is a reference to x
+
+y = 10;  // now x is 10
+```
+
+Here's another example that shows how references can be used with functions
+
+``` cpp
+void swap(int& x, int& y) {
+    int temp = x;
+    x = y;
+    y = temp;
+}
+
+int a = 5;
+int b = 10;
+
+swap(a, b);  // a is now 10, b is now 5
+```
+
+References can be a powerful tool in C++, as they allow you to create aliases for existing objects and can help reduce the amount of copying that needs to be done.
+However, it's important to use them carefully and to make sure that the lifetime of the referenced object is at least as long as the lifetime of the reference.
+
+## Top-level and bottom-level const
+Top-level const refers to the const qualifier that is applied to the variable itself.
+
+``` cpp
+const int x = 5;
+```
+
+Bottom-level const, on the other hand, refers to the const qualifier that is applied to the type of the variable.
+
+``` cpp
+int* const ptr = &x;
+```
+
+The pointer itself is const, and cannot be modified to point to a different memory location.
+However, the value of the `int` that `ptr` points to is not const, and can be modified.
+
+and another example is
+
+``` cpp
+const int* const ptr = &x;
+```
+
+`ptr` is a const pointer to a const `int`.
+This means that both the pointer and the value of the `int` are const, and cannot be modified.
+
+Overall, a top-level const variable cannot be modified at all, while a bottom-level const variable can be modified indirectly (e.g. through a pointer or reference).
