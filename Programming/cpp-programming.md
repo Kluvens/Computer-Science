@@ -220,3 +220,56 @@ namespace nonstd {
 std::cout << nonstd::course << std::end;
 auto c = nonstd::get_char();
 ```
+
+## Templete
+Templetes in C++ are a feature that allows writing generic code that can be used with different data types.
+Templetes make it possible to write functions, classes, and other constructs that work with any data type, rather than just a specific type.
+This can help to reduce code duplication and improve code reusability.
+
+Function templates:
+A function template is a generic function that can work with different data types.
+
+``` cpp
+template<typename T>
+T max(T a, T b) {
+    return (a > b) ? a : b;
+}
+```
+
+Class templates:
+A class template is a generic class that can work with different data types.
+
+``` cpp
+template<typename T>
+class Stack {
+public:
+    void push(T value) {
+        elements.push_back(value);
+    }
+    
+    T pop() {
+        if (elements.empty()) {
+            throw std::out_of_range("Stack is empty");
+        }
+        T result = elements.back();
+        elements.pop_back();
+        return result;
+    }
+    
+private:
+    std::vector<T> elements;
+};
+```
+
+Function object templates:
+A function object is a way to define a custom operator or function that can be used with generic algorithms.
+
+``` cpp
+template<typename T>
+class Multiplier {
+public:
+    T operator()(T a, T b) const {
+        return a * b;
+    }
+};
+```
