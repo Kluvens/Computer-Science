@@ -135,3 +135,88 @@ Overall, a top-level const variable cannot be modified at all, while a bottom-le
 In C++, `auto` is a keyword that allows the compiler to automatically determine the type of a variable based on the value assigned to it. This is known as type inference.
 
 Note that the use of `auto` does not mean that the type of the variable is unknown or dynamic at runtime. Rather, it simply allows the compiler to determine the type of the variable based on the context in which it is used at compile-time.
+
+## Function
+Function parameters can be passed by value or by reference.
+
+When a function parameter is passed by value, a copy of the value is created and passed to the function.
+Any changes made to the parameter within the function do not affect the original value.
+
+``` cpp
+#include <iostream>
+
+void increment(int x) {
+    x++;
+}
+
+int main() {
+    int y = 5;
+    increment(y);
+    std::cout << y << std::endl;  // Output: 5
+    return 0;
+}
+```
+
+When a function parameter is passed by reference, the function receives a reference to the original variable, rather than a copy of its value.
+This allows the function to modify the variable directly.
+
+``` cpp
+#include <iostream>
+
+void increment(int& x) {
+    x++;
+}
+
+int main() {
+    int y = 5;
+    increment(y);
+    std::cout << y << std::endl;  // Output: 6
+    return 0;
+}
+```
+
+## Function Overload Resolution
+Function Overload Resolution is a mechanism in C++ that allows functions with the same name but different parameter lists to be distinguished from each other and called appropriately.
+When an overloaded function is called, the compiler determines which version of the function to use based on the number, types, and order of the arguments passed.
+
+``` cpp
+#include <iostream>
+
+int add(int x, int y) {
+    return x + y;
+}
+
+double add(double x, double y) {
+    return x + y;
+}
+
+int main() {
+    int a = 2, b = 3;
+    double c = 2.5, d = 3.5;
+
+    std::cout << add(a, b) << std::endl;    // Output: 5
+    std::cout << add(c, d) << std::endl;    // Output: 6
+    std::cout << add(a, c) << std::endl;    // Error: no matching function for call to 'add'
+    return 0;
+}
+```
+
+When the compiler encounters a function call with multiple possible matching functions, it uses 
+a set of rules to determine which function to call.
+These rules include the number of arguments, the types of the arguments, and whether the arguments are passed by value or by reference.
+If the compiler cannot find a single matching function, a compiler error will be generated.
+
+## Namespace
+Namespaces are a way to prevent collisions between different parts of code.
+Names inside a namespace are accessed with the scope operator `::`.
+
+``` cpp
+namespace nonstd {
+  char get_char();
+  int course = 6771;
+}
+
+// access via scope operator
+std::cout << nonstd::course << std::end;
+auto c = nonstd::get_char();
+```
